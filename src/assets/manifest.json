@@ -1,0 +1,210 @@
+[
+ {
+  "index": 0,
+  "file": "00.webp",
+  "mime": "image/webp",
+  "bytes": 1561148,
+  "nearby_label": null,
+  "pos": 7726
+ },
+ {
+  "index": 1,
+  "file": "01.gif",
+  "mime": "image/gif",
+  "bytes": 2916372,
+  "nearby_label": null,
+  "pos": 2095471
+ },
+ {
+  "index": 2,
+  "file": "02.gif",
+  "mime": "image/gif",
+  "bytes": 3735011,
+  "nearby_label": null,
+  "pos": 5984586
+ },
+ {
+  "index": 3,
+  "file": "03.jpg",
+  "mime": "image/jpeg",
+  "bytes": 64811,
+  "nearby_label": "REYM — Een dag uit het leven van Juri",
+  "pos": 10974507
+ },
+ {
+  "index": 4,
+  "file": "04.jpg",
+  "mime": "image/jpeg",
+  "bytes": 159686,
+  "nearby_label": "Studio portret",
+  "pos": 11061331
+ },
+ {
+  "index": 5,
+  "file": "05.jpg",
+  "mime": "image/jpeg",
+  "bytes": 30240,
+  "nearby_label": "Rodeo Film — Bandshoot",
+  "pos": 11274663
+ },
+ {
+  "index": 6,
+  "file": "06.jpg",
+  "mime": "image/jpeg",
+  "bytes": 107351,
+  "nearby_label": "Boterlap — In de keuken",
+  "pos": 11315400
+ },
+ {
+  "index": 7,
+  "file": "07.jpg",
+  "mime": "image/jpeg",
+  "bytes": 57934,
+  "nearby_label": "Block — Corporate",
+  "pos": 11459111
+ },
+ {
+  "index": 8,
+  "file": "08.jpg",
+  "mime": "image/jpeg",
+  "bytes": 186380,
+  "nearby_label": "Zwarte Boer — Foodstyling",
+  "pos": 11536778
+ },
+ {
+  "index": 9,
+  "file": "09.jpg",
+  "mime": "image/jpeg",
+  "bytes": 87961,
+  "nearby_label": "One Love Cruise",
+  "pos": 11785695
+ },
+ {
+  "index": 10,
+  "file": "10.jpg",
+  "mime": "image/jpeg",
+  "bytes": 102396,
+  "nearby_label": "Stëlz Hard Drinks — Launch",
+  "pos": 11903399
+ },
+ {
+  "index": 11,
+  "file": "11.jpg",
+  "mime": "image/jpeg",
+  "bytes": 62879,
+  "nearby_label": "ROSÈL — De lekkerste broodjeszaak van Amsterdam",
+  "pos": 12040532
+ },
+ {
+  "index": 12,
+  "file": "12.jpg",
+  "mime": "image/jpeg",
+  "bytes": 106904,
+  "nearby_label": "Bij Rosa",
+  "pos": 12124774
+ },
+ {
+  "index": 13,
+  "file": "13.jpg",
+  "mime": "image/jpeg",
+  "bytes": 147948,
+  "nearby_label": "Boterlap — Gerechten",
+  "pos": 12267729
+ },
+ {
+  "index": 14,
+  "file": "14.jpg",
+  "mime": "image/jpeg",
+  "bytes": 50086,
+  "nearby_label": "Social Content — Behind the Scenes",
+  "pos": 12465421
+ },
+ {
+  "index": 15,
+  "file": "15.jpg",
+  "mime": "image/jpeg",
+  "bytes": 54726,
+  "nearby_label": "Rosèl — BTS",
+  "pos": 12532774
+ },
+ {
+  "index": 16,
+  "file": "16.jpg",
+  "mime": "image/jpeg",
+  "bytes": 18864,
+  "nearby_label": "Showreel 2026",
+  "pos": 12606149
+ },
+ {
+  "index": 17,
+  "file": "17.jpg",
+  "mime": "image/jpeg",
+  "bytes": 56007,
+  "nearby_label": "Boterlap",
+  "pos": 12631703
+ },
+ {
+  "index": 18,
+  "file": "18.jpg",
+  "mime": "image/jpeg",
+  "bytes": 207427,
+  "nearby_label": "REYM — Locatie",
+  "pos": 12706787
+ },
+ {
+  "index": 19,
+  "file": "19.jpg",
+  "mime": "image/jpeg",
+  "bytes": 107351,
+  "nearby_label": null,
+  "pos": 13006244
+ },
+ {
+  "index": 20,
+  "file": "20.jpg",
+  "mime": "image/jpeg",
+  "bytes": 64811,
+  "nearby_label": null,
+  "pos": 13149417
+ },
+ {
+  "index": 21,
+  "file": "21.jpg",
+  "mime": "image/jpeg",
+  "bytes": 87961,
+  "nearby_label": null,
+  "pos": 13235870
+ },
+ {
+  "index": 22,
+  "file": "22.jpg",
+  "mime": "image/jpeg",
+  "bytes": 30240,
+  "nearby_label": null,
+  "pos": 13353191
+ },
+ {
+  "index": 23,
+  "file": "23.jpg",
+  "mime": "image/jpeg",
+  "bytes": 57934,
+  "nearby_label": null,
+  "pos": 13393548
+ },
+ {
+  "index": 24,
+  "file": "24.jpg",
+  "mime": "image/jpeg",
+  "bytes": 102396,
+  "nearby_label": null,
+  "pos": 13470833
+ },
+ {
+  "index": 25,
+  "file": "25.jpg",
+  "mime": "image/jpeg",
+  "bytes": 50086,
+  "nearby_label": null,
+  "pos": 13607398
+ }
+]
