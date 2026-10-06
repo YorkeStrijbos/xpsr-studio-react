@@ -1,0 +1,51 @@
+.aperture {
+  --r: 0px;
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  /* Zwart buiten het gat, met een dunne rode rand: het licht aan de rand van de lens. */
+  background: radial-gradient(
+    circle at 50% 50%,
+    transparent var(--r),
+    var(--red) calc(var(--r) + 0.5px),
+    var(--red) calc(var(--r) + 2px),
+    var(--black) calc(var(--r) + 3px)
+  );
+}
+
+.aperture[data-state='closed'],
+.aperture[data-state='moving'] {
+  pointer-events: all;
+}
+
+.aperture[data-state='open'] {
+  visibility: hidden;
+}
+
+.aperture[data-state='fade'] {
+  background: var(--black);
+  pointer-events: all;
+}
+
+.aperture__mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+}
+
+.aperture__mark .display {
+  font-size: clamp(48px, 8vw, 96px);
+  line-height: 1;
+}
+
+.aperture__mark .label {
+  letter-spacing: 0.5em;
+  margin-right: -0.5em;
+}

@@ -1,124 +1,155 @@
-import { useEffect, useRef } from 'react';
-import heroBg from '../assets/images/hero-bg.webp';
-import { prefersReducedMotion, rafThrottle } from '../utils/interactions.js';
+import { useEffect, useRef, useState } from 'react';
+import { ApertureLink, useAperture } from './Aperture.jsx';
+import { LoopVideo } from './Media.jsx';
+import { useOpenReel } from './Reel.jsx';
+import { HERO } from '../data/site.js';
+import { DUR, EASE, gsap, useReducedMotion } from '../lib/motion.js';
+import '../styles/hero.css';
 
-export default function Hero({ logoRef, onOpenLightbox }) {
-  const heroMosaicRef = useRef(null);
-  const heroTileRef = useRef(null);
-  const heroTaglineRef = useRef(null);
-  const heroParaRef = useRef(null);
-  const heroCtaRef = useRef(null);
+const AUTO_LIGHT_MS = 3000;
+
+/*
+ * Spotlight-hero. De reel ligt onder een zwarte laag; een radiale mask volgt de cursor (met lerp).
+ * Na ~3 s of bij de eerste scroll gaat het licht aan: de mask groeit tot vol beeld.
+ * Touch: de spot beweegt zelf. Reduced motion: direct vol beeld, zonder spot.
+ */
+export default function Hero() {
+  const { ready } = useAperture();
+  const openReel = useOpenReel();
+  const reduced = useReducedMotion();
+  const rootRef = useRef(null);
+  const evRef = useRef(null);
+  const [lit, setLit] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const mosaic = heroMosaicRef.current;
-      if (!mosaic) return;
-      const rect = mosaic.getBoundingClientRect();
-      const scrollable = mosaic.offsetHeight - window.innerHeight;
-      const progress = prefersReducedMotion()
-        ? 1
-        : (scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0);
-      const tp = Math.min(1, progress / 0.5);
-      const eased = 1 - Math.pow(1 - tp, 3);
+    const root = rootRef.current;
+    if (!root) return;
+    if (reduced) {
+      root.dataset.lit = 'true';
+      setLit(true);
+      return;
+    }
 
-      if (heroTileRef.current) {
-        const scale = 1.45 - 0.45 * eased;
-        heroTileRef.current.style.transform = `scale(${scale})`;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const rect = () => root.getBoundingClientRect();
+    const pos = { x: rect().width * 0.62, y: rect().height * 0.42 };
+    const target = { ...pos };
+    const spot = { r: Math.max(180, Math.min(rect().width, rect().height) * 0.3) };
+    const ev = { v: -3 };
+    let litNow = false;
+    let raf = 0;
+    let t0 = performance.now();
+
+    const render = (now) => {
+      if (!finePointer && !litNow) {
+        const t = (now - t0) / 1000;
+        const r = rect();
+        target.x = r.width * (0.5 + 0.3 * Math.sin(t * 0.7));
+        target.y = r.height * (0.45 + 0.18 * Math.sin(t * 1.1 + 0.6));
       }
+      pos.x += (target.x - pos.x) * 0.12;
+      pos.y += (target.y - pos.y) * 0.12;
+      root.style.setProperty('--x', `${pos.x.toFixed(1)}px`);
+      root.style.setProperty('--y', `${pos.y.toFixed(1)}px`);
+      root.style.setProperty('--r', `${spot.r.toFixed(1)}px`);
+      raf = requestAnimationFrame(render);
+    };
+    raf = requestAnimationFrame(render);
 
-      if (logoRef.current) {
-        const navFontSize = 28;
-        const heroFontSize = Math.min(190, Math.max(64, window.innerWidth * 0.11));
-        const s0 = heroFontSize / navFontSize;
-        const navLogoHeight = logoRef.current.offsetHeight;
-        const desiredBigTopY = window.innerHeight - 48 - navLogoHeight * s0;
-        const dy0 = desiredBigTopY - 18;
-        const scaleNow = 1 + (s0 - 1) * (1 - eased);
-        const dyNow = dy0 * (1 - eased);
-        logoRef.current.style.transform = `translate(0px, ${dyNow}px) scale(${scaleNow})`;
-      }
-
-      if (heroTaglineRef.current) {
-        heroTaglineRef.current.style.opacity = Math.max(0, 1 - progress / 0.25);
-      }
-
-      if (heroParaRef.current) {
-        const containerOpacity = Math.min(1, Math.max(0, (progress - 0.3) / 0.1));
-        heroParaRef.current.style.opacity = containerOpacity;
-        heroParaRef.current.style.pointerEvents = containerOpacity > 0.5 ? 'auto' : 'none';
-
-        const words = heroParaRef.current.querySelectorAll('.rw');
-        const wordProgress = Math.min(1, Math.max(0, (progress - 0.35) / 0.5));
-        const n = words.length;
-        words.forEach((el, i) => {
-          const per = Math.min(1, Math.max(0, wordProgress * n - i));
-          el.style.opacity = 0.16 + 0.84 * per;
-        });
-      }
-
-      if (heroCtaRef.current) {
-        heroCtaRef.current.style.opacity = Math.min(1, Math.max(0, (progress - 0.75) / 0.15));
-      }
+    const onMove = (e) => {
+      const r = rect();
+      target.x = e.clientX - r.left;
+      target.y = e.clientY - r.top;
     };
 
-    const throttled = rafThrottle(handleScroll);
-    window.addEventListener('scroll', throttled, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', throttled);
-  }, [logoRef]);
+    const lightOn = () => {
+      if (litNow) return;
+      litNow = true;
+      const r = rect();
+      const full = Math.hypot(r.width, r.height) * 1.2;
+      gsap.to(spot, { r: full, duration: DUR[3], ease: EASE });
+      gsap.to(ev, {
+        v: 0,
+        duration: DUR[3],
+        ease: EASE,
+        onUpdate: () => {
+          if (evRef.current) evRef.current.textContent = ev.v.toFixed(1).replace('-0.0', '0.0').replace('-', '−');
+        },
+      });
+      root.dataset.lit = 'true';
+      setLit(true);
+      cleanupTriggers();
+      // Mask helemaal weg na het openen: scheelt rekenwerk tijdens het scrollen.
+      gsap.delayedCall(DUR[3], () => {
+        cancelAnimationFrame(raf);
+        root.dataset.unmasked = 'true';
+      });
+    };
 
-  const words = "XPSR Studio is een videoproductiehuis uit Harderwijk. Wij vertellen verhalen die blijven hangen, van concept tot montage, voor merken die willen opvallen.".split(' ');
+    const onScrollIntent = () => lightOn();
+    const timer = ready ? setTimeout(lightOn, AUTO_LIGHT_MS) : null;
+    const keyIntent = (e) => {
+      if (['ArrowDown', 'PageDown', ' ', 'End'].includes(e.key)) lightOn();
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('wheel', onScrollIntent, { passive: true });
+    window.addEventListener('touchmove', onScrollIntent, { passive: true });
+    window.addEventListener('scroll', onScrollIntent, { passive: true });
+    window.addEventListener('keydown', keyIntent);
+
+    function cleanupTriggers() {
+      clearTimeout(timer);
+      window.removeEventListener('wheel', onScrollIntent);
+      window.removeEventListener('touchmove', onScrollIntent);
+      window.removeEventListener('scroll', onScrollIntent);
+      window.removeEventListener('keydown', keyIntent);
+    }
+
+    if (window.scrollY > 10) lightOn();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      cleanupTriggers();
+      window.removeEventListener('pointermove', onMove);
+      gsap.killTweensOf([spot, ev]);
+      t0 = 0;
+    };
+  }, [ready, reduced]);
 
   return (
-    <div ref={heroMosaicRef} style={{ position: 'relative', height: '320vh', background: '#0b0908' }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', animation: 'revealUp 1s cubic-bezier(.16,1,.3,1) both' }}>
+    <section ref={rootRef} className="hero" data-lit="false" aria-labelledby="hero-title">
+      <div className="hero__stage">
+        <LoopVideo name="reel-boterlap-tafel" className="hero__video" eager label="achtergrondvideo" />
+      </div>
+      <div className="hero__glow" aria-hidden="true" />
+      <div className="hero__shade" aria-hidden="true" />
 
-        <div ref={heroTileRef} style={{ position: 'absolute', inset: 0, overflow: 'hidden', transformOrigin: '50% 50%', willChange: 'transform', background: '#1a1414' }}>
-          <img src={heroBg} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(11,9,8,0.15) 0%, rgba(11,9,8,0.35) 45%, rgba(11,9,8,0.9) 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 0 220px 40px rgba(0,0,0,0.6)', pointerEvents: 'none' }} />
-        </div>
+      <div className="hero__hud container" aria-hidden="true">
+        <span className="label">
+          EV <b ref={evRef}>{reduced ? '0.0' : '−3.0'}</b>
+        </span>
+        <span className="label hero__hint">{lit ? 'Belicht' : 'Beweeg om te belichten'}</span>
+      </div>
 
-        <div
-          onClick={onOpenLightbox}
-          style={{
-            position: 'absolute', top: 32, right: 48, zIndex: 30, display: 'flex', alignItems: 'center', gap: 10,
-            padding: '10px 18px', borderRadius: 999, border: '1px solid rgba(255,255,255,0.3)', background: 'rgba(11,9,8,0.4)',
-            backdropFilter: 'blur(4px)', cursor: 'pointer',
-          }}
-        >
-          <div style={{ width: 0, height: 0, borderTop: '6px solid transparent', borderBottom: '6px solid transparent', borderLeft: '9px solid #F5F3F1' }} />
-          <span style={{ fontFamily: "'Manrope',sans-serif", fontSize: 12, color: '#F5F3F1', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Showreel</span>
-        </div>
-
-        <div ref={heroTaglineRef} style={{ position: 'absolute', right: 48, bottom: 56, zIndex: 20, maxWidth: 280, textAlign: 'right', pointerEvents: 'none' }}>
-          <p style={{ fontFamily: "'Manrope',sans-serif", fontSize: 15, lineHeight: 1.5, color: '#F5F3F1', margin: 0 }}>
-            <span style={{ fontWeight: 800 }}>Verhalen</span> die niet alleen gezien worden, maar <span style={{ fontWeight: 800 }}>blijven hangen.</span>
-          </p>
-        </div>
-
-        <div ref={heroParaRef} style={{ position: 'absolute', inset: 0, zIndex: 25, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 48px', opacity: 0, pointerEvents: 'none' }}>
-          <div style={{ maxWidth: 760, textAlign: 'center' }}>
-            <p style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(20px,2.8vw,34px)', lineHeight: 1.45, margin: '0 0 36px' }}>
-              {words.map((w, i) => (
-                <span key={i} className="rw">{w} </span>
-              ))}
-            </p>
-            <a
-              ref={heroCtaRef}
-              href="#projecten"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 10, padding: '18px 36px', borderRadius: 999,
-                background: '#E31E24', color: '#0b0908', fontFamily: "'Manrope',sans-serif", fontWeight: 800,
-                fontSize: 14, letterSpacing: '0.04em', textTransform: 'uppercase', opacity: 0,
-              }}
-            >
-              Bekijk ons werk <span>→</span>
-            </a>
+      <div className="hero__content container">
+        <h1 id="hero-title" className="display h1 hero__title">
+          {HERO.claim}
+        </h1>
+        <div className="hero__bottom">
+          <p className="lead hero__sub">{HERO.sub}</p>
+          <div className="hero__ctas">
+            <button type="button" className="btn btn--primary" onClick={openReel}>
+              <svg className="btn__icon" viewBox="0 0 10 12" aria-hidden="true">
+                <path d="M0 0l10 6-10 6z" fill="currentColor" />
+              </svg>
+              Bekijk de showreel
+            </button>
+            <ApertureLink to="/contact" className="btn">
+              Plan een gesprek
+            </ApertureLink>
           </div>
         </div>
-
       </div>
-    </div>
+    </section>
   );
 }

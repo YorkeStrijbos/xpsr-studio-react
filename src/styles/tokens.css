@@ -1,0 +1,61 @@
+/* XPSR design tokens. Eén bron voor kleur, type, ruimte en motion. */
+
+/* Metrische fallback voor Anton, zodat de wissel van font geen layout shift geeft. */
+@font-face {
+  font-family: 'Anton Fallback';
+  src: local('Impact'), local('Arial Narrow Bold'), local('Arial Bold');
+  size-adjust: 96%;
+  ascent-override: 118%;
+  descent-override: 33%;
+  line-gap-override: 0%;
+}
+
+:root {
+  /* Kleur (huisstijl) */
+  --black: #0A0A0A;
+  --ink: #111111;
+  --ink-2: #1A1A1A;
+  --white: #F4F2EE;
+  --grey: #8A8A8A;
+  --grey-2: #B8B6B2;
+  --line: rgba(244, 242, 238, 0.12);
+  --red: #CA2B39;
+  --red-accent: #D81E2C;
+  --light-warm: 255 244 230; /* spotlicht, als RGB-triplet voor rgba() */
+
+  /* Typografie */
+  --font-display: 'Anton', 'Anton Fallback', Impact, 'Arial Narrow', sans-serif; /* TODO XPSR: display-font bevestigen */
+  --font-body: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+
+  --fs-label: 0.75rem;
+  --fs-small: 0.875rem;
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-lead: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --fs-h3: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
+  --fs-h2: clamp(2.5rem, 1.6rem + 4vw, 6rem);
+  --fs-h1: clamp(3.25rem, 1.5rem + 8.5vw, 12rem);
+
+  --lh-display: 0.88;
+  --lh-body: 1.55;
+  --tracking-label: 0.14em;
+
+  /* Grid en ruimte */
+  --gutter: clamp(16px, 4vw, 64px);
+  --col-gap: clamp(12px, 1.6vw, 24px);
+  --max: 1600px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+  --space-6: clamp(80px, 10vw, 160px);
+  --space-7: clamp(120px, 14vw, 220px);
+  --nav-h: 72px;
+
+  /* Motion: één easing-set, vaste duren */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --dur-1: 0.6s;
+  --dur-2: 0.9s;
+  --dur-3: 1.2s;
+}

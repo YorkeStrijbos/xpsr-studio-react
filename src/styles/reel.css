@@ -1,0 +1,54 @@
+.reel {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: var(--gutter);
+  border: 0;
+  background: transparent;
+  color: var(--white);
+}
+
+.reel[open] {
+  display: grid;
+  place-items: center;
+}
+
+.reel::backdrop {
+  background: rgba(10, 10, 10, 0.94);
+}
+
+.reel__frame {
+  width: min(1280px, 100%);
+}
+
+.reel__video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--ink);
+}
+
+.reel__note {
+  margin-top: var(--space-2);
+}
+
+.reel__close {
+  position: fixed;
+  top: var(--space-3);
+  right: var(--gutter);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reel[open] {
+    animation: reel-in var(--dur-1) var(--ease-out);
+  }
+}
+
+@keyframes reel-in {
+  from {
+    opacity: 0;
+  }
+}

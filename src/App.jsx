@@ -1,48 +1,39 @@
-import { useRef, useState } from 'react';
-import { ProjectLabelProvider } from './context/ProjectLabelContext.jsx';
-import GrainOverlay from './components/GrainOverlay.jsx';
-import ScrollProgressBar from './components/ScrollProgressBar.jsx';
-import ProjectLabel from './components/ProjectLabel.jsx';
-import HeaderLogo from './components/HeaderLogo.jsx';
-import Lightbox from './components/Lightbox.jsx';
-import TopBar from './components/TopBar.jsx';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { ApertureProvider } from './components/Aperture.jsx';
+import { ReelProvider } from './components/Reel.jsx';
 import Nav from './components/Nav.jsx';
-import Hero from './components/Hero.jsx';
-import Marquees from './components/Marquees.jsx';
-import Statement from './components/Statement.jsx';
-import Services from './components/Services.jsx';
-import FeaturedWork from './components/FeaturedWork.jsx';
-import Branches from './components/Branches.jsx';
-import Philosophy from './components/Philosophy.jsx';
-import CTA from './components/CTA.jsx';
 import Footer from './components/Footer.jsx';
+import Home from './pages/Home.jsx';
+import Cases from './pages/Cases.jsx';
+import CaseDetail from './pages/CaseDetail.jsx';
+import About from './pages/About.jsx';
+import Contact from './pages/Contact.jsx';
+import NotFound from './pages/NotFound.jsx';
+import { initSmoothScroll } from './lib/scroll.js';
 
 export default function App() {
-  const [showLightbox, setShowLightbox] = useState(false);
-  const logoRef = useRef(null);
+  useEffect(() => initSmoothScroll(), []);
 
   return (
-    <ProjectLabelProvider>
-      <GrainOverlay />
-      <ScrollProgressBar />
-      <ProjectLabel />
-      <HeaderLogo logoRef={logoRef} />
-
-      <div style={{ position: 'relative', background: '#0b0908' }}>
-        {showLightbox && <Lightbox open={showLightbox} onClose={() => setShowLightbox(false)} />}
-
-        <TopBar />
+    <ApertureProvider>
+      <ReelProvider>
+        <a href="#main" className="skip-link">
+          Naar de inhoud
+        </a>
         <Nav />
-        <Hero logoRef={logoRef} onOpenLightbox={() => setShowLightbox(true)} />
-        <Marquees />
-        <Statement />
-        <Services />
-        <FeaturedWork />
-        <Branches />
-        <Philosophy />
-        <CTA />
+        <main id="main" tabIndex={-1}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cases" element={<Cases />} />
+            <Route path="/cases/:slug" element={<CaseDetail />} />
+            <Route path="/over-ons" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
         <Footer />
-      </div>
-    </ProjectLabelProvider>
+      </ReelProvider>
+    </ApertureProvider>
   );
 }

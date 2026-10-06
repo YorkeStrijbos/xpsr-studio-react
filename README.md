@@ -1,16 +1,44 @@
-# React + Vite
+# XPSR Studio website
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Productiestudio voor foto, video en social uit Harderwijk. Concept: **Belichting**. De site is een donkere studio, en wat de bezoeker belicht, wordt zichtbaar.
 
-Currently, two official plugins are available:
+## Draaien
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # productie-build in dist/
+```
 
-## React Compiler
+Routing gebeurt client-side (React Router). De host moet onbekende paden dus naar `index.html` sturen (SPA-fallback).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Structuur
 
-## Expanding the Oxlint configuration
+- `src/data/site.js`: alle copy, contactgegevens, klanten, diensten, branches en team.
+- `src/data/cases.js`: alle cases. Nieuwe case = nieuw object in de lijst.
+- `src/styles/tokens.css`: kleur, typografie, ruimte en motion-tokens. `src/lib/motion.js` spiegelt de easing en duren voor GSAP.
+- `src/components/Aperture.jsx`: preloader en paginatransitie (diafragma). Gebruik `ApertureLink` voor interne links.
+- `src/components/Hero.jsx`: spotlight-hero.
+- `src/components/Media.jsx`: `Picture` (AVIF/WebP met srcset) en `LoopVideo` (lazy, met pauzeknop).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Media
+
+Bronbestanden staan in `src/assets/images`. `scripts/build-media.sh` zet ze om naar `src/assets/media`:
+stills naar AVIF en WebP (640 px en volle breedte) plus JPG, en bewegend beeld naar H.264 mp4, VP9 webm en een poster.
+Daarna verwijs je in de data-bestanden naar de naam (zonder breedte of extensie).
+
+```bash
+FFMPEG=/pad/naar/ffmpeg ./scripts/build-media.sh   # vereist ImageMagick en een ffmpeg met libx264 en libvpx
+```
+
+## Nog aan te leveren
+
+Alles wat nog ontbreekt, staat in de code als `TODO XPSR:`, `[PLACEHOLDER]` of `[RESULTAAT]`:
+
+```bash
+grep -rn "TODO XPSR\|\[PLACEHOLDER\]\|\[RESULTAAT\]" src index.html
+```
+
+## Copyregels
+
+Geen em dashes. Geen verzonnen cijfers, resultaten of quotes. Websites en AI horen bij hovr.it, niet op deze site.

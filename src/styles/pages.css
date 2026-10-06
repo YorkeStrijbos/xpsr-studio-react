@@ -1,0 +1,225 @@
+/* ---------- Paginakop ---------- */
+.page-head {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  padding-top: calc(var(--nav-h) + var(--space-6));
+  padding-bottom: var(--space-5);
+}
+
+.page-head--center {
+  min-height: 80svh;
+  align-content: center;
+}
+
+/* ---------- Casedetail ---------- */
+.case-detail__hero {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.case-detail__hero-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.case-detail__hero-el,
+.case-detail__hero-media picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.case-detail__meta {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.case-detail__story {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--col-gap);
+}
+
+.case-detail__block {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.case-detail__block h2 {
+  margin: 0;
+}
+
+.case-detail__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--col-gap);
+  padding-bottom: var(--space-6);
+}
+
+.case-detail__shot {
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.case-detail__shot:first-child:nth-last-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.case-detail__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.case-detail__shot--empty {
+  grid-column: 1 / -1;
+  aspect-ratio: 21 / 9;
+}
+
+.next-case {
+  display: block;
+  border-top: 1px solid var(--line);
+  padding-block: var(--space-6);
+}
+
+.next-case__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.next-case__title {
+  display: block;
+  margin-top: var(--space-2);
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.next-case:hover .next-case__title,
+.next-case:focus-visible .next-case__title {
+  color: var(--red-accent);
+}
+
+.next-case__media {
+  width: min(40vw, 480px);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.next-case__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.3);
+  transition: filter var(--dur-2) var(--ease-out);
+}
+
+.next-case:hover .next-case__img,
+.next-case:focus-visible .next-case__img {
+  filter: brightness(1);
+}
+
+@media (max-width: 860px) {
+  .case-detail__meta {
+    grid-template-columns: 1fr 1fr;
+  }
+  .case-detail__story,
+  .case-detail__gallery {
+    grid-template-columns: 1fr;
+  }
+  .next-case__media {
+    width: 100%;
+  }
+}
+
+/* ---------- Over ons ---------- */
+.about__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--col-gap);
+  border-top: 1px solid var(--line);
+}
+
+.about__fact {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.about__fact h2 {
+  margin: 0;
+}
+
+.about__more {
+  padding-top: 0;
+}
+
+@media (max-width: 860px) {
+  .about__facts {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+/* ---------- Contact ---------- */
+.contact {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.contact__primary {
+  grid-column: 1 / span 8;
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.contact__primary h2:not(:first-child) {
+  margin-top: var(--space-4);
+}
+
+.contact__big {
+  font-size: clamp(1.75rem, 0.8rem + 4.2vw, 5rem);
+  overflow-wrap: anywhere;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.contact__big:hover {
+  color: var(--red-accent);
+}
+
+.contact__side {
+  grid-column: 9 / -1;
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.contact__side h2 {
+  margin: 0 0 var(--space-2);
+}
+
+.contact__side address {
+  font-style: normal;
+  color: var(--white);
+}
+
+.contact__socials {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+
+@media (max-width: 860px) {
+  .contact__primary,
+  .contact__side {
+    grid-column: 1 / -1;
+  }
+}
