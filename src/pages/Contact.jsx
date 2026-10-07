@@ -7,9 +7,9 @@ export default function Contact() {
   return (
     <>
       <header className="page-head container">
-        <span className="label label--red">Contact</span>
-        <h1 className="display h1">Plan een gesprek</h1>
-        <p className="lead">Vertel wat je wilt laten zien. Wij vertellen hoe we zorgen dat het gezien wordt.</p>
+        <span className="mono label--red">Contact</span>
+        <h1 className="display h1">Plan een draaidag</h1>
+        <p className="lead">Vertel wat jullie bouwen. Wij vertellen hoe één draaidag een recruitmentfilm, bedrijfsfilm, foto's en social oplevert.</p>
       </header>
 
       <section className="section container contact" aria-label="Contactgegevens">

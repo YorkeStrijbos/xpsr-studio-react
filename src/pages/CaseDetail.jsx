@@ -1,11 +1,36 @@
 import { useParams } from 'react-router-dom';
 import { ApertureLink } from '../components/Aperture.jsx';
-import { CaseMeta } from '../components/CaseCard.jsx';
 import { LoopVideo, Picture } from '../components/Media.jsx';
 import NotFound from './NotFound.jsx';
 import { getCase, nextCase } from '../data/cases.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
 import '../styles/pages.css';
+
+function CaseMeta({ c, className = '' }) {
+  return (
+    <dl className={`case-meta ${className}`}>
+      {[
+        ['Klant', c.client],
+        ['Branche', c.branch],
+        ['Gemaakt', c.made],
+        ['Resultaat', c.result],
+      ].map(([k, v]) => (
+        <div key={k}>
+          <dt className="mono">{k}</dt>
+          <dd className={k === 'Resultaat' ? 'case-meta__result' : undefined}>{v}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function Placeholder({ label }) {
+  return (
+    <div className="placeholder">
+      <span className="mono">[PLACEHOLDER] {label}</span>
+    </div>
+  );
+}
 
 export default function CaseDetail() {
   const { slug } = useParams();
@@ -15,12 +40,12 @@ export default function CaseDetail() {
 
   const next = nextCase(c.slug);
   // Elk beeld maximaal één keer: zonder hero-video is de cover de hero en valt hij uit de galerij.
-  const gallery = c.heroMotion ? c.gallery : c.gallery.filter((g) => g.name !== c.cover.name);
+  const gallery = c.heroMotion || !c.cover ? c.gallery : c.gallery.filter((g) => g.name !== c.cover.name);
 
   return (
     <article className="case-detail">
       <header className="page-head container">
-        <span className="label label--red">Case</span>
+        <span className="mono label--red">Case</span>
         <h1 className="display h1">{c.client}</h1>
       </header>
 
@@ -28,8 +53,10 @@ export default function CaseDetail() {
         <div className="case-detail__hero-media">
           {c.heroMotion ? (
             <LoopVideo name={c.heroMotion} className="case-detail__hero-el" eager label={`video ${c.client}`} />
-          ) : (
+          ) : c.cover ? (
             <Picture name={c.cover.name} alt={c.cover.alt} priority sizes="100vw" imgClassName="case-detail__hero-el" />
+          ) : (
+            <Placeholder label={`Hero-video ${c.client}`} />
           )}
         </div>
         <CaseMeta c={c} className="case-detail__meta" />
@@ -42,7 +69,7 @@ export default function CaseDetail() {
           ['Resultaat', c.outcome],
         ].map(([title, text]) => (
           <div key={title} className="case-detail__block">
-            <h2 className="label label--red">{title}</h2>
+            <h2 className="mono label--red">{title}</h2>
             <p className="lead">{text}</p>
           </div>
         ))}
@@ -58,21 +85,23 @@ export default function CaseDetail() {
         ) : (
           <div className="case-detail__shot case-detail__shot--empty">
             {/* TODO XPSR: 6 tot 10 stills voor deze case aanleveren. */}
-            <div className="placeholder">
-              <span className="label">[PLACEHOLDER] Beelden volgen</span>
-            </div>
+            <Placeholder label="Beelden volgen" />
           </div>
         )}
       </section>
 
-      <ApertureLink to={`/cases/${next.slug}`} className="next-case">
+      <ApertureLink to={`/cases/${next.slug}`} className="next-case" data-cursor="VOLGENDE">
         <div className="container next-case__inner">
           <div>
-            <span className="label">Volgende case</span>
+            <span className="mono">Volgende case</span>
             <span className="display h2 next-case__title">{next.client}</span>
           </div>
           <div className="next-case__media">
-            <Picture name={next.cover.name} alt="" sizes="40vw" imgClassName="next-case__img" />
+            {next.cover ? (
+              <Picture name={next.cover.name} alt="" sizes="40vw" imgClassName="next-case__img" />
+            ) : (
+              <Placeholder label={next.client} />
+            )}
           </div>
         </div>
       </ApertureLink>

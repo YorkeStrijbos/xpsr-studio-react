@@ -21,11 +21,17 @@
   --line: rgba(244, 242, 238, 0.12);
   --red: #CA2B39;
   --red-accent: #D81E2C;
+  --steel: #1C1D1F;
+  --steel-2: #2A2C2F;
+  --concrete: #E6E3DD;
+  --concrete-ink: #1A1A1A;
+  --spark: #FFB347;
   --light-warm: 255 244 230; /* spotlicht, als RGB-triplet voor rgba() */
 
   /* Typografie */
   --font-display: 'Anton', 'Anton Fallback', Impact, 'Arial Narrow', sans-serif; /* TODO XPSR: display-font bevestigen */
   --font-body: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --fs-label: 0.75rem;
   --fs-small: 0.875rem;
@@ -34,6 +40,7 @@
   --fs-h3: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
   --fs-h2: clamp(2.5rem, 1.6rem + 4vw, 6rem);
   --fs-h1: clamp(3.25rem, 1.5rem + 8.5vw, 12rem);
+  --fs-mega: clamp(3.5rem, 0.5rem + 11vw, 15rem);
 
   --lh-display: 0.88;
   --lh-body: 1.55;

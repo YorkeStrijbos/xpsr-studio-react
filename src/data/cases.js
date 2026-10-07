@@ -1,19 +1,106 @@
-// Alle cases op één plek. Nieuwe case toevoegen = object toevoegen aan deze lijst.
+// Alle cases op één plek. Nieuwe case = object toevoegen. Volgorde = volgorde op de site.
 // Media verwijzen naar namen uit src/assets/media (zie scripts/build-media.sh).
-// Resultaten en context zijn bewust placeholders: niets verzinnen.
-// TODO XPSR: per case klant, branche, deliverables, resultaat (cijfer) en eventuele klantquote aanleveren.
+// Niets verzinnen: resultaat en context blijven placeholders tot XPSR ze aanlevert.
+// TODO XPSR: per industriecase 1 loop van 4 tot 6 s, 6 tot 10 stills, resultaat en toestemming aanleveren.
+// TODO XPSR: copy check op alle "made" en "line"-teksten.
 
 const P = '[PLACEHOLDER]';
 const R = '[RESULTAAT]';
 
 export const CASES = [
   {
+    slug: 'reym',
+    client: 'REYM',
+    branch: 'Industriële reiniging',
+    made: 'Recruitmentfilm',
+    line: 'Een dag uit het leven van Juri, van helm op tot klus geklaard.',
+    result: R,
+    industry: true,
+    cover: { name: 'reym-een-dag-uit-het-leven-van-juri', alt: 'Juri van REYM zet zijn helm en masker op' },
+    heroMotion: 'loop-reym-juri',
+    question: P,
+    approach: P,
+    outcome: P,
+    gallery: [{ name: 'reym-locatie', alt: 'Luchtfoto van een REYM-locatie' }],
+  },
+  {
+    slug: 'wiko',
+    client: 'WIKO',
+    branch: 'Industrie',
+    made: P,
+    line: P,
+    result: R,
+    industry: true,
+    cover: null,
+    question: P,
+    approach: P,
+    outcome: P,
+    gallery: [],
+  },
+  {
+    slug: 'e-tronic',
+    client: 'E-tronic',
+    branch: 'Installatietechniek',
+    made: 'Social content', // TODO XPSR: bevestigen.
+    line: P,
+    result: R,
+    industry: true,
+    cover: null,
+    question: P,
+    approach: P,
+    outcome: P,
+    gallery: [],
+  },
+  {
+    slug: 'hbm-machines',
+    client: 'HBM Machines',
+    branch: 'Machinebouw',
+    made: P,
+    line: P,
+    result: R,
+    industry: true,
+    cover: null,
+    question: P,
+    approach: P,
+    outcome: P,
+    gallery: [],
+  },
+  {
+    slug: 'lichtbedrijf',
+    client: 'Lichtbedrijf',
+    branch: 'Techniek',
+    made: P,
+    line: P,
+    result: R,
+    industry: true,
+    cover: null,
+    question: P,
+    approach: P,
+    outcome: P,
+    gallery: [],
+  },
+  {
+    slug: 'de-zwarte-boer',
+    client: 'De Zwarte Boer',
+    branch: 'Horeca',
+    made: 'Foodstyling en fotografie',
+    line: 'Ook buiten de hal: gerechten die je wilt bestellen.',
+    result: R,
+    industry: false,
+    cover: { name: 'zwarte-boer-foodstyling', alt: 'Gestyled gerecht van De Zwarte Boer' },
+    question: P,
+    approach: P,
+    outcome: P,
+    gallery: [],
+  },
+  {
     slug: 'boterlap',
     client: 'Boterlap',
-    branch: 'Horeca en food',
+    branch: 'Horeca',
     made: 'Foto en video',
+    line: P,
     result: R,
-    featured: true,
+    industry: false,
     cover: { name: 'boterlap-in-de-keuken', alt: 'Chef van Boterlap snijdt een gerecht aan' },
     heroMotion: 'reel-boterlap-tafel',
     question: P,
@@ -25,75 +112,10 @@ export const CASES = [
       { name: 'boterlap-in-de-keuken', alt: 'Chef van Boterlap aan het werk in de keuken' },
     ],
   },
-  {
-    slug: 'reym',
-    client: 'REYM',
-    branch: 'Industrie en techniek',
-    made: 'Video: een dag uit het leven van Juri',
-    result: R,
-    featured: true,
-    cover: { name: 'reym-een-dag-uit-het-leven-van-juri', alt: 'Juri van REYM zet zijn helm en masker op' },
-    heroMotion: 'loop-reym-juri',
-    question: P,
-    approach: P,
-    outcome: P,
-    gallery: [
-      { name: 'reym-een-dag-uit-het-leven-van-juri', alt: 'Juri van REYM met helm en masker' },
-      { name: 'reym-locatie', alt: 'Luchtfoto van een REYM-locatie' },
-    ],
-  },
-  {
-    slug: 'de-zwarte-boer',
-    client: 'De Zwarte Boer',
-    branch: 'Horeca en food',
-    made: 'Foodstyling en fotografie',
-    result: R,
-    featured: true,
-    cover: { name: 'zwarte-boer-foodstyling', alt: 'Gestyled gerecht van De Zwarte Boer' },
-    question: P,
-    approach: P,
-    outcome: P,
-    gallery: [],
-  },
-  {
-    slug: 'rosel',
-    client: 'Rosèl',
-    branch: 'Horeca en food',
-    made: 'De lekkerste broodjeszaak van Amsterdam',
-    result: R,
-    cover: { name: 'rosel-de-lekkerste-broodjeszaak-van-amsterdam', alt: 'Gast van Rosèl met een broodje' },
-    question: P,
-    approach: P,
-    outcome: P,
-    gallery: [{ name: 'rosel-bts', alt: 'Behind the scenes bij Rosèl' }],
-  },
-  {
-    slug: 'stelz',
-    client: 'Stëlz Hard Drinks',
-    branch: 'Events',
-    made: 'Lancering',
-    result: R,
-    cover: { name: 'stelz-hard-drinks-launch', alt: 'Koelkast met Stëlz Hard Drinks tijdens de lancering' },
-    question: P,
-    approach: P,
-    outcome: P,
-    gallery: [],
-  },
-  {
-    slug: 'block',
-    client: 'Block',
-    branch: 'Zakelijk', // TODO XPSR: branche bevestigen.
-    made: 'Corporate fotografie',
-    result: R,
-    cover: { name: 'block-corporate', alt: 'Drie mannen in een witte studio voor Block' },
-    question: P,
-    approach: P,
-    outcome: P,
-    gallery: [],
-  },
 ];
 
-export const FEATURED = CASES.filter((c) => c.featured);
+// Op de homepage: alle industriecases plus één afsluiter "Ook buiten de hal".
+export const HOME_CASES = [...CASES.filter((c) => c.industry), CASES.find((c) => c.slug === 'de-zwarte-boer')];
 
 export function getCase(slug) {
   return CASES.find((c) => c.slug === slug);

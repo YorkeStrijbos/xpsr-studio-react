@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const BASE = 'XPSR Studio';
-const DEFAULT = `${BASE} | Foto, video en social uit Harderwijk`;
+const DEFAULT = `${BASE} | Film en foto voor de industrie`;
 
 export function usePageTitle(title) {
   useEffect(() => {

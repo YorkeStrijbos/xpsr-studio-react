@@ -4,6 +4,7 @@ import { ApertureProvider } from './components/Aperture.jsx';
 import { ReelProvider } from './components/Reel.jsx';
 import Nav from './components/Nav.jsx';
 import Footer from './components/Footer.jsx';
+import Cursor from './components/Cursor.jsx';
 import Home from './pages/Home.jsx';
 import Cases from './pages/Cases.jsx';
 import CaseDetail from './pages/CaseDetail.jsx';
@@ -33,6 +34,8 @@ export default function App() {
           </Routes>
         </main>
         <Footer />
+        <Cursor />
+        <div className="grain" aria-hidden="true" />
       </ReelProvider>
     </ApertureProvider>
   );

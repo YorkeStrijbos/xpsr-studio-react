@@ -126,6 +126,15 @@ html.lenis body {
   color: var(--grey);
 }
 
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
 .label--red {
   color: var(--red-accent);
 }

@@ -1,9 +1,11 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CustomEase } from 'gsap/CustomEase';
+import { SplitText } from 'gsap/SplitText';
+import { Flip } from 'gsap/Flip';
 import { useSyncExternalStore } from 'react';
 
-gsap.registerPlugin(ScrollTrigger, CustomEase);
+gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText, Flip);
 
 // Spiegelt de tokens in tokens.css, zodat CSS en GSAP dezelfde motion-taal spreken.
 CustomEase.create('xpsr', '0.16, 1, 0.3, 1');
@@ -40,4 +42,4 @@ export function useMediaQuery(q) {
   );
 }
 
-export { gsap, ScrollTrigger };
+export { gsap, ScrollTrigger, SplitText, Flip };

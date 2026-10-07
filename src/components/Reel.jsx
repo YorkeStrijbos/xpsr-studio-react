@@ -5,8 +5,9 @@ import '../styles/reel.css';
 
 const ReelContext = createContext(() => {});
 
-// TODO XPSR: showreel-master aanleveren. Nu speelt het enige beschikbare fragment (lage resolutie).
-const REEL = 'reel-boterlap-tafel';
+// TODO XPSR: industriële reel (lassen, slijpen, machines, vakmensen, drone) als master aanleveren.
+// Nu speelt het enige beschikbare industriefragment (REYM, lage resolutie).
+const REEL = 'loop-reym-juri';
 
 export function ReelProvider({ children }) {
   const [open, setOpen] = useState(false);
@@ -66,7 +67,7 @@ function ReelDialog({ open, onClose }) {
           {open && <source src={m.mp4} type="video/mp4" />}
           {open && m.webm && <source src={m.webm} type="video/webm" />}
         </video>
-        <p className="reel__note label">[PLACEHOLDER] Volledige showreel volgt</p>
+        <p className="reel__note label">[PLACEHOLDER] Volledige industriële reel volgt</p>
       </div>
       <button type="button" className="reel__close btn" onClick={() => dialogRef.current.close()}>
         Sluiten

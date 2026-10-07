@@ -1,17 +1,8 @@
 .aperture {
-  --r: 0px;
   position: fixed;
   inset: 0;
   z-index: 900;
   pointer-events: none;
-  /* Zwart buiten het gat, met een dunne rode rand: het licht aan de rand van de lens. */
-  background: radial-gradient(
-    circle at 50% 50%,
-    transparent var(--r),
-    var(--red) calc(var(--r) + 0.5px),
-    var(--red) calc(var(--r) + 2px),
-    var(--black) calc(var(--r) + 3px)
-  );
 }
 
 .aperture[data-state='closed'],
@@ -28,24 +19,78 @@
   pointer-events: all;
 }
 
-.aperture__mark {
+.aperture[data-state='fade'] .aperture__svg {
+  display: none;
+}
+
+.aperture__svg {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.aperture__plate {
+  fill: var(--black);
+}
+
+.aperture__blades {
+  fill: none;
+  stroke: var(--steel-2);
+  stroke-width: 0.35;
+}
+
+.aperture__rim {
+  fill: none;
+  stroke: var(--red-accent);
+  stroke-width: 0.3;
+}
+
+.aperture__flash {
+  position: absolute;
+  inset: 0;
+  background: var(--white);
   opacity: 0;
+  visibility: hidden;
 }
 
-.aperture__mark .display {
-  font-size: clamp(48px, 8vw, 96px);
-  line-height: 1;
+.pre {
+  position: absolute;
+  inset: 0;
 }
 
-.aperture__mark .label {
-  letter-spacing: 0.5em;
-  margin-right: -0.5em;
+.pre__rec {
+  position: absolute;
+  left: 48px;
+  top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+.pre__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red-accent);
+}
+
+.pre__tc {
+  position: absolute;
+  right: 48px;
+  bottom: 28px;
+}
+
+.pre__c {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border: 0 solid var(--white);
+}
+
+.pre__c--tl { border-top-width: 2px; border-left-width: 2px; }
+.pre__c--tr { border-top-width: 2px; border-right-width: 2px; }
+.pre__c--bl { border-bottom-width: 2px; border-left-width: 2px; }
+.pre__c--br { border-bottom-width: 2px; border-right-width: 2px; }

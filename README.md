@@ -1,6 +1,6 @@
 # XPSR Studio website
 
-Productiestudio voor foto, video en social uit Harderwijk. Concept: **Belichting**. De site is een donkere studio, en wat de bezoeker belicht, wordt zichtbaar.
+Film, foto en social voor de industrie, uit Harderwijk. Concept (V2): **Industrie in het juiste licht**. Een camera die een donkere fabriekshal binnenloopt; het vizier (REC-punt, diafragmaring, zoekerhoeken) reist door de hele pagina.
 
 ## Draaien
 
@@ -14,11 +14,13 @@ Routing gebeurt client-side (React Router). De host moet onbekende paden dus naa
 
 ## Structuur
 
-- `src/data/site.js`: alle copy, contactgegevens, klanten, diensten, branches en team.
+- `src/data/site.js`: alle copy (hero, statement, probleem, beeldwolk, diensten, band, over, garantie, footer), contact en klanten.
 - `src/data/cases.js`: alle cases. Nieuwe case = nieuw object in de lijst.
 - `src/styles/tokens.css`: kleur, typografie, ruimte en motion-tokens. `src/lib/motion.js` spiegelt de easing en duren voor GSAP.
 - `src/components/Aperture.jsx`: preloader en paginatransitie (diafragma). Gebruik `ApertureLink` voor interne links.
-- `src/components/Hero.jsx`: spotlight-hero.
+- `src/components/home/`: de homepage-secties (hero met vonken, statement met diafragma, probleem met beeldwolk, cases met laserscan, technische tekening, lopende band, stapelkoppen, garantiemeter).
+- `src/motion/`: vizier (`viewfinder.js`, rollen per sectie in `stops.js`), diafragma-geometrie (`iris.js`), vonken (`sparks.js`), scramble.
+- `src/components/Footer.jsx`: diafragmaboog met REC-knop, op elke pagina.
 - `src/components/Media.jsx`: `Picture` (AVIF/WebP met srcset) en `LoopVideo` (lazy, met pauzeknop).
 
 ## Media

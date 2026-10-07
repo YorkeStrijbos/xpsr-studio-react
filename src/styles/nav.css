@@ -29,6 +29,12 @@
   height: var(--nav-h);
 }
 
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .wordmark {
   display: inline-flex;
   flex-direction: column;

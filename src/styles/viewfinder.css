@@ -1,0 +1,198 @@
+.vf {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.vf-par {
+  position: absolute;
+  inset: 0;
+}
+
+.vf-dot,
+.vf-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.vf-dot {
+  width: 20px;
+  height: 20px;
+}
+
+.vf-dot__core {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--red-accent);
+}
+
+/* Wit op zwart, donker op beton: difference houdt de ring overal zichtbaar. */
+.vf-ring,
+.vf-c {
+  mix-blend-mode: difference;
+}
+
+.vf-ring {
+  width: 140px;
+  height: 140px;
+}
+
+.vf-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.vf-ring svg * {
+  fill: none;
+  stroke: var(--white);
+  vector-effect: non-scaling-stroke;
+}
+
+.vf-ring__outer {
+  stroke-width: 1.2;
+}
+
+.vf-ring__hole,
+.vf-ring__blades {
+  stroke-width: 0.8;
+  opacity: 0.7;
+}
+
+.vf-c {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border: 0 solid var(--white);
+  will-change: transform;
+}
+
+.vf-c--tl { border-top-width: 2px; border-left-width: 2px; }
+.vf-c--tr { border-top-width: 2px; border-right-width: 2px; }
+.vf-c--bl { border-bottom-width: 2px; border-left-width: 2px; }
+.vf-c--br { border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Mini-vizier in de nav */
+.vf-mini {
+  position: relative;
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  flex: none;
+}
+
+.vf-mini__ring {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.vf-mini__ring circle {
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 4;
+  opacity: 0.6;
+}
+
+.vf-mini__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--red-accent);
+}
+
+/* ---------- Cursor ---------- */
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  will-change: transform;
+}
+
+.cursor__dot {
+  grid-area: 1 / 1;
+  /* Op eindformaat getekend en omlaag geschaald: zo blijft de rand scherp als hij groeit. */
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: var(--red-accent);
+  transform: scale(0.154);
+  transition: transform var(--dur-1) var(--ease-out);
+}
+
+.cursor__label {
+  grid-area: 1 / 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity var(--dur-1) var(--ease-out),
+    transform var(--dur-1) var(--ease-out);
+}
+
+.cursor.is-label .cursor__dot {
+  transform: scale(1);
+}
+
+.cursor.is-label .cursor__label {
+  opacity: 1;
+  transform: none;
+}
+
+.cursor.is-link .cursor__dot {
+  transform: scale(0.077);
+}
+
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+/* ---------- Filmkorrel ---------- */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.5s steps(5) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf {
+    display: none;
+  }
+  .grain {
+    animation: none;
+  }
+}

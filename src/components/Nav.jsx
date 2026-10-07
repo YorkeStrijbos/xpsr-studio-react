@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ApertureLink } from './Aperture.jsx';
 import { useOpenReel } from './Reel.jsx';
+import { MiniViewfinder } from './Viewfinder.jsx';
 import { lockScroll } from '../lib/scroll.js';
+import { gsap, prefersReducedMotion } from '../lib/motion.js';
+import { hexClipPath } from '../motion/iris.js';
 import '../styles/nav.css';
 
 const LINKS = [
@@ -34,6 +37,7 @@ export default function Nav() {
   const [solid, setSolid] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleRef = useRef(null);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 24);
@@ -48,6 +52,18 @@ export default function Nav() {
   useEffect(() => {
     if (!menuOpen) return;
     lockScroll(true);
+    // Menu opent als een diafragma: zeshoekig gat dat groeit tot volledig scherm.
+    if (!prefersReducedMotion()) {
+      const st = { r: 0 };
+      gsap.to(st, {
+        r: 95,
+        duration: 0.7,
+        ease: 'xpsr',
+        onUpdate: () => menuRef.current && (menuRef.current.style.clipPath = hexClipPath(st.r, (1 - st.r / 95) * 60)),
+        onComplete: () => menuRef.current && (menuRef.current.style.clipPath = 'none'),
+      });
+      gsap.from(menuRef.current.querySelectorAll('.menu__link'), { yPercent: 100, autoAlpha: 0, stagger: 0.05, duration: 0.6, ease: 'xpsr', delay: 0.15 });
+    }
     const onKey = (e) => {
       if (e.key === 'Escape') {
         setMenuOpen(false);
@@ -65,6 +81,8 @@ export default function Nav() {
     <header className={`nav ${solid || menuOpen ? 'is-solid' : ''} ${menuOpen ? 'is-menu' : ''}`}>
       <div className="nav__inner container">
         <ApertureLink to="/" className="nav__logo" aria-label="XPSR Studio, naar home">
+          {/* Op home start het grote vizier hier naast het logo; elders staat het mini-vizier. */}
+          {pathname !== '/' && <MiniViewfinder />}
           <Wordmark />
         </ApertureLink>
 
@@ -83,10 +101,10 @@ export default function Nav() {
 
         <div className="nav__actions">
           <button type="button" className="btn nav__reel" onClick={openReel}>
-            <PlayIcon /> Showreel
+            <PlayIcon /> Reel
           </button>
           <ApertureLink to="/contact" className="btn btn--primary nav__cta">
-            Plan een gesprek
+            Plan een draaidag
           </ApertureLink>
           <button
             ref={toggleRef}
@@ -103,7 +121,7 @@ export default function Nav() {
         </div>
       </div>
 
-      <div id="mobile-menu" className={`menu ${menuOpen ? 'is-open' : ''}`} hidden={!menuOpen}>
+      <div ref={menuRef} id="mobile-menu" className={`menu ${menuOpen ? 'is-open' : ''}`} hidden={!menuOpen}>
         <nav className="menu__links container" aria-label="Mobiel menu">
           <ApertureLink to="/" className="menu__link display">Home</ApertureLink>
           {LINKS.map((l) => (
@@ -120,10 +138,10 @@ export default function Nav() {
                 openReel();
               }}
             >
-              <PlayIcon /> Showreel
+              <PlayIcon /> Reel
             </button>
             <ApertureLink to="/contact" className="btn btn--primary">
-              Plan een gesprek
+              Plan een draaidag
             </ApertureLink>
           </div>
         </nav>
