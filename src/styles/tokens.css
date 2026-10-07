@@ -32,6 +32,9 @@
   --font-display: 'Anton', 'Anton Fallback', Impact, 'Arial Narrow', sans-serif; /* TODO XPSR: display-font bevestigen */
   --font-body: Arial, 'Helvetica Neue', Helvetica, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-stencil: 'Big Shoulders Stencil Display', 'Anton', Impact, sans-serif; /* alleen industriële labels */
+  --hazard: #f2c200;
+  --font-hand: 'Caveat', 'Comic Sans MS', cursive; /* alleen aantekeningen op prikbord en script */
 
   --fs-label: 0.75rem;
   --fs-small: 0.875rem;

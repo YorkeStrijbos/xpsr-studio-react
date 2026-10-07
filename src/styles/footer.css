@@ -1,6 +1,5 @@
 .fa {
   position: relative;
-  overflow: hidden;
 }
 
 .fa__stage {
@@ -10,83 +9,111 @@
   place-items: center;
   align-content: center;
   gap: var(--space-4);
-  padding-block: var(--space-6) 0;
-  background: var(--concrete);
-  color: var(--concrete-ink);
+  padding-block: var(--space-6);
+  background:
+    radial-gradient(ellipse 50% 45% at 50% 58%, rgba(202, 43, 57, 0.22), transparent 70%),
+    var(--black);
   overflow: hidden;
-  isolation: isolate;
-}
-
-.fa__night {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--black);
 }
 
 .fa__ask {
-  position: relative;
-  z-index: 2;
+  font-size: clamp(3rem, 9vw, 10rem);
+  line-height: 0.88;
   text-align: center;
-  mix-blend-mode: difference;
-  color: var(--concrete);
   padding-inline: var(--gutter);
 }
 
-.fa__arc {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: min(140vw, 1500px);
-  margin-left: calc(min(140vw, 1500px) / -2);
-  overflow: visible;
-  transform-origin: 50% 100%;
-}
-
-.fa__arc-band {
-  fill: none;
-  stroke: var(--steel-2);
-  stroke-width: 14;
-}
-
-.fa__arc-blades,
-.fa__arc-hole {
-  fill: none;
-  stroke: var(--grey);
-  stroke-width: 0.4;
-  opacity: 0.6;
-}
-
-.fa__rec {
+/* ---------- Noodstop ---------- */
+.estop {
+  --press: 0;
   position: relative;
-  z-index: 3;
   display: grid;
   place-items: center;
-  align-content: center;
-  gap: 6px;
-  width: clamp(160px, 18vw, 240px);
+  width: clamp(200px, 24vw, 340px);
   aspect-ratio: 1;
-  margin-top: var(--space-4);
-  margin-bottom: clamp(48px, 10vh, 120px);
   border-radius: 50%;
-  background: var(--red-accent);
-  color: var(--white);
-  text-align: center;
+  /* Gele basis met een verzonken groef. */
+  background:
+    radial-gradient(circle at 50% 50%, transparent 57%, rgba(0, 0, 0, 0.25) 58%, transparent 61%),
+    radial-gradient(circle at 40% 30%, #ffd84a 0%, var(--hazard) 45%, #c79f00 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.3),
+    0 24px 50px rgba(0, 0, 0, 0.55);
 }
 
-.fa__rec-label {
-  font-family: var(--font-display);
-  font-size: clamp(20px, 2vw, 28px);
-  line-height: 1;
+.estop__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: estop-ring 30s linear infinite;
+}
+
+.estop__ring-text {
+  font-family: var(--font-stencil);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  max-width: 8ch;
+  fill: #1a1a1a;
 }
 
-.fa__tc {
-  font-size: 10px;
-  opacity: 0.8;
+@keyframes estop-ring {
+  to { transform: rotate(360deg); }
 }
 
+.estop__collar {
+  position: absolute;
+  width: 66%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #3b3b3b, #121212 70%);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Rode paddenstoelknop: --press 0 = omhoog, 1 = ingedrukt, negatief = iets opgetild (hover). */
+.estop__cap {
+  position: relative;
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff6a70, var(--red-accent) 45%, #8e0f18 100%);
+  box-shadow:
+    inset 0 -6px 12px rgba(0, 0, 0, 0.35),
+    inset 0 4px 8px rgba(255, 255, 255, 0.25),
+    0 calc(18px - var(--press) * 14px) 0 #6d0b12,
+    0 calc(30px - var(--press) * 20px) 40px rgba(0, 0, 0, 0.6);
+  transform: translateY(calc(var(--press) * 14px - 18px));
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.3s ease;
+}
+
+.estop:hover .estop__cap,
+.estop:focus-visible .estop__cap {
+  --press: -0.25;
+  filter: brightness(1.12) drop-shadow(0 0 24px rgba(216, 30, 44, 0.55));
+}
+
+.estop:active .estop__cap,
+.estop.is-pressed .estop__cap {
+  --press: 1;
+}
+
+/* De knop wil je indrukken: hand-cursor, ook naast de eigen REC-cursor. */
+html.has-cursor .estop,
+html.has-cursor .estop * {
+  cursor: pointer !important;
+}
+
+.fa__hint {
+  color: var(--grey);
+  font-size: 11px;
+}
+
+/* ---------- Info ---------- */
 .fa__info {
   background: var(--black);
   padding-top: var(--space-5);
@@ -96,6 +123,7 @@
   display: grid;
   grid-template-columns: 1.6fr repeat(3, 1fr);
   gap: var(--space-4);
+  padding-bottom: var(--space-5);
 }
 
 .fa__tagline {
@@ -120,14 +148,41 @@
   color: var(--red-accent);
 }
 
+/* ---------- Gestencild woordmerk op beton ---------- */
+.fa__concrete {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-4) var(--gutter) var(--space-3);
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 20%, rgba(255, 255, 255, 0.25), transparent 70%),
+    var(--concrete);
+}
+
+.fa__concrete::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='4'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .4 0 0 0 0 .38 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+}
+
+.fa__defs {
+  position: absolute;
+}
+
 .fa__mark {
-  display: flex;
-  justify-content: space-between;
-  padding-inline: var(--gutter);
-  margin-top: var(--space-5);
-  font-size: clamp(6rem, 26vw, 30rem);
-  line-height: 0.8;
-  color: var(--white);
+  position: relative;
+  margin: 0;
+  font-family: var(--font-stencil);
+  font-weight: 900;
+  font-size: clamp(6rem, 30vw, 34rem);
+  line-height: 0.82;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #161616;
+  opacity: 0.9;
+  filter: url(#spray);
 }
 
 .fa__base {
@@ -136,13 +191,23 @@
   justify-content: space-between;
   gap: var(--space-2);
   padding-block: var(--space-3);
-  border-top: 1px solid var(--line);
   color: var(--grey);
 }
 
 .fa__base nav {
   display: flex;
   gap: var(--space-3);
+}
+
+/* ---------- Klik-overgang ---------- */
+.fa__flash {
+  position: fixed;
+  inset: 0;
+  z-index: 940;
+  background: var(--white);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @media (max-width: 860px) {
@@ -155,8 +220,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fa__stage {
-    background: var(--black);
-    color: var(--white);
+  .estop__ring {
+    animation: none;
   }
 }

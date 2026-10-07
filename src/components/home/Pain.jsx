@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Picture } from '../Media.jsx';
 import CameraHud from './CameraHud.jsx';
-import { CLOUD, PAIN } from '../../data/site.js';
+import { CLOUD, CLOUD_BRANCHES, PAIN } from '../../data/site.js';
 import { gsap, prefersReducedMotion } from '../../lib/motion.js';
 import { frameCorners, vfEls } from '../../motion/viewfinder.js';
 
@@ -13,6 +13,7 @@ import { frameCorners, vfEls } from '../../motion/viewfinder.js';
 export default function Pain() {
   const root = useRef(null);
   const cloud = useRef(null);
+  const [branch, setBranch] = useState(null); // null = alle branches
 
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return;
@@ -135,16 +136,36 @@ export default function Pain() {
         </p>
       </div>
 
-      <div ref={cloud} className="cloud" data-cursor="KIJK">
+      <div ref={cloud} className={`cloud ${branch ? 'is-filtered' : ''}`} data-cursor="KIJK">
+        {/* Branche kiezen: de beelden van die branche lichten op, de rest zakt weg. */}
+        <div className="cloud__filter" role="group" aria-label="Filter op branche" data-cursor="">
+          <span className="mono cloud__filter-label">Branche</span>
+          <button type="button" className={`cloud__chip ${branch == null ? 'is-on' : ''}`} aria-pressed={branch == null} onClick={() => setBranch(null)}>
+            Alle
+          </button>
+          {CLOUD_BRANCHES.map((b) => (
+            <button
+              key={b}
+              type="button"
+              className={`cloud__chip ${branch === b ? 'is-on' : ''}`}
+              aria-pressed={branch === b}
+              onClick={() => setBranch((cur) => (cur === b ? null : b))}
+            >
+              {b}
+              <span className="cloud__count">{CLOUD.filter((c) => c.branch === b).length}</span>
+            </button>
+          ))}
+        </div>
         {CLOUD.map((c, i) => (
           <div
             key={i}
-            className={`cloud__item cloud__item--d${String(c.depth).replace('.', '')}`}
+            className={`cloud__item cloud__item--d${String(c.depth).replace('.', '')} ${branch && c.branch === branch ? 'is-match' : ''}`}
             data-depth={c.depth}
             style={{ left: `${c.x}%`, top: `${c.y}%`, '--w': c.w }}
           >
             <div className="cloud__par" data-depth={c.depth}>
               <div className="cloud__frame">
+                <span className="cloud__tag mono">{c.branch}</span>
                 {c.name ? (
                   <Picture name={c.name} alt={c.alt} sizes={`${c.w}vw`} imgClassName="cloud__img" />
                 ) : (

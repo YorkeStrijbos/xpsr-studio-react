@@ -1,9 +1,6 @@
-import { useLayoutEffect, useRef } from 'react';
 import { ApertureLink } from '../Aperture.jsx';
 import { Picture } from '../Media.jsx';
-import { HOME_CASES } from '../../data/cases.js';
-import { gsap, prefersReducedMotion, ScrollTrigger } from '../../lib/motion.js';
-import { setCorners, vfEls } from '../../motion/viewfinder.js';
+import { gsap } from '../../lib/motion.js';
 import { scramble } from '../../motion/scramble.js';
 
 /** Eén kaart: technische laag eronder, echte laag erboven, onthuld door een rode laserlijn (--scan). */
@@ -73,101 +70,5 @@ export function bindScan(card, extra = {}) {
         },
       },
     },
-  );
-}
-
-/*
- * Cases uit de hal. Desktop: horizontaal gepind, zoekerhoeken kaderen de kaart die het dichtst bij het midden staat.
- * Mobiel: verticaal, scan op de gewone scroll.
- */
-export default function CasesScan() {
-  const root = useRef(null);
-  const track = useRef(null);
-
-  useLayoutEffect(() => {
-    const el = root.current;
-    if (prefersReducedMotion()) {
-      el.querySelectorAll('.scan').forEach((c) => c.style.setProperty('--scan', '100%'));
-      return;
-    }
-    const mm = gsap.matchMedia();
-    const ctx = gsap.context(() => {
-      mm.add('(min-width: 860px)', () => {
-        const cards = gsap.utils.toArray('.scan', el);
-        const distance = () => track.current.scrollWidth - window.innerWidth;
-        let active = null;
-        const frame = () => {
-          const mid = window.innerWidth / 2;
-          let best = null;
-          let bestD = Infinity;
-          cards.forEach((c) => {
-            const r = c.querySelector('.scan__media').getBoundingClientRect();
-            const d = Math.abs(r.left + r.width / 2 - mid);
-            if (d < bestD) {
-              bestD = d;
-              best = r;
-            }
-          });
-          if (best) {
-            setCorners({ left: best.left - 10, top: best.top - 10, width: best.width + 20, height: best.height + 20 });
-            if (!active) {
-              active = true;
-              gsap.to(vfEls.corners, { autoAlpha: 1, duration: 0.3 });
-            }
-          }
-        };
-        const scrollTween = gsap.to(track.current, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top top',
-            end: () => `+=${distance()}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-            onUpdate: frame,
-            onLeave: () => {
-              active = false;
-              gsap.to(vfEls.corners, { autoAlpha: 0, duration: 0.3 });
-            },
-            onLeaveBack: () => {
-              active = false;
-              gsap.to(vfEls.corners, { autoAlpha: 0, duration: 0.3 });
-            },
-          },
-        });
-        cards.forEach((card) => bindScan(card, { containerAnimation: scrollTween, start: 'left 85%', end: 'center 50%' }));
-      });
-
-      mm.add('(max-width: 859px)', () => {
-        gsap.utils.toArray('.scan', el).forEach((card) => bindScan(card, { start: 'top 85%', end: 'center 50%' }));
-      });
-    }, el);
-    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
-    return () => {
-      cancelAnimationFrame(id);
-      mm.revert();
-      ctx.revert();
-    };
-  }, []);
-
-  return (
-    <section ref={root} className="s-cases cases2" aria-labelledby="cases-title">
-      <div ref={track} className="cases2__track">
-        <header className="cases2__head">
-          <span className="mono label--red">Cases / Industrie</span>
-          <h2 id="cases-title" className="display h2 cases2__title" data-stamp>
-            Uit de hal
-          </h2>
-          <ApertureLink to="/cases" className="link-arrow">
-            Alle cases
-          </ApertureLink>
-        </header>
-        {HOME_CASES.map((c, i) => (
-          <ScanCard key={c.slug} c={c} index={i} />
-        ))}
-      </div>
-    </section>
   );
 }

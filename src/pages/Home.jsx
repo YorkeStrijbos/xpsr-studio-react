@@ -4,12 +4,14 @@ import { useAperture } from '../components/Aperture.jsx';
 import HeroV2 from '../components/home/HeroV2.jsx';
 import Statement from '../components/home/Statement.jsx';
 import Pain from '../components/home/Pain.jsx';
-import CasesScan from '../components/home/CasesScan.jsx';
+import Storyboard from '../components/home/Storyboard.jsx';
+import Premiere from '../components/home/Premiere.jsx';
+import ProcessBar from '../components/home/ProcessBar.jsx';
 import Blueprint from '../components/home/Blueprint.jsx';
-import Conveyor from '../components/home/Conveyor.jsx';
 import AboutStack from '../components/home/AboutStack.jsx';
+import Exposure from '../components/home/Exposure.jsx';
 import DayTimeline from '../components/home/DayTimeline.jsx';
-import { gsap, prefersReducedMotion, ScrollTrigger, SplitText } from '../lib/motion.js';
+import { gsap, prefersReducedMotion, ScrollTrigger } from '../lib/motion.js';
 import { buildStops, placeAt, registerViewfinder, travelTo } from '../motion/viewfinder.js';
 import { homeStops, introStop } from '../motion/stops.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
@@ -32,8 +34,8 @@ export default function Home() {
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return;
     const mm = gsap.matchMedia();
-    mm.add({ wide: '(min-width: 860px)', narrow: '(max-width: 859px)' }, (c) => {
-      const stops = homeStops(c.conditions.wide);
+    mm.add('(min-width: 0px)', (c) => {
+      const stops = homeStops();
       stopsRef.current = stops;
       // Wachten tot alle secties hun pins hebben gezet, dan pas de overgangen bouwen.
       const id = requestAnimationFrame(() => {
@@ -57,10 +59,6 @@ export default function Home() {
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
-      gsap.utils.toArray('.s-conveyor .h2, .s-dayline .h2').forEach((h) => {
-        const split = new SplitText(h, { type: 'lines', mask: 'lines' });
-        gsap.from(split.lines, { yPercent: 110, stagger: 0.08, duration: 0.9, ease: 'xpsr', scrollTrigger: { trigger: h, start: 'top 85%' } });
-      });
       gsap.utils.toArray('[data-stamp]').slice(0, 3).forEach((h) => {
         gsap
           .timeline({ scrollTrigger: { trigger: h, start: 'top 80%' } })
@@ -78,11 +76,14 @@ export default function Home() {
       <HeroV2 />
       <Statement />
       <Pain />
-      <CasesScan />
       <Blueprint />
-      <Conveyor />
-      <AboutStack />
+      <Storyboard />
       <DayTimeline />
+      <Premiere />
+      <AboutStack />
+      <Exposure />
+      {/* Na de procesfases renderen, zodat hun pins al bestaan als de balk meet. */}
+      <ProcessBar />
     </>
   );
 }
