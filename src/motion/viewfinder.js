@@ -77,7 +77,10 @@ export function setCorners(rect) {
 export function placeAt(stop) {
   gsap.set(els.dot, dotVars(stop.dot));
   gsap.set(els.ring, ringVars(stop.ring));
-  if (stop.corners) setCorners(cornerFracRect(stop.corners));
+  if (stop.corners) {
+    setCorners(cornerFracRect(stop.corners));
+    gsap.set(els.corners, { autoAlpha: stop.corners.opacity ?? 1 });
+  }
 }
 
 /** Animeert (niet gescrubd) naar een stop, bijvoorbeeld na de preloader. */

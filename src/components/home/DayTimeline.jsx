@@ -191,7 +191,7 @@ export default function DayTimeline() {
         ScrollTrigger.create({
           trigger: el,
           start: 'top top',
-          end: '+=520%',
+          end: '+=340%',
           pin: true,
           scrub: 0.6,
           animation: tl,

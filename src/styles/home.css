@@ -2,239 +2,220 @@
    Homepage V2: industrie, vol licht
    ========================================================= */
 
-/* ---------- Hero ---------- */
-.hero2 {
-  --x: 66%;
-  --y: 45%;
+/* ---------- Hero: kaartje in de kop zoomt uit tot schermvullend, statement erachter ---------- */
+.hz {
   position: relative;
-  /* 20vh extra: zoveel schuift de lensrand van het statement eroverheen. */
-  height: calc(100svh + 20vh);
-  min-height: 620px;
-  overflow: hidden;
   background: var(--black);
 }
 
-.hero2__scene {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 0;
+.hz__stage {
+  position: relative;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
 }
 
-.hero2__base,
-.hero2__lit,
-.hero2__lit picture {
+/* Schermvullend beeld, door JS geknipt tot het kaartje. Zonder JS: verborgen tot de eerste meting. */
+.hz__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  clip-path: inset(50% 50% 50% 50%);
+  will-change: clip-path;
+}
+
+.hz__media picture,
+.hz__img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.hero2__img {
-  width: 100%;
-  height: 100%;
+.hz__img {
   object-fit: cover;
 }
 
-.hero2__base .hero2__img {
-  filter: brightness(0.2) saturate(0.5);
-}
-
-.hero2__lit {
-  -webkit-mask-image: radial-gradient(circle clamp(180px, 26vmax, 420px) at var(--x) var(--y), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%);
-  mask-image: radial-gradient(circle clamp(180px, 26vmax, 420px) at var(--x) var(--y), #000 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%);
-}
-
-.hero2__glow {
+.hz__shade {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  background: radial-gradient(
-    circle clamp(180px, 26vmax, 420px) at var(--x) var(--y),
-    rgba(var(--light-warm) / 0.12) 0%,
-    rgba(var(--light-warm) / 0.03) 52%,
-    rgba(202, 43, 57, 0.3) 74%,
-    rgba(202, 43, 57, 0) 86%
-  );
-}
-
-.hero2::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+  opacity: 0;
   background:
-    linear-gradient(to bottom, rgba(10, 10, 10, 0.65), transparent 22%),
-    linear-gradient(to top, rgba(10, 10, 10, 0.9) 18%, transparent 65%);
+    radial-gradient(ellipse at 50% 55%, rgba(10, 10, 10, 0.45), rgba(10, 10, 10, 0.85) 75%),
+    rgba(10, 10, 10, 0.25);
 }
 
-.hero2__content {
+.hz__hud {
   position: absolute;
-  inset: auto 0 20vh;
-  z-index: 3;
-  padding-bottom: clamp(32px, 6vh, 72px);
+  inset: calc(var(--nav-h) + 12px) var(--gutter) var(--space-3);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  opacity: 0;
+  visibility: hidden;
 }
 
-.hero2__label {
+.hz__c {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 0 solid rgba(244, 242, 238, 0.9);
+}
+
+.hz__c--tl { left: 0; top: 0; border-top-width: 2px; border-left-width: 2px; }
+.hz__c--tr { right: 0; top: 0; border-top-width: 2px; border-right-width: 2px; }
+.hz__c--bl { left: 0; bottom: 0; border-bottom-width: 2px; border-left-width: 2px; }
+.hz__c--br { right: 0; bottom: 0; border-bottom-width: 2px; border-right-width: 2px; }
+
+.hz__rec,
+.hz__spec {
+  position: absolute;
+  top: 34px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: var(--space-3);
-  color: var(--grey-2);
+  gap: 8px;
 }
 
-.hero2__rec {
-  width: 9px;
-  height: 9px;
+.hz__rec { left: 38px; }
+.hz__spec { right: 38px; }
+
+.hz__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--red-accent);
 }
 
-.hero2__claim {
+/* Intro: gecentreerd, veel lucht. */
+.hz__intro {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: grid;
-  width: min(100%, 68vw);
-  font-size: clamp(3rem, 8.2vw, 11.5rem);
-  line-height: 0.86;
-  text-wrap: initial;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-4);
+  padding-top: var(--nav-h);
+  text-align: center;
+  pointer-events: none;
 }
 
-/* Uitgevuld: woorden verdeeld over de volle regelbreedte. */
-.hero2__line {
+.hz__label,
+.hz__meta {
+  pointer-events: auto;
+}
+
+.hz__label {
+  margin: 0;
+  color: var(--grey-2);
+}
+
+.hz__label .hz__fade {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hz__claim {
+  display: grid;
+  justify-items: center;
+  margin: 0;
+  font-size: clamp(3rem, 8.4vw, 11rem);
+  line-height: 0.9;
+}
+
+.hz__line {
   display: flex;
-  justify-content: space-between;
-  gap: 0.18em;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.22em;
 }
 
-.hero2__word {
+.hz__group {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.22em;
+}
+
+/* Masker voor de opkomende woorden. */
+.hz__word {
   display: inline-block;
+  overflow: hidden;
+  padding: 0.04em 0;
   will-change: transform;
 }
 
-.hero2__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
+.hz__in {
+  display: inline-block;
+}
+
+/* Plek van het kaartje: het beeld zelf ligt in .hz__media; dit is alleen de rand. */
+.hz__slot {
+  display: inline-block;
+  width: 1.5em;
+  height: 0.8em;
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(244, 242, 238, 0.35);
+}
+
+.hz__meta {
+  display: grid;
+  justify-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-4);
 }
 
-.hero2__sub {
-  max-width: 44ch;
-  color: var(--white);
+.hz__sub {
+  max-width: 46ch;
+  margin: 0;
+  color: var(--grey-2);
 }
 
-.hero2__ctas {
+.hz__ctas {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
 }
 
-@media (max-width: 859px) {
-  .hero2__claim {
-    width: 100%;
-    font-size: 13.2vw;
-  }
-}
-
-/* ---------- Lensrand (gedeeld) ---------- */
-.s-statement {
-  --curve: 22vh;
-  position: relative;
-  z-index: 2;
-  margin-top: -20vh;
-  border-top-left-radius: 50% var(--curve);
-  border-top-right-radius: 50% var(--curve);
-}
-
-/* ---------- Statement ---------- */
-/* Zwart vlak; de bolle lensrand blijft zichtbaar als dunne lichte lijn. */
-.st {
-  background: var(--black);
-  border-top: 1px solid rgba(244, 242, 238, 0.18);
-  overflow: hidden;
-}
-
-.st__stage {
-  position: relative;
-  height: 100svh;
+/* Statement: ligt over het schermvullende beeld, woorden lichten op van 15% naar wit. */
+.hz__statement {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   display: grid;
-  align-items: center;
-  padding-top: var(--nav-h);
-}
-
-/* Tekst links, diafragma rechts: nooit overlap, het beeld blijft altijd vrij. */
-.st__grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--col-gap);
-  align-items: center;
-}
-
-.st__text {
-  grid-column: 1 / span 7;
-  display: grid;
+  place-content: center;
+  justify-items: center;
   gap: var(--space-5);
+  padding-top: var(--nav-h);
+  text-align: center;
+  visibility: hidden;
 }
 
-.st__media {
-  grid-column: 8 / -1;
+.hz__rows {
   display: grid;
-  place-items: center;
-}
-
-.st__window {
-  display: block;
-  width: 100%;
-  max-width: min(100%, 72svh);
-  aspect-ratio: 1;
-  height: auto;
-  overflow: visible;
-}
-
-.st__window-img {
-  transform-origin: 0 0;
-  transform-box: view-box;
-}
-
-.st__ring {
-  fill: none;
-  stroke: rgba(244, 242, 238, 0.35);
-  stroke-width: 0.25;
-}
-
-.st__blades {
-  fill: none;
-  stroke: rgba(244, 242, 238, 0.28);
-  stroke-width: 0.25;
-}
-
-.st__rim {
-  fill: none;
-  stroke: var(--red-accent);
-  stroke-width: 0.35;
-}
-
-.st__rows {
-  display: grid;
-  font-size: clamp(2.4rem, 5.3vw, 6.6rem);
+  justify-items: center;
+  margin: 0;
+  font-size: clamp(2.6rem, 6vw, 7.5rem);
   line-height: 0.92;
 }
 
-.st__row {
+.hz__row {
   display: flex;
-  justify-content: space-between;
-  gap: 0.25em;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.22em;
 }
 
-.st__w {
+.hz__sw {
   position: relative;
   display: inline-block;
   white-space: nowrap;
-  will-change: transform;
+  opacity: 0.15;
 }
 
-.st__strike {
+.hz__strike {
   position: absolute;
   left: -0.04em;
   right: -0.04em;
@@ -242,52 +223,57 @@
   height: 0.09em;
   background: var(--red-accent);
   transform-origin: left center;
+  transform: scaleX(0);
 }
 
-.st__foot {
+.hz__foot {
   display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: end;
-  gap: var(--space-4);
+  justify-items: center;
+  gap: var(--space-2);
 }
 
-.st__punch {
-  font-size: clamp(1.4rem, 2.4vw, 2.8rem);
+.hz__punch {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.2vw, 2.4rem);
   color: var(--red-accent);
-  max-width: 14ch;
 }
 
-.st__body {
-  max-width: 40ch;
+.hz__body {
+  max-width: 44ch;
+  margin: 0;
   color: var(--white);
-  font-size: var(--fs-body);
 }
 
 @media (max-width: 859px) {
-  .st__grid {
-    grid-template-columns: 1fr;
-    row-gap: var(--space-3);
+  .hz__claim {
+    font-size: 13vw;
   }
-  .st__text,
-  .st__media {
-    grid-column: 1;
+  .hz__slot {
+    border-radius: 10px;
   }
-  .st__media {
-    order: -1;
+  .hz__rows {
+    font-size: 11vw;
   }
-  .st__window {
-    width: min(78vw, 40svh);
-  }
-  .st__rows {
-    font-size: 10.5vw;
-  }
-  .st__text {
-    gap: var(--space-3);
-  }
-  .st__foot {
-    grid-template-columns: 1fr;
-    gap: var(--space-2);
-  }
+}
+
+/* Reduced motion: kaartje blijft klein in de kop, statement staat er gewoon onder. */
+.hz.is-static .hz__statement {
+  position: relative;
+  inset: auto;
+  visibility: visible;
+  padding-block: var(--space-6);
+}
+
+.hz.is-static .hz__sw {
+  opacity: 1;
+}
+
+.hz.is-static .hz__struck {
+  opacity: 0.35;
+}
+
+.hz.is-static .hz__strike {
+  transform: none;
 }
 
 /* ---------- Het probleem ---------- */
@@ -379,7 +365,7 @@
 
 .cloud {
   position: relative;
-  height: 190svh;
+  height: 140svh;
   overflow: clip; /* clip i.p.v. hidden, zodat de branchebalk sticky kan blijven */
 }
 
@@ -425,7 +411,7 @@
 
 @media (max-width: 859px) {
   .cloud {
-    height: 150svh;
+    height: 120svh;
   }
   .cloud__item {
     width: calc(var(--w) * 1.8%);
@@ -1315,18 +1301,6 @@
 
 /* ---------- Reduced motion: alles in eindstand, leesbaar ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .hero2__lit,
-  .hero2__glow {
-    display: none;
-  }
-  .hero2__base .hero2__img {
-    filter: brightness(0.45);
-  }
-  .s-statement,
-  .s-blueprint {
-    --curve: 0vh;
-    margin-top: 0;
-  }
   .pain__pin {
     height: auto;
     padding-block: var(--space-6);
@@ -1850,393 +1824,6 @@
   }
 }
 
-/* ---------- Diensten: camera, duik, zoeker ---------- */
-.svc {
-  position: relative;
-  background: var(--black);
-}
-
-.svc__stage {
-  position: relative;
-  height: 100svh;
-  overflow: hidden;
-}
-
-.svc__head {
-  position: absolute;
-  inset: calc(var(--nav-h) + var(--space-3)) 0 auto;
-  z-index: 2;
-}
-
-.svc__h {
-  font-size: clamp(2.4rem, 5.6vw, 6.4rem);
-  max-width: 12ch;
-}
-
-.svc__camsvg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.svc__camsvg .cam__rec {
-  opacity: 0;
-}
-
-.svc__vf-wrap {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-}
-
-/* Zoeker */
-.svc__vf {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: var(--black);
-}
-
-.svc__layer,
-.svc__layer picture {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.svc__media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.svc__layer .media-toggle {
-  display: none;
-}
-
-/*
- * Kaderlijnen: formaat volgt --ar (op .svc__vf, door GSAP geanimeerd). --fw/--fh zijn de kadermaten,
- * gedeeld door het kader en de uitsparing in het glas.
- */
-.svc__vf {
-  --ar: 1.7778;
-  --fw: min(84vw, 70svh * var(--ar));
-  --fh: calc(var(--fw) / var(--ar));
-}
-
-.svc__frame {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-  width: var(--fw);
-  height: var(--fh);
-  translate: -50% -50%;
-  border: 1px solid rgba(244, 242, 238, 0.9);
-}
-
-/* Fluted glass buiten het kader: blur plus licht/schaduw per groef, kader uitgespaard via mask. */
-.svc__glass {
-  --rib: clamp(14px, 1.5vw, 26px);
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg,
-      rgba(255, 255, 255, 0.16) 0,
-      rgba(255, 255, 255, 0.05) 12%,
-      rgba(255, 255, 255, 0) 38%,
-      rgba(0, 0, 0, 0.18) 78%,
-      rgba(0, 0, 0, 0.34) 96%,
-      rgba(255, 255, 255, 0.1) 100%) 50% 0 / var(--rib) 100% repeat-x,
-    rgba(10, 10, 10, 0.32);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2) brightness(0.85);
-  backdrop-filter: blur(14px) saturate(1.2) brightness(0.85);
-  -webkit-mask:
-    linear-gradient(#000 0 0) 50% 50% / var(--fw) var(--fh) no-repeat,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) 50% 50% / var(--fw) var(--fh) no-repeat exclude,
-    linear-gradient(#000 0 0);
-}
-
-/* Cinemascope: buiten het 2.39-kader bijna zwart glas, zoals balken. */
-.svc__vf--scope .svc__glass {
-  background-color: rgba(10, 10, 10, 0.85);
-}
-
-.svc__ui {
-  position: absolute;
-  inset: calc(var(--nav-h) + 12px) var(--gutter) var(--space-3);
-  z-index: 2;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--white);
-  pointer-events: none;
-}
-
-.svc__c {
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  border: 0 solid rgba(244, 242, 238, 0.9);
-}
-
-.svc__c--tl { left: 0; top: 0; border-top-width: 2px; border-left-width: 2px; }
-.svc__c--tr { right: 0; top: 0; border-top-width: 2px; border-right-width: 2px; }
-.svc__c--bl { left: 0; bottom: 0; border-bottom-width: 2px; border-left-width: 2px; }
-.svc__c--br { right: 0; bottom: 0; border-bottom-width: 2px; border-right-width: 2px; }
-
-.svc__cross {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 26px;
-  height: 26px;
-  margin: -13px 0 0 -13px;
-  background:
-    linear-gradient(rgba(244, 242, 238, 0.7), rgba(244, 242, 238, 0.7)) 50% 0 / 1px 100% no-repeat,
-    linear-gradient(rgba(244, 242, 238, 0.7), rgba(244, 242, 238, 0.7)) 0 50% / 100% 1px no-repeat;
-}
-
-.svc__tl,
-.svc__tr {
-  position: absolute;
-  top: 34px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.svc__tl { left: 38px; }
-.svc__tr { right: 38px; flex-direction: column; align-items: flex-end; gap: 6px; }
-
-.svc__rec {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--red-accent);
-}
-
-.svc__count {
-  font-size: 13px;
-}
-
-.svc__bar {
-  position: absolute;
-  left: 50%;
-  bottom: 30px;
-  translate: -50% 0;
-  display: flex;
-  gap: 22px;
-  padding: 6px 14px;
-  background: rgba(10, 10, 10, 0.6);
-  white-space: nowrap;
-}
-
-.svc__label {
-  position: absolute;
-  left: var(--gutter);
-  right: var(--gutter);
-  bottom: calc(var(--space-3) + 72px);
-  z-index: 2;
-  display: grid;
-  gap: 6px;
-  pointer-events: none;
-}
-
-.svc__title {
-  margin: 0;
-  overflow: hidden;
-  font-size: clamp(2.6rem, 6vw, 7rem);
-  line-height: 0.9;
-}
-
-.svc__line-in {
-  display: block;
-}
-
-.svc__line {
-  max-width: 40ch;
-  color: var(--grey-2);
-}
-
-/* Per-dienst details */
-.svc__focus {
-  position: absolute;
-  left: 58%;
-  top: 30%;
-  width: 12%;
-  aspect-ratio: 1;
-  border: 2px solid var(--white);
-  animation: focus-jump 2.4s var(--ease-out) infinite;
-}
-
-@keyframes focus-jump {
-  0%, 30% { left: 30%; top: 46%; border-color: rgba(244, 242, 238, 0.6); }
-  45%, 100% { left: 58%; top: 26%; border-color: var(--white); }
-}
-
-.svc__callout {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.svc__callout path,
-.svc__callout circle {
-  fill: none;
-  stroke: rgba(244, 242, 238, 0.85);
-  stroke-width: 0.25;
-  vector-effect: non-scaling-stroke;
-}
-
-.svc__callout circle {
-  fill: var(--white);
-}
-
-.svc__shutter {
-  position: absolute;
-  right: 12px;
-  bottom: 10px;
-  font-size: 13px;
-  animation: shutter-blink 1s steps(1) infinite;
-}
-
-@keyframes shutter-blink {
-  50% { opacity: 0; }
-}
-
-/* Sluiterklik: één wit frame bij het wisselen naar fotografie. */
-.svc__flash {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  background: var(--white);
-  opacity: 0;
-  pointer-events: none;
-  animation: flash-frame 0.12s steps(1);
-}
-
-@keyframes flash-frame {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.svc__horizon {
-  position: absolute;
-  left: 30%;
-  right: 30%;
-  top: 50%;
-  height: 1px;
-  background: rgba(244, 242, 238, 0.85);
-}
-
-.svc__horizon::before,
-.svc__horizon::after {
-  content: '';
-  position: absolute;
-  top: -6px;
-  width: 1px;
-  height: 13px;
-  background: rgba(244, 242, 238, 0.85);
-}
-
-.svc__horizon::before { left: 0; }
-.svc__horizon::after { right: 0; }
-
-.svc__osd {
-  position: absolute;
-  left: 50%;
-  bottom: 10px;
-  translate: -50% 0;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.svc__safe {
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  height: 14%;
-  border: 1px dashed rgba(244, 242, 238, 0.6);
-}
-
-.svc__safe--top { top: 6%; }
-.svc__safe--bottom { bottom: 6%; }
-
-/* Mobiel en reduced motion */
-.svc__mobile {
-  display: none;
-}
-
-@media (max-width: 859px) {
-  .svc__stage {
-    display: none;
-  }
-  .svc__mobile {
-    display: block;
-    padding-top: var(--space-5);
-  }
-  .svc__mcam {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  .svc__mlist {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .svc__mitem .svc__vf {
-    position: relative;
-    height: 100svh;
-  }
-  .svc__mitem .svc__vf {
-    --fw: min(84vw, 60svh * var(--ar));
-  }
-  .svc__mitem .svc__label {
-    bottom: var(--space-4);
-  }
-  .svc__mcount {
-    margin: 0;
-    color: var(--grey);
-  }
-}
-
-.svc.is-static .svc__stage {
-  display: none;
-}
-
-.svc.is-static .svc__mobile {
-  display: block;
-}
-
-.svc.is-static .svc__mitem .svc__vf {
-  position: relative;
-  height: 100svh;
-}
-
-.svc.is-static .svc__mcam {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .svc__focus,
-  .svc__shutter,
-  .svc__flash {
-    animation: none;
-  }
-}
-
 /* ---------- Werkwijze: vijf monitors ---------- */
 .wf {
   display: grid;
@@ -2450,4 +2037,664 @@
   inset: 0;
   background: linear-gradient(90deg, var(--white) calc(100% - 3px), var(--red-accent) 0);
   transform-origin: left;
+}
+
+/* =========================================================
+   V5: onderste helft naar Bitwip. Rustig scrollen, veel lucht, één reveal.
+   ========================================================= */
+.accent {
+  color: var(--red-accent);
+}
+
+/* ---------- Diensten: accordion met beeldkaart ---------- */
+.svl {
+  padding-block: var(--space-7) var(--space-6);
+  background: var(--black);
+}
+
+.svl__h {
+  margin: 0 0 var(--space-6);
+  font-size: var(--fs-h2);
+  max-width: 14ch;
+}
+
+.svl__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  align-items: start;
+}
+
+.svl__list {
+  grid-column: 1 / span 6;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.svl__item {
+  border-bottom: 1px solid var(--line);
+}
+
+.svl__head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) 0;
+  border: 0;
+  background: none;
+  color: var(--grey);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.svl__head:hover,
+.svl__item.is-open .svl__head {
+  color: var(--white);
+}
+
+.svl__mark {
+  width: 18px;
+  height: 18px;
+  fill: var(--red-accent);
+  opacity: 0.5;
+  transition: opacity var(--dur-1) var(--ease-out), rotate var(--dur-2) var(--ease-out);
+}
+
+.svl__item.is-open .svl__mark {
+  opacity: 1;
+  rotate: 30deg;
+}
+
+.svl__title {
+  font-size: clamp(1.4rem, 2.2vw, 2.25rem);
+  line-height: 1.1;
+}
+
+/* Plus die een min wordt, in een ronde knop. */
+.svl__toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  transition: background-color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+
+.svl__toggle::before,
+.svl__toggle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -6px;
+  background: currentColor;
+  transition: rotate var(--dur-1) var(--ease-out);
+}
+
+.svl__toggle::after {
+  rotate: 90deg;
+}
+
+.svl__item.is-open .svl__toggle {
+  border-color: var(--red-accent);
+  background: var(--red-accent);
+}
+
+.svl__item.is-open .svl__toggle::after {
+  rotate: 0deg;
+}
+
+/* Hoogte animeren zonder te meten: grid-rows van 0fr naar 1fr. */
+.svl__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-2) var(--ease-out);
+}
+
+.svl__item.is-open .svl__panel {
+  grid-template-rows: 1fr;
+}
+
+.svl__panel-in {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  min-height: 0;
+  overflow: hidden;
+  padding-left: calc(18px + var(--space-3));
+}
+
+.svl__item.is-open .svl__panel-in {
+  padding-bottom: var(--space-4);
+}
+
+.svl__line {
+  margin: 0;
+  max-width: 40ch;
+  font-size: var(--fs-lead);
+  color: var(--white);
+}
+
+.svl__cam {
+  margin: 0;
+  font-size: 11px;
+  color: var(--grey);
+  letter-spacing: 0.08em;
+}
+
+.svl__aside {
+  grid-column: 8 / -1;
+  position: sticky;
+  top: calc(var(--nav-h) + var(--space-3));
+  display: grid;
+  gap: var(--space-3);
+}
+
+.svl__card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: clamp(16px, 2vw, 28px);
+  background: var(--steel);
+}
+
+.svl__media,
+.svl__media picture,
+.svl__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.svl__img {
+  object-fit: cover;
+}
+
+.svl__media {
+  animation: svl-in var(--dur-2) var(--ease-out);
+}
+
+@keyframes svl-in {
+  from {
+    opacity: 0;
+    scale: 1.08;
+  }
+}
+
+.svl__card::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 0;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.75), transparent);
+  pointer-events: none;
+}
+
+.svl__cap {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+}
+
+.svl__cap .mono {
+  font-size: 11px;
+  color: var(--grey-2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.svl__cap-title {
+  font-size: 1.25rem;
+}
+
+.svl__go {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--black);
+  transition: scale var(--dur-1) var(--ease-out);
+}
+
+.svl__go:hover {
+  scale: 1.1;
+}
+
+.svl__go svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.svl__thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.svl__thumb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--steel);
+  color: var(--grey-2);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color var(--dur-1) var(--ease-out), scale var(--dur-1) var(--ease-out);
+}
+
+.svl__thumb picture,
+.svl__thumb .svl__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.svl__thumb:hover {
+  scale: 1.06;
+}
+
+.svl__thumb.is-on {
+  border: 2px solid var(--red-accent);
+}
+
+@media (max-width: 859px) {
+  .svl__list,
+  .svl__aside {
+    grid-column: 1 / -1;
+  }
+  .svl__aside {
+    position: relative;
+    top: auto;
+    margin-top: var(--space-5);
+  }
+}
+
+/* ---------- Cases: horizontale rail ---------- */
+.rail {
+  background: var(--black);
+}
+
+.rail__stage {
+  position: relative;
+  display: grid;
+  /* Eén kolom op schermbreedte: de track steekt eruit en wordt verschoven, de voortgangslijn blijft in de container. */
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  min-height: 100svh;
+  padding-block: calc(var(--nav-h) + var(--space-4)) var(--space-5);
+  overflow: hidden;
+}
+
+.rail__track {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(24px, 4vw, 72px);
+  width: max-content;
+  padding-inline: var(--gutter);
+  will-change: transform;
+}
+
+.rail__intro {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  width: min(34vw, 520px);
+  padding-top: var(--space-4);
+}
+
+.rail__h {
+  margin: 0;
+  font-size: clamp(2.6rem, 4.8vw, 5.6rem);
+}
+
+.rail__sub {
+  margin: 0;
+  color: var(--grey-2);
+}
+
+.rail__card {
+  display: grid;
+  gap: var(--space-2);
+  width: clamp(280px, 27vw, 440px);
+}
+
+.rail__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  margin-bottom: var(--space-1);
+  border-radius: clamp(16px, 2vw, 28px);
+  background: var(--steel);
+}
+
+.rail__media picture,
+.rail__img,
+.rail__media .nosignal {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rail__img {
+  object-fit: cover;
+  transition: scale var(--dur-3) var(--ease-out);
+}
+
+.rail__media:hover .rail__img {
+  scale: 1.05;
+}
+
+.rail__media .media-toggle {
+  display: none;
+}
+
+.rail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-2);
+}
+
+.rail__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red-accent);
+}
+
+.rail__tags > span:first-child.rail__dot {
+  display: none;
+}
+
+.rail__client {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.2vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.rail__line {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--grey-2);
+}
+
+.rail__more {
+  justify-self: start;
+  margin-top: var(--space-1);
+}
+
+.rail__progress {
+  position: relative;
+  height: 1px;
+  margin-top: var(--space-5);
+  background: var(--line);
+}
+
+.rail__bar {
+  position: absolute;
+  inset: 0;
+  background: var(--red-accent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+@media (max-width: 859px) {
+  .rail__stage {
+    min-height: 0;
+    padding-block: var(--space-6);
+  }
+  .rail__track {
+    width: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .rail__intro {
+    width: 80vw;
+    flex: none;
+  }
+  .rail__card {
+    flex: none;
+    width: 78vw;
+    scroll-snap-align: start;
+  }
+  .rail__progress {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail__track {
+    width: auto;
+    overflow-x: auto;
+  }
+  .rail__progress {
+    display: none;
+  }
+}
+
+/* ---------- Over XPSR en klanten: crème paneel ---------- */
+.cream {
+  --r: clamp(20px, 2.6vw, 36px);
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-1 * var(--r));
+  padding-block: var(--space-7) var(--space-6);
+  border-radius: var(--r) var(--r) 0 0;
+  background: var(--concrete);
+  color: var(--concrete-ink);
+  overflow: hidden;
+}
+
+.cream .accent {
+  color: var(--red);
+}
+
+.cream__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  row-gap: var(--space-5);
+  align-items: end;
+}
+
+.cream__copy {
+  grid-column: 1 / span 6;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+}
+
+.cream__eyebrow {
+  margin: 0;
+  color: var(--red);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.cream__h {
+  margin: 0 0 var(--space-2);
+  max-width: 14ch;
+  font-size: var(--fs-h2);
+}
+
+.cream__h--sm {
+  font-size: clamp(2.2rem, 4vw, 4.4rem);
+  max-width: none;
+}
+
+.cream__lead {
+  margin: 0;
+  color: var(--concrete-ink);
+  max-width: 36ch;
+}
+
+.cream__text {
+  margin: 0;
+  max-width: 44ch;
+  color: #5d5b57;
+}
+
+.cream .link-arrow {
+  border-color: rgba(26, 26, 26, 0.25);
+}
+
+/* Feitengrid: dunne lijnen ertussen, zoals de cijfers bij Bitwip. */
+.cream__facts {
+  grid-column: 8 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.cream__fact {
+  display: grid;
+  gap: 6px;
+  padding: var(--space-4) var(--space-3) var(--space-4) 0;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.cream__fact:nth-child(odd) {
+  border-right: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.cream__fact:nth-child(even) {
+  padding-left: var(--space-3);
+}
+
+.cream__big {
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  line-height: 0.9;
+}
+
+.cream__small {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b6965;
+}
+
+/* Fotostrip: ronde hoeken, verschillende breedtes, drijft op scroll naar links. */
+.cream__strip {
+  margin-block: var(--space-6);
+}
+
+.cream__strip-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding-left: var(--gutter);
+}
+
+.cream__shot {
+  position: relative;
+  height: clamp(220px, 28vw, 420px);
+  overflow: hidden;
+  border-radius: clamp(14px, 1.6vw, 24px);
+  background: #d6d2cb;
+}
+
+.cream__shot--wide { width: clamp(320px, 38vw, 620px); }
+.cream__shot--mid { width: clamp(240px, 26vw, 420px); }
+.cream__shot--narrow { width: clamp(180px, 16vw, 260px); }
+
+.cream__shot picture,
+.cream__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cream__img {
+  object-fit: cover;
+}
+
+.cream__clients-wrap {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Klantengrid: cellen met lijnen. Industrie donker, de rest gedempt. */
+.cream__clients {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(26, 26, 26, 0.15);
+  border-left: 1px solid rgba(26, 26, 26, 0.15);
+}
+
+.cream__client {
+  display: grid;
+  place-items: center;
+  min-height: clamp(90px, 9vw, 140px);
+  padding: var(--space-2);
+  border-right: 1px solid rgba(26, 26, 26, 0.15);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+  color: #8a8781;
+  text-align: center;
+  font-size: var(--fs-small);
+  letter-spacing: 0.04em;
+  transition: color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out);
+}
+
+.cream__client.is-industry {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+  text-transform: uppercase;
+  color: var(--concrete-ink);
+}
+
+.cream__client:hover {
+  background: #dcd8d1;
+  color: var(--concrete-ink);
+}
+
+@media (max-width: 859px) {
+  .cream__copy,
+  .cream__facts {
+    grid-column: 1 / -1;
+  }
+  .cream__clients {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

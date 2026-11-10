@@ -1,13 +1,11 @@
 import { useCallback, useLayoutEffect, useRef } from 'react';
 import { ViewfinderLayer } from '../components/Viewfinder.jsx';
 import { useAperture } from '../components/Aperture.jsx';
-import HeroV2 from '../components/home/HeroV2.jsx';
-import Statement from '../components/home/Statement.jsx';
+import HeroZoom from '../components/home/HeroZoom.jsx';
 import Pain from '../components/home/Pain.jsx';
-import AboutStack from '../components/home/AboutStack.jsx';
-import Exposure from '../components/home/Exposure.jsx';
-import Services from '../components/home/Services.jsx';
-import DayTimeline from '../components/home/DayTimeline.jsx';
+import AboutCream from '../components/home/AboutCream.jsx';
+import CasesRail from '../components/home/CasesRail.jsx';
+import ServicesList from '../components/home/ServicesList.jsx';
 import { gsap, prefersReducedMotion, ScrollTrigger } from '../lib/motion.js';
 import { buildStops, placeAt, registerViewfinder, travelTo } from '../motion/viewfinder.js';
 import { homeStops, introStop } from '../motion/stops.js';
@@ -70,13 +68,11 @@ export default function Home() {
   return (
     <>
       <ViewfinderLayer ref={vfRef} />
-      <HeroV2 />
-      <Statement />
+      <HeroZoom />
       <Pain />
-      <Services />
-      <DayTimeline />
-      <Exposure />
-      <AboutStack />
+      <ServicesList />
+      <CasesRail />
+      <AboutCream />
     </>
   );
 }

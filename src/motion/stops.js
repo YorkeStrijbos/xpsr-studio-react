@@ -7,7 +7,7 @@
 const H = () => window.innerHeight;
 const q = (sel) => document.querySelector(sel);
 
-// In de hero is het vizier onzichtbaar; het wacht klein in het midden en opent pas bij het statement.
+// In de hero is het vizier onzichtbaar (de hero heeft een eigen zoeker); het wacht klein in het midden tot het probleem.
 const HIDDEN = {
   dot: { x: 0.5, y: 0.5, scale: 0.2, opacity: 0 },
   ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: -90, opacity: 0 },
@@ -23,16 +23,9 @@ export function homeStops() {
   return [
     { trigger: '.s-hero', ...HIDDEN },
     {
-      trigger: '.s-statement',
-      // Ring en punt blijven hier uit beeld: het statement heeft zijn eigen diafragma achter de kop.
-      dot: { x: 0.5, y: 0.5, scale: 0.5, opacity: 0 },
-      ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: 90, opacity: 0 },
-      corners: { x: 0.5, y: 0.5, w: 0.94, h: 0.86, opacity: 1 },
-      aperture: 1,
-    },
-    {
       trigger: '.s-pain',
-      dot: { x: 0.5, y: 0.5, scale: 0.6 },
+      // Punt blijft uit: het rode vlak komt nu zelf van onderen op (zie Pain.jsx).
+      dot: { x: 0.5, y: 0.5, scale: 0.6, opacity: 0 },
       ring: { x: 0.5, y: 0.5, scale: 0.2, rotate: 180, opacity: 0 },
       corners: { x: 0.5, y: 0.5, w: 0.5, h: 0.5, opacity: 0 },
       aperture: 0.2,
@@ -40,30 +33,23 @@ export function homeStops() {
       exit: { core: 0 },
     },
     {
-      // Diensten: de camera-tekening en de zoeker zijn het vizier; punt en ring uit beeld.
+      // Diensten en cases: rustige secties zonder vizier; punt en ring uit beeld.
       trigger: '.s-services',
       dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
       ring: { x: 0.5, y: 0.5, scale: 0.3, rotate: 540, opacity: 0 },
       aperture: 0.9,
     },
     {
-      // Tijdlijn: de afspeelkop is het vizier; punt en ring uit beeld.
-      trigger: '.s-dayline',
+      trigger: '.s-cases',
       dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
-      ring: { x: 0.5, y: 0.5, scale: 0.3, rotate: 360, opacity: 0 },
-      aperture: 0.5,
-    },
-    {
-      // Exposure: het beeld zelf is de belichtingsmeter; vizier uit beeld.
-      trigger: '.s-exposure',
-      dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
-      ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: 1080, opacity: 0 },
+      ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: 720, opacity: 0 },
       aperture: 1,
     },
     {
+      // Crème paneel: alleen het rode REC-punt rechtsboven, de lichte ring zou wegvallen.
       trigger: '.s-about',
       dot: { x: 0.94, y: 0.14, scale: 0.6 },
-      ring: { x: 0.94, y: 0.14, scale: 0.42, rotate: 900, opacity: 0.8 },
+      ring: { x: 0.94, y: 0.14, scale: 0.42, rotate: 900, opacity: 0 },
       aperture: 0.3,
     },
     {

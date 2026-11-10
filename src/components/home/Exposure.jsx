@@ -79,7 +79,7 @@ export default function Exposure() {
       gsap
         .timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: { trigger: el, start: 'top top', end: '+=180%', pin: true, scrub: 1 },
+          scrollTrigger: { trigger: el, start: 'top top', end: '+=130%', pin: true, scrub: 1 },
         })
         .to(st, { ev: 1.5, duration: 1, ease: 'power1.inOut', onUpdate: () => render(st.ev) })
         .to(st, { ev: 0, duration: 0.6, ease: 'power2.out', onUpdate: () => render(st.ev) })

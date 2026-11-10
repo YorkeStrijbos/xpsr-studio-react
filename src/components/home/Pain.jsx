@@ -28,12 +28,20 @@ export default function Pain() {
         const disc = el.querySelector('.pain__disc');
         const startScale = () => 12 / disc.offsetWidth;
         const lines = gsap.utils.toArray('.pain__line', el);
+        // Binnenkomst: het vlak groeit al terwijl de sectie het scherm in schuift, als een rode zon die opkomt.
+        // Zo is er geen leeg zwart scherm tussen de hero en het probleem.
+        const ENTRY = 0.35;
+        gsap.fromTo(
+          disc,
+          { scale: startScale, autoAlpha: 1 },
+          { scale: ENTRY, ease: 'power1.in', immediateRender: false, scrollTrigger: { trigger: '.pain__pin', start: 'top 70%', end: 'top top', scrub: 1, invalidateOnRefresh: true } },
+        );
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
-          scrollTrigger: { trigger: '.pain__pin', start: 'top top', end: '+=320%', pin: true, scrub: 1, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: '.pain__pin', start: 'top top', end: '+=200%', pin: true, scrub: 1, invalidateOnRefresh: true },
         });
         tl.set(vfEls.core, { scale: 0 }, 0)
-          .fromTo(disc, { scale: startScale, autoAlpha: 1 }, { scale: 1, duration: 1, ease: 'power2.in' }, 0)
+          .fromTo(disc, { scale: ENTRY, autoAlpha: 1 }, { scale: 1, duration: 0.7, ease: 'power2.in', immediateRender: false }, 0)
           // Zodra het vlak het scherm vult, schakelt de camera-zoeker in.
           .fromTo('.pain__hud', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 0.85);
         // Alle regels starten onzichtbaar onder hun masker.

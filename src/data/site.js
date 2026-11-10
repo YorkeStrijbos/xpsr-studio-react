@@ -67,7 +67,7 @@ export const CLOUD = [
 
 
 // Volgorde = volgorde op de homepage. Zie ook cases.js voor de detailpagina's.
-// Diensten als beeldformaten in de zoeker. ar = beeldverhouding van de kaderlijnen.
+// Diensten als accordion met beeldkaart. ar en cam zijn de camera-instellingen in het onderschrift van de kaart.
 // media: still/loop uit src/assets/media, of leeg voor NO SIGNAL. Elk beeld maximaal één keer per pagina.
 // TODO XPSR: per dienst een eigen loop aanleveren.
 export const SERVICES = [
@@ -85,7 +85,16 @@ export const SERVICES = [
     media: { type: 'still', name: 'block-corporate', alt: 'Teamfoto in een witte studio' },
   },
   { code: 'A-05', title: 'Drone', label: 'Drone', line: 'Overzicht van terrein, installatie of project.', ar: 16 / 9, kind: 'drone', cam: ['ISO 100', 'F 2.8', '1/50', 'ND 16'] },
-  { code: 'A-06', title: 'Social content', label: 'Social', line: 'Elke maand zichtbaar, met groeigarantie.', ar: 9 / 16, kind: 'social', cam: ['ISO 800', 'F 1.8', '1/50', 'WB 5600K'] },
+  {
+    code: 'A-06',
+    title: 'Social content',
+    label: 'Social',
+    line: 'Elke maand zichtbaar, met groeigarantie.',
+    ar: 9 / 16,
+    kind: 'social',
+    cam: ['ISO 800', 'F 1.8', '1/50', 'WB 5600K'],
+    media: { type: 'still', name: 'social-content-behind-the-scenes', alt: 'Achter de schermen bij een social-shoot' },
+  },
 ];
 
 
