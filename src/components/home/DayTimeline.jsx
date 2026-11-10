@@ -3,7 +3,7 @@ import { LoopVideo, Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
 import { useOpenReel } from '../Reel.jsx';
 import { SHOOT_DAY } from '../../data/site.js';
-import { gsap, prefersReducedMotion, ScrollTrigger, SplitText } from '../../lib/motion.js';
+import { EASE, MQ, ScrollTrigger, SplitText, gsap, prefersReducedMotion } from '../../lib/motion.js';
 
 const { start: START, end: END, shots: SHOTS } = SHOOT_DAY;
 const SPAN = END - START;
@@ -88,7 +88,7 @@ function PremiereInfo({ openReel }) {
           </li>
         ))}
       </ul>
-      <button type="button" className="btn btn--primary edit__cta" onClick={openReel} data-cursor="PLAY">
+      <button type="button" className="btn btn--primary edit__cta" onClick={openReel}>
         Bekijk de reel
       </button>
     </>
@@ -133,7 +133,7 @@ export default function DayTimeline() {
     }
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
-      mm.add('(min-width: 860px)', () => {
+      mm.add(MQ.desktop, () => {
         const st = { p: 0 };
         const q = { v: 0 };
         const queueBars = barsRef.current;
@@ -141,7 +141,7 @@ export default function DayTimeline() {
         const claim = new SplitText(el.querySelector('.edit__premiere .edit__claim'), { type: 'lines', mask: 'lines' });
         gsap.set(['.edit__stagequeue', '.edit__leader', '.edit__premiere'], { autoAlpha: 0 });
 
-        const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
+        const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.linear } });
         // 1. Afspelen over de draaidag.
         tl.to(st, {
           p: 1,
@@ -158,7 +158,7 @@ export default function DayTimeline() {
           },
         });
         // 2. Render-queue schuift over de tijdlijn; balken lopen op (per rij iets later).
-        tl.fromTo('.edit__stagequeue', { yPercent: 40, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' })
+        tl.fromTo('.edit__stagequeue', { yPercent: 40, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.4, ease: EASE.out })
           .to(q, {
             v: 1,
             duration: 1.6,
@@ -183,7 +183,7 @@ export default function DayTimeline() {
         tl.fromTo('.edit__flash', { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.08, immediateRender: false })
           .set('.edit__leader', { autoAlpha: 0 }, '<')
           .set('.edit__premiere', { autoAlpha: 1 }, '<')
-          .from(claim.lines, { yPercent: 110, stagger: 0.08, duration: 0.3, ease: 'power3.out' })
+          .from(claim.lines, { yPercent: 110, stagger: 0.08, duration: 0.3, ease: EASE.out })
           .from('.edit__premiere .edit__exports li', { autoAlpha: 0, x: 20, stagger: 0.08, duration: 0.2 }, '<0.1')
           .from('.edit__premiere .edit__cta', { autoAlpha: 0, y: 16, duration: 0.2 })
           .to({}, { duration: 0.6 });
@@ -200,16 +200,16 @@ export default function DayTimeline() {
         return () => claim.revert();
       });
 
-      mm.add('(max-width: 859px)', () => {
+      mm.add(MQ.mobile, () => {
         gsap.utils.toArray('.edit__row', el).forEach((row, i) => {
           ScrollTrigger.create({ trigger: row, start: 'top 60%', end: 'bottom 60%', onToggle: (self) => self.isActive && show(i) });
         });
-        gsap.fromTo('.edit__vhead', { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.edit__rows', start: 'top 60%', end: 'bottom 60%', scrub: true } });
+        gsap.fromTo('.edit__vhead', { scaleY: 0 }, { scaleY: 1, ease: EASE.linear, scrollTrigger: { trigger: '.edit__rows', start: 'top 60%', end: 'bottom 60%', scrub: true } });
         // Leader speelt op tijd (3 s) zodra hij in beeld is, daarna start de film.
         const num = el.querySelector('.edit__mleader .edit__leader-num');
         const lt = gsap.timeline({ paused: true, onComplete: () => setPlaying(true) });
         [3, 2, 1].forEach((n) => {
-          lt.set(num, { textContent: String(n) }).fromTo('.edit__mleader .edit__leader-dial', { '--sweep': '0deg' }, { '--sweep': '360deg', duration: 1, ease: 'none' });
+          lt.set(num, { textContent: String(n) }).fromTo('.edit__mleader .edit__leader-dial', { '--sweep': '0deg' }, { '--sweep': '360deg', duration: 1, ease: EASE.linear });
         });
         ScrollTrigger.create({ trigger: '.edit__mleader', start: 'top 60%', once: true, onEnter: () => lt.play() });
       });

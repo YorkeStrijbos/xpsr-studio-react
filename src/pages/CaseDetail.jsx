@@ -76,7 +76,7 @@ export default function CaseDetail() {
         {gallery.length > 0 ? (
           gallery.map((g) => (
             <figure key={g.name} className="case-detail__shot">
-              <Picture name={g.name} alt={g.alt} sizes="(min-width: 860px) 50vw, 100vw" />
+              <Picture name={g.name} alt={g.alt} sizes="(min-width: 768px) 50vw, 100vw" />
             </figure>
           ))
         ) : (
@@ -87,7 +87,7 @@ export default function CaseDetail() {
         )}
       </section>
 
-      <ApertureLink to={`/cases/${next.slug}`} className="next-case" data-cursor="VOLGENDE">
+      <ApertureLink to={`/cases/${next.slug}`} className="next-case" data-cursor="volgende">
         <div className="container next-case__inner">
           <div>
             <span className="mono">Volgende case</span>

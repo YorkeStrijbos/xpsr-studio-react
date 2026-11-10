@@ -3,7 +3,7 @@ import { ApertureLink } from '../Aperture.jsx';
 import { LoopVideo, Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
 import { CASES } from '../../data/cases.js';
-import { gsap, prefersReducedMotion } from '../../lib/motion.js';
+import { EASE, MQ, gsap, prefersReducedMotion } from '../../lib/motion.js';
 import { revealIn } from '../../motion/reveal.js';
 
 const isPlaceholder = (t) => !t || t.startsWith('[');
@@ -11,7 +11,7 @@ const isPlaceholder = (t) => !t || t.startsWith('[');
 // De cover van REYM staat al in de hero; hier zijn loop, zodat elk beeld één keer op de pagina staat.
 function Cover({ c }) {
   if (c.slug === 'reym' && c.heroMotion) return <LoopVideo name={c.heroMotion} className="rail__img" label={c.cover.alt} />;
-  if (c.cover) return <Picture name={c.cover.name} alt={c.cover.alt} sizes="(min-width: 860px) 28vw, 80vw" imgClassName="rail__img" />;
+  if (c.cover) return <Picture name={c.cover.name} alt={c.cover.alt} sizes="(min-width: 768px) 28vw, 80vw" imgClassName="rail__img" />;
   return <NoSignal sub={c.client} />;
 }
 
@@ -29,12 +29,12 @@ export default function CasesRail() {
     const ctx = gsap.context(() => {
       undo = revealIn(el);
       if (prefersReducedMotion()) return;
-      mm.add('(min-width: 860px)', () => {
+      mm.add(MQ.motionDesktop, () => {
         const track = el.querySelector('.rail__track');
         const dist = () => Math.max(0, track.scrollWidth - window.innerWidth);
         gsap
           .timeline({
-            defaults: { ease: 'none' },
+            defaults: { ease: EASE.linear },
             scrollTrigger: {
               trigger: el.querySelector('.rail__stage'),
               start: 'top top',
@@ -73,7 +73,7 @@ export default function CasesRail() {
           </div>
           {CASES.map((c) => (
             <article key={c.slug} className="rail__card">
-              <ApertureLink to={`/cases/${c.slug}`} className="rail__media" data-cursor="BEKIJK" aria-label={`Bekijk de case ${c.client}`}>
+              <ApertureLink to={`/cases/${c.slug}`} className="rail__media" data-cursor="bekijk" aria-label={`Bekijk de case ${c.client}`}>
                 <Cover c={c} />
               </ApertureLink>
               <p className="mono rail__tags">

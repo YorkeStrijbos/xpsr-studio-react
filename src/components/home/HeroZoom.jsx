@@ -3,7 +3,7 @@ import { ApertureLink } from '../Aperture.jsx';
 import { Picture } from '../Media.jsx';
 import { useOpenReel } from '../Reel.jsx';
 import { HERO, STATEMENT } from '../../data/site.js';
-import { EASE, gsap, prefersReducedMotion } from '../../lib/motion.js';
+import { DUR, EASE, STAGGER, gsap, prefersReducedMotion } from '../../lib/motion.js';
 
 const RADIUS = 14; // hoekradius van het kaartje in de kop, in px
 const p2 = (n) => String(n).padStart(2, '0');
@@ -59,9 +59,9 @@ export default function HeroZoom() {
     const ctx = gsap.context(() => {
       // Binnenkomst: woorden rijzen op uit hun masker, het kaartje opent vanuit het midden.
       // Intro animeert de binnenste elementen (.hz__in, .hz__fade), scroll de buitenste: ze zitten elkaar nooit in de weg.
-      gsap.from('.hz__claim .hz__in', { yPercent: 110, duration: 1.1, ease: EASE, stagger: 0.045, delay: 0.2 });
-      gsap.to(zoom, { open: 1, duration: 1.1, ease: EASE, delay: 0.35, onUpdate: apply });
-      gsap.from('.hz__fade', { autoAlpha: 0, y: 16, duration: 0.9, ease: EASE, delay: 0.6, stagger: 0.08 });
+      gsap.from('.hz__claim .hz__in', { yPercent: 110, duration: DUR.reveal, ease: EASE.reveal, stagger: STAGGER.words, delay: 0.2 });
+      gsap.to(zoom, { open: 1, duration: DUR.reveal, ease: EASE.reveal, delay: 0.35, onUpdate: apply });
+      gsap.from('.hz__fade', { autoAlpha: 0, y: 16, duration: DUR.slow, ease: EASE.reveal, delay: 0.6, stagger: STAGGER.lines });
 
       // Woorden wijken weg van het kaartje: links naar links, rechts naar rechts, de tweede regel zakt.
       const words = gsap.utils.toArray('.hz__claim .hz__word', el);
@@ -75,11 +75,11 @@ export default function HeroZoom() {
       };
 
       const sWords = gsap.utils.toArray('.hz__sw', el);
-      const tl = gsap.timeline({ defaults: { ease: 'none' } });
-      tl.to(zoom, { k: 1, duration: 1, ease: 'power2.inOut', onUpdate: apply }, 0)
+      const tl = gsap.timeline({ defaults: { ease: EASE.linear } });
+      tl.to(zoom, { k: 1, duration: 1, ease: EASE.move, onUpdate: apply }, 0)
         // Eindigt op 1,12: de still heeft een zwarte film-gate-rand die zo grotendeels buiten beeld valt.
-        .fromTo('.hz__img', { scale: 1.35 }, { scale: 1.12, duration: 1.2, ease: 'power2.out' }, 0)
-        .to(words, { x: (i, w) => dx(w), autoAlpha: 0, duration: 0.6, ease: 'power2.in' }, 0)
+        .fromTo('.hz__img', { scale: 1.35 }, { scale: 1.12, duration: 1.2, ease: EASE.out }, 0)
+        .to(words, { x: (i, w) => dx(w), autoAlpha: 0, duration: 0.6, ease: EASE.in }, 0)
         .to('.hz__meta, .hz__label', { autoAlpha: 0, y: -20, duration: 0.3 }, 0)
         .to('.hz__slot', { autoAlpha: 0, duration: 0.1 }, 0)
         // Volledig in beeld: zoeker aan, beeld zakt weg achter het statement.
@@ -88,7 +88,7 @@ export default function HeroZoom() {
         .set('.hz__statement', { autoAlpha: 1 }, 1.05)
         .to(sWords, { opacity: 1, duration: 0.12, stagger: 0.08 }, 1.1);
       const strikeAt = 1.1 + 0.08 * sWords.findIndex((w) => w.classList.contains('hz__struck')) + 0.12;
-      tl.fromTo('.hz__strike', { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: 'power2.inOut' }, strikeAt)
+      tl.fromTo('.hz__strike', { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: EASE.move }, strikeAt)
         .to('.hz__struck', { opacity: 0.35, duration: 0.15 }, strikeAt + 0.2)
         .fromTo('.hz__foot', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.25 }, '>-0.05')
         .to({}, { duration: 0.3 });
@@ -123,7 +123,8 @@ export default function HeroZoom() {
   return (
     <section ref={root} className="s-hero hz" aria-labelledby="hero-title">
       <div className="hz__stage">
-        <div className="hz__media" aria-hidden="true">
+        {/* Het beeld zelf opent de reel (cursor "play"); de knop in de intro doet hetzelfde voor toetsenbord en touch. */}
+        <div className="hz__media" aria-hidden="true" data-cursor="play" onClick={openReel}>
           <Picture name="reym-een-dag-uit-het-leven-van-juri" alt="" priority sizes="100vw" imgClassName="hz__img" />
           <div className="hz__shade" />
           <div className="hz__hud mono">
@@ -167,7 +168,7 @@ export default function HeroZoom() {
           <div className="hz__meta">
             <p className="lead hz__sub hz__fade">{HERO.sub}</p>
             <div className="hz__ctas hz__fade">
-              <button type="button" className="btn btn--primary" onClick={openReel} data-cursor="PLAY">
+              <button type="button" className="btn btn--primary" onClick={openReel}>
                 <svg className="btn__icon" viewBox="0 0 10 12" aria-hidden="true">
                   <path d="M0 0l10 6-10 6z" fill="currentColor" />
                 </svg>

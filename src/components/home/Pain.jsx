@@ -3,7 +3,7 @@ import { Picture } from '../Media.jsx';
 import CameraHud from './CameraHud.jsx';
 import NoSignal from '../NoSignal.jsx';
 import { CLOUD, CLOUD_BRANCHES, PAIN } from '../../data/site.js';
-import { gsap, prefersReducedMotion } from '../../lib/motion.js';
+import { EASE, MQ, gsap, prefersReducedMotion } from '../../lib/motion.js';
 import { frameCorners, vfEls } from '../../motion/viewfinder.js';
 
 /*
@@ -22,7 +22,7 @@ export default function Pain() {
     const cloudEl = cloud.current;
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
-      mm.add({ wide: '(min-width: 860px)', narrow: '(max-width: 859px)' }, () => {
+      mm.add({ wide: MQ.desktop, narrow: MQ.mobile }, () => {
         // Het rode vlak is een eigen schijf op ware grootte (150vmax), die vanaf het REC-punt
         // (20px op schaal 0.6, zie stops.js) omhoog schaalt. Omlaag geschaald tekenen = altijd een scherpe rand.
         const disc = el.querySelector('.pain__disc');
@@ -34,14 +34,14 @@ export default function Pain() {
         gsap.fromTo(
           disc,
           { scale: startScale, autoAlpha: 1 },
-          { scale: ENTRY, ease: 'power1.in', immediateRender: false, scrollTrigger: { trigger: '.pain__pin', start: 'top 70%', end: 'top top', scrub: 1, invalidateOnRefresh: true } },
+          { scale: ENTRY, ease: EASE.in, immediateRender: false, scrollTrigger: { trigger: '.pain__pin', start: 'top 70%', end: 'top top', scrub: 1, invalidateOnRefresh: true } },
         );
         const tl = gsap.timeline({
-          defaults: { ease: 'none' },
+          defaults: { ease: EASE.linear },
           scrollTrigger: { trigger: '.pain__pin', start: 'top top', end: '+=200%', pin: true, scrub: 1, invalidateOnRefresh: true },
         });
         tl.set(vfEls.core, { scale: 0 }, 0)
-          .fromTo(disc, { scale: ENTRY, autoAlpha: 1 }, { scale: 1, duration: 0.7, ease: 'power2.in', immediateRender: false }, 0)
+          .fromTo(disc, { scale: ENTRY, autoAlpha: 1 }, { scale: 1, duration: 0.7, ease: EASE.in, immediateRender: false }, 0)
           // Zodra het vlak het scherm vult, schakelt de camera-zoeker in.
           .fromTo('.pain__hud', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 0.85);
         // Alle regels starten onzichtbaar onder hun masker.
@@ -58,13 +58,13 @@ export default function Pain() {
         const SLOT = IN + HOLD + OUT + GAP;
         spans.forEach((span, i) => {
           const at = 1 + i * SLOT;
-          tl.fromTo(span, { yPercent: 110, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: IN, ease: 'power3.out', immediateRender: false }, at);
-          tl.fromTo(span, { yPercent: 0, autoAlpha: 1 }, { yPercent: -110, autoAlpha: 0, duration: OUT, ease: 'power3.in', immediateRender: false }, at + IN + HOLD);
+          tl.fromTo(span, { yPercent: 110, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: IN, ease: EASE.out, immediateRender: false }, at);
+          tl.fromTo(span, { yPercent: 0, autoAlpha: 1 }, { yPercent: -110, autoAlpha: 0, duration: OUT, ease: EASE.in, immediateRender: false }, at + IN + HOLD);
         });
         // Na de laatste regel krimpt het vlak razendsnel tot een punt.
         const end = 1 + spans.length * SLOT;
         tl.to('.pain__hud', { autoAlpha: 0, duration: 0.15 }, end - 0.1)
-          .to(disc, { scale: 0, duration: 0.35, ease: 'expo.in' }, end)
+          .to(disc, { scale: 0, duration: 0.35, ease: EASE.snap }, end)
           .fromTo('.pain__hint', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, end + 0.3);
       });
 
@@ -73,7 +73,7 @@ export default function Pain() {
         const d = Number(item.dataset.depth);
         gsap.to(item, {
           yPercent: -120 * d,
-          ease: 'none',
+          ease: EASE.linear,
           scrollTrigger: { trigger: cloudEl, start: 'top bottom', end: 'bottom top', scrub: true },
         });
       });
@@ -81,8 +81,8 @@ export default function Pain() {
       // Muis beweegt de wolk licht mee, per diepte.
       const layers = gsap.utils.toArray('.cloud__par', el).map((p) => ({
         d: Number(p.dataset.depth),
-        x: gsap.quickTo(p, 'x', { duration: 0.8, ease: 'power3' }),
-        y: gsap.quickTo(p, 'y', { duration: 0.8, ease: 'power3' }),
+        x: gsap.quickTo(p, 'x', { duration: 0.8, ease: EASE.out }),
+        y: gsap.quickTo(p, 'y', { duration: 0.8, ease: EASE.out }),
       }));
       const onMove = (e) => {
         const nx = e.clientX / window.innerWidth - 0.5;
@@ -144,7 +144,7 @@ export default function Pain() {
         </p>
       </div>
 
-      <div ref={cloud} className={`cloud ${branch ? 'is-filtered' : ''}`} data-cursor="KIJK">
+      <div ref={cloud} className={`cloud ${branch ? 'is-filtered' : ''}`} data-cursor="bekijk">
         {/* Branche kiezen: de beelden van die branche lichten op, de rest zakt weg. */}
         <div className="cloud__filter" role="group" aria-label="Filter op branche" data-cursor="">
           <span className="mono cloud__filter-label">Branche</span>

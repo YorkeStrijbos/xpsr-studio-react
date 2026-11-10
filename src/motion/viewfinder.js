@@ -1,4 +1,4 @@
-import { gsap } from '../lib/motion.js';
+import { EASE, gsap } from '../lib/motion.js';
 import { createIris } from './iris.js';
 
 /*
@@ -66,7 +66,7 @@ function cornerFracRect(c) {
 
 export function frameCorners(rect, vars = {}) {
   const t = cornerTargets(rect);
-  els.corners.forEach((c, i) => gsap.to(c, { x: t[i].x, y: t[i].y, autoAlpha: 1, duration: 0.6, ease: 'xpsr', overwrite: 'auto', ...vars }));
+  els.corners.forEach((c, i) => gsap.to(c, { x: t[i].x, y: t[i].y, autoAlpha: 1, duration: 0.6, ease: EASE.reveal, overwrite: 'auto', ...vars }));
 }
 
 export function setCorners(rect) {
@@ -85,7 +85,7 @@ export function placeAt(stop) {
 
 /** Animeert (niet gescrubd) naar een stop, bijvoorbeeld na de preloader. */
 export function travelTo(stop, duration = 1.2) {
-  const tl = gsap.timeline({ defaults: { duration, ease: 'xpsr' } });
+  const tl = gsap.timeline({ defaults: { duration, ease: EASE.reveal } });
   tl.to(els.dot, { ...dotVars(stop.dot) }, 0).to(els.ring, { ...ringVars(stop.ring) }, 0);
   if (stop.corners) {
     const t = cornerTargets(cornerFracRect(stop.corners));
@@ -106,7 +106,7 @@ export function buildStops(stops) {
     const a = prev.exit ? { ...prev, ...prev.exit } : prev;
     const b = stops[i];
     const tl = gsap.timeline({
-      defaults: { ease: 'none' },
+      defaults: { ease: EASE.linear },
       scrollTrigger: {
         trigger: b.trigger,
         start: b.start ?? 'top bottom',

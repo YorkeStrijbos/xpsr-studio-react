@@ -2,8 +2,9 @@ import { useLayoutEffect, useRef } from 'react';
 import { ApertureLink } from '../Aperture.jsx';
 import { Picture } from '../Media.jsx';
 import { CLIENTS_INDUSTRY, CLIENTS_OTHER } from '../../data/site.js';
-import { gsap, prefersReducedMotion } from '../../lib/motion.js';
+import { EASE, STAGGER, gsap, prefersReducedMotion } from '../../lib/motion.js';
 import { revealIn, riseIn } from '../../motion/reveal.js';
+import { lightSurface } from '../../motion/surface.js';
 
 // Feiten uit de bestaande copy, geen verzonnen cijfers. TODO XPSR: VCA Vol en de dronecertificaten bevestigen.
 const FACTS = [
@@ -35,14 +36,15 @@ export default function AboutCream() {
     let undo = () => {};
     const ctx = gsap.context(() => {
       undo = revealIn(el);
+      lightSurface(el);
       riseIn('.cream__copy > p, .cream__copy > a', '.cream__copy');
       riseIn('.cream__fact', '.cream__facts');
-      riseIn('.cream__client', '.cream__clients', { y: 20, stagger: 0.04 });
+      riseIn('.cream__client', '.cream__clients', { y: 20, stagger: STAGGER.items });
       if (prefersReducedMotion()) return;
       gsap.fromTo(
         '.cream__strip-track',
         { xPercent: 0 },
-        { xPercent: -18, ease: 'none', scrollTrigger: { trigger: '.cream__strip', start: 'top bottom', end: 'bottom top', scrub: true } },
+        { xPercent: -18, ease: EASE.linear, scrollTrigger: { trigger: '.cream__strip', start: 'top bottom', end: 'bottom top', scrub: true } },
       );
     }, el);
     return () => {

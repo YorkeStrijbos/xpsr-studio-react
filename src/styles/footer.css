@@ -166,7 +166,7 @@
   pointer-events: none;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 768px) {
   .fa__grid {
     grid-template-columns: 1fr 1fr;
   }

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { EASE, EASE_IN, gsap, prefersReducedMotion, ScrollTrigger } from '../lib/motion.js';
+import { EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../lib/motion.js';
 import { scrollToTop } from '../lib/scroll.js';
 import { createIris } from '../motion/iris.js';
 import '../styles/aperture.css';
@@ -107,11 +107,11 @@ export function ApertureProvider({ children }) {
         setReady(true);
       },
     });
-    tl.to(clock, { t: 1.6, duration: 1.6, ease: 'none', onUpdate: () => (tcRef.current.textContent = timecode(clock.t)) }, 0)
-      .to(corners, { x: (i) => inner[i][0], y: (i) => inner[i][1], duration: 0.65, ease: EASE }, 0.05)
-      .fromTo(flashRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0, duration: 0.08, ease: 'none' }, 0.75)
-      .to(corners, { x: (i) => outer[i][0], y: (i) => outer[i][1], duration: 0.7, ease: EASE }, 0.83)
-      .to(state, { o: 1, duration: 0.75, ease: EASE, onUpdate: () => setOpen(state.o) }, 0.83)
+    tl.to(clock, { t: 1.6, duration: 1.6, ease: EASE.linear, onUpdate: () => (tcRef.current.textContent = timecode(clock.t)) }, 0)
+      .to(corners, { x: (i) => inner[i][0], y: (i) => inner[i][1], duration: 0.65, ease: EASE.reveal }, 0.05)
+      .fromTo(flashRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0, duration: 0.08, ease: EASE.linear }, 0.75)
+      .to(corners, { x: (i) => outer[i][0], y: (i) => outer[i][1], duration: 0.7, ease: EASE.reveal }, 0.83)
+      .to(state, { o: 1, duration: 0.75, ease: EASE.reveal, onUpdate: () => setOpen(state.o) }, 0.83)
       .to(pre, { autoAlpha: 0, duration: 0.3 }, 1.25);
     return () => tl.kill();
   }, [showPreloader]);
@@ -166,10 +166,10 @@ export function ApertureProvider({ children }) {
             busy.current = false;
           },
         })
-        .to(state, { o: 0, duration: 0.55, ease: EASE_IN, onUpdate: () => setOpen(state.o) })
-        .fromTo(flashRef.current, { autoAlpha: 0.85 }, { autoAlpha: 0, duration: 0.08, ease: 'none' })
+        .to(state, { o: 0, duration: 0.55, ease: EASE.in, onUpdate: () => setOpen(state.o) })
+        .fromTo(flashRef.current, { autoAlpha: 0.85 }, { autoAlpha: 0, duration: 0.08, ease: EASE.linear })
         .add(swap)
-        .to(state, { o: 1, duration: 0.8, ease: EASE, onUpdate: () => setOpen(state.o) }, '+=0.1');
+        .to(state, { o: 1, duration: 0.8, ease: EASE.reveal, onUpdate: () => setOpen(state.o) }, '+=0.1');
     },
     [location.pathname, navigate],
   );

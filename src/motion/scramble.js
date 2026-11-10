@@ -1,4 +1,4 @@
-import { gsap } from '../lib/motion.js';
+import { EASE, gsap } from '../lib/motion.js';
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-_';
 
@@ -11,7 +11,7 @@ export function scramble(el, { duration = 0.6, delay = 0 } = {}) {
     p: 1,
     duration,
     delay,
-    ease: 'none',
+    ease: EASE.linear,
     onUpdate: () => {
       const n = Math.floor(final.length * state.p);
       let out = final.slice(0, n);

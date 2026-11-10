@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import { Camera } from '../drawings/Camera.jsx';
 import { Sketch } from '../drawings/Sketch.jsx';
 import { SCRIPT, STORYBOARD } from '../../data/site.js';
-import { gsap, prefersReducedMotion, ScrollTrigger } from '../../lib/motion.js';
+import { EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../../lib/motion.js';
 
 /* Inhoud per monitor. Alles wit lijnwerk of mono op zwart, in camera- en softwaretaal. */
 function PlanScreen() {
@@ -93,27 +93,27 @@ function buildLoop(kind, el) {
     case 'plan':
       return gsap
         .timeline({ repeat: -1, repeatDelay: 1 })
-        .fromTo(el.querySelectorAll('.cam__line'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.4, stagger: 0.02, ease: 'none' })
+        .fromTo(el.querySelectorAll('.cam__line'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.4, stagger: 0.02, ease: EASE.linear })
         .fromTo(el.querySelector('.cam__rec'), { opacity: 0 }, { opacity: 1, duration: 0.1 })
         .to({}, { duration: 1.4 });
     case 'script':
-      return gsap.fromTo(el.querySelector('.prompter__text'), { yPercent: 0 }, { yPercent: -50, ease: 'none', duration: 18, repeat: -1 });
+      return gsap.fromTo(el.querySelector('.prompter__text'), { yPercent: 0 }, { yPercent: -50, ease: EASE.linear, duration: 18, repeat: -1 });
     case 'storyboard': {
       const panels = el.querySelectorAll('.wf__panel');
       const tl = gsap.timeline({ repeat: -1 });
       tl.set(panels, { opacity: 0.22 });
       panels.forEach((p) => {
-        tl.fromTo(p.querySelectorAll('.sketch__ink'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, stagger: 0.05, ease: 'none' })
+        tl.fromTo(p.querySelectorAll('.sketch__ink'), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, stagger: 0.05, ease: EASE.linear })
           .to(p, { opacity: 1, duration: 0.15 }, '<');
       });
       return tl.to({}, { duration: 1.2 });
     }
     case 'day':
-      return gsap.fromTo(el.querySelector('.wf__head'), { left: '0%' }, { left: '100%', duration: 5, ease: 'none', repeat: -1 });
+      return gsap.fromTo(el.querySelector('.wf__head'), { left: '0%' }, { left: '100%', duration: 5, ease: EASE.linear, repeat: -1 });
     case 'delivery':
       return gsap
         .timeline({ repeat: -1, repeatDelay: 0.8 })
-        .fromTo(el.querySelectorAll('.wf__render-bar > span'), { scaleX: 0 }, { scaleX: 1, duration: 1.6, stagger: 0.35, ease: 'power1.inOut' })
+        .fromTo(el.querySelectorAll('.wf__render-bar > span'), { scaleX: 0 }, { scaleX: 1, duration: 1.6, stagger: 0.35, ease: EASE.move })
         .to({}, { duration: 0.8 });
     default:
       return null;

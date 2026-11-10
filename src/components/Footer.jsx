@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { ApertureLink, useAperture } from './Aperture.jsx';
 import { CONTACT, FOOTER, TAGLINE } from '../data/site.js';
-import { gsap, prefersReducedMotion } from '../lib/motion.js';
+import { EASE, gsap, prefersReducedMotion } from '../lib/motion.js';
 import '../styles/footer.css';
 
 const p2 = (n) => String(n).padStart(2, '0');
@@ -31,7 +31,7 @@ export default function Footer() {
     if (prefersReducedMotion()) return;
     const st = state.current;
     st.fill?.kill();
-    st.fill = gsap.to(recRef.current, { '--fill': '360deg', duration: 4, ease: 'none' });
+    st.fill = gsap.to(recRef.current, { '--fill': '360deg', duration: 4, ease: EASE.linear });
     st.start = performance.now();
     cancelAnimationFrame(st.raf);
     st.raf = requestAnimationFrame(tick);
@@ -85,9 +85,9 @@ export default function Footer() {
         },
       })
       .set(corners, { autoAlpha: 1, x: (i) => from[i][0], y: (i) => from[i][1] })
-      .to(corners, { x: (i) => to[i][0], y: (i) => to[i][1], duration: 0.45, ease: 'power3.inOut' })
-      .fromTo(['#main', '.fa'], { filter: 'blur(6px)' }, { filter: 'blur(0px)', duration: 0.35, ease: 'power2.out' }, '<0.1')
-      .fromTo(flashRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0, duration: 0.1, ease: 'none' });
+      .to(corners, { x: (i) => to[i][0], y: (i) => to[i][1], duration: 0.45, ease: EASE.move })
+      .fromTo(['#main', '.fa'], { filter: 'blur(6px)' }, { filter: 'blur(0px)', duration: 0.35, ease: EASE.out }, '<0.1')
+      .fromTo(flashRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0, duration: 0.1, ease: EASE.linear });
   };
 
   return (

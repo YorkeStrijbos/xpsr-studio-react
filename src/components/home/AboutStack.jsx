@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import Portrait from '../Portrait.jsx';
 import Workflow from './Workflow.jsx';
 import { ABOUT, CLIENTS_INDUSTRY, CLIENTS_OTHER, TEAM } from '../../data/site.js';
-import { gsap, prefersReducedMotion, ScrollTrigger } from '../../lib/motion.js';
+import { EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../../lib/motion.js';
 
 /*
  * Over XPSR: links stapelen de koppen zich op, rechts scrolt de tekst door.
@@ -34,8 +34,8 @@ export default function AboutStack() {
       // Zoekerhoeken van groot naar strak, beeld van zacht naar scherp.
       gsap.utils.toArray('.portrait', el).forEach((f) => {
         const tl = gsap.timeline({ scrollTrigger: { trigger: f, start: 'top 85%', end: 'center 55%', scrub: true } });
-        tl.fromTo(f.querySelectorAll('.portrait__c'), { x: (i) => (i % 2 ? 28 : -28), y: (i) => (i < 2 ? -28 : 28) }, { x: 0, y: 0, ease: 'power2.out' }, 0)
-          .fromTo(f.querySelector('.portrait__img'), { scale: 1.08, opacity: 0.5 }, { scale: 1, opacity: 1, ease: 'power2.out' }, 0);
+        tl.fromTo(f.querySelectorAll('.portrait__c'), { x: (i) => (i % 2 ? 28 : -28), y: (i) => (i < 2 ? -28 : 28) }, { x: 0, y: 0, ease: EASE.out }, 0)
+          .fromTo(f.querySelector('.portrait__img'), { scale: 1.08, opacity: 0.5 }, { scale: 1, opacity: 1, ease: EASE.out }, 0);
       });
     }, el);
     heads[0]?.classList.add('is-active');

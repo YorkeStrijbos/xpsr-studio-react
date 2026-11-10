@@ -114,53 +114,144 @@
 }
 
 /* ---------- Cursor ---------- */
+/* Positie via transform uit Cursor.jsx; vorm via data-mode. Alles schaalt vanaf het midden. */
 .cursor {
   position: fixed;
   left: 0;
   top: 0;
   z-index: 1001;
+  width: 0;
+  height: 0;
   pointer-events: none;
-  display: grid;
-  place-items: center;
   will-change: transform;
 }
 
+.cursor > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+}
+
 .cursor__dot {
-  grid-area: 1 / 1;
   /* Op eindformaat getekend en omlaag geschaald: zo blijft de rand scherp als hij groeit. */
-  width: 78px;
-  height: 78px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   background: var(--red-accent);
-  transform: scale(0.154);
-  transition: transform var(--dur-1) var(--ease-out);
+  scale: 0.1;
+  transition:
+    scale var(--dur-base) var(--ease-reveal),
+    opacity var(--dur-fast) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.cursor__icon {
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 1.5;
+  opacity: 0;
+  scale: 0.5;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    scale var(--dur-base) var(--ease-reveal);
+}
+
+.cursor__icon--play {
+  width: 14px;
+  height: 16px;
+  margin-left: 2px;
+  fill: var(--white);
+  stroke: none;
+}
+
+.cursor__icon--sleep {
+  width: 44px;
+  height: 12px;
+  margin-top: 12px;
 }
 
 .cursor__label {
-  grid-area: 1 / 1;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
   color: var(--white);
   opacity: 0;
-  transform: scale(0.6);
+  scale: 0.6;
   transition:
-    opacity var(--dur-1) var(--ease-out),
-    transform var(--dur-1) var(--ease-out);
+    opacity var(--dur-fast) var(--ease-out),
+    scale var(--dur-base) var(--ease-reveal);
 }
 
-.cursor.is-label .cursor__dot {
-  transform: scale(1);
+/* Boven links en knoppen: klein stipje, de knop blijft leesbaar. */
+.cursor[data-mode='link'] .cursor__dot {
+  scale: 0.06;
 }
 
-.cursor.is-label .cursor__label {
+/* Play: middelgrote cirkel met driehoek. */
+.cursor[data-mode='play'] .cursor__dot {
+  scale: 0.8;
+}
+
+.cursor[data-mode='play'] .cursor__icon--play {
   opacity: 1;
-  transform: none;
+  scale: 1;
 }
 
-.cursor.is-link .cursor__dot {
-  transform: scale(0.077);
+/* Bekijk en eigen labels: grote cirkel met tekst. */
+.cursor[data-mode='bekijk'] .cursor__dot,
+.cursor[data-mode='label'] .cursor__dot {
+  scale: 1;
+}
+
+.cursor[data-mode='bekijk'] .cursor__label,
+.cursor[data-mode='label'] .cursor__label,
+.cursor[data-mode='sleep'] .cursor__label {
+  opacity: 1;
+  scale: 1;
+}
+
+/* Sleep: cirkel met pijlen links en rechts, label erboven. */
+.cursor[data-mode='sleep'] .cursor__dot {
+  scale: 1;
+}
+
+.cursor[data-mode='sleep'] .cursor__label {
+  margin-top: -8px;
+}
+
+.cursor[data-mode='sleep'] .cursor__icon--sleep {
+  opacity: 1;
+  scale: 1;
+}
+
+.cursor.is-down .cursor__dot {
+  scale: 0.08;
+}
+
+.cursor.is-down[data-mode='play'] .cursor__dot,
+.cursor.is-down[data-mode='bekijk'] .cursor__dot,
+.cursor.is-down[data-mode='sleep'] .cursor__dot,
+.cursor.is-down[data-mode='label'] .cursor__dot {
+  scale: 0.85;
+}
+
+.cursor.is-out .cursor__dot {
+  opacity: 0;
+}
+
+/* Op lichte vlakken: het kleine stipje mengt met difference, zodat het boven tekst altijd zichtbaar blijft. */
+html.is-light .cursor[data-mode=''],
+html.is-light .cursor[data-mode='link'] {
+  mix-blend-mode: difference;
+}
+
+html.is-light .cursor[data-mode=''] .cursor__dot,
+html.is-light .cursor[data-mode='link'] .cursor__dot {
+  background: var(--white);
 }
 
 html.has-cursor,
@@ -175,8 +266,15 @@ html.has-cursor * {
   z-index: 1000;
   pointer-events: none;
   opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* background-image komt uit Grain.jsx (canvas-ruis). Geen blend-mode: die zou de hele pagina laten mengen. */
+  background-repeat: repeat;
   animation: grain 0.5s steps(5) infinite;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+/* Lichte vlakken: geen korrel. */
+html.is-light .grain {
+  opacity: 0;
 }
 
 @keyframes grain {

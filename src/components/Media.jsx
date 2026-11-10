@@ -106,7 +106,7 @@ export const LoopVideo = forwardRef(function LoopVideo(
         muted
         loop
         playsInline
-        preload={near ? 'auto' : 'none'}
+        preload={near ? 'metadata' : 'none'}
         aria-hidden="true"
         tabIndex={-1}
       >

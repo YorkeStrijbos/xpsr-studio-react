@@ -4,7 +4,7 @@ import { ApertureLink } from './Aperture.jsx';
 import { useOpenReel } from './Reel.jsx';
 import { MiniViewfinder } from './Viewfinder.jsx';
 import { lockScroll } from '../lib/scroll.js';
-import { gsap, prefersReducedMotion } from '../lib/motion.js';
+import { DUR, EASE, STAGGER, gsap, prefersReducedMotion } from '../lib/motion.js';
 import { hexClipPath } from '../motion/iris.js';
 import '../styles/nav.css';
 
@@ -39,8 +39,19 @@ export default function Nav() {
   const toggleRef = useRef(null);
   const menuRef = useRef(null);
 
+  // Verbergen bij omlaag scrollen, terug bij omhoog. Lenis scrolt het venster zelf, dus het scroll-event volstaat.
+  // Drempel van 6 px tegen trillen; de eerste 120 px blijft hij altijd staan.
+  const [hidden, setHidden] = useState(false);
   useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 24);
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setSolid(y > 24);
+      const d = y - last;
+      if (Math.abs(d) < 6) return;
+      setHidden(d > 0 && y > 120);
+      last = y;
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -57,12 +68,12 @@ export default function Nav() {
       const st = { r: 0 };
       gsap.to(st, {
         r: 95,
-        duration: 0.7,
-        ease: 'xpsr',
+        duration: DUR.slow,
+        ease: EASE.reveal,
         onUpdate: () => menuRef.current && (menuRef.current.style.clipPath = hexClipPath(st.r, (1 - st.r / 95) * 60)),
         onComplete: () => menuRef.current && (menuRef.current.style.clipPath = 'none'),
       });
-      gsap.from(menuRef.current.querySelectorAll('.menu__link'), { yPercent: 100, autoAlpha: 0, stagger: 0.05, duration: 0.6, ease: 'xpsr', delay: 0.15 });
+      gsap.from(menuRef.current.querySelectorAll('.menu__link'), { yPercent: 100, autoAlpha: 0, stagger: STAGGER.items, duration: DUR.base, ease: EASE.reveal, delay: 0.15 });
     }
     const onKey = (e) => {
       if (e.key === 'Escape') {
@@ -78,7 +89,11 @@ export default function Nav() {
   }, [menuOpen]);
 
   return (
-    <header className={`nav ${solid || menuOpen ? 'is-solid' : ''} ${menuOpen ? 'is-menu' : ''}`}>
+    <header
+      className={`nav ${solid || menuOpen ? 'is-solid' : ''} ${menuOpen ? 'is-menu' : ''} ${hidden && !menuOpen ? 'is-hidden' : ''}`}
+      // Toetsenbord: focus in de nav haalt hem altijd terug.
+      onFocus={() => setHidden(false)}
+    >
       <div className="nav__inner container">
         <ApertureLink to="/" className="nav__logo" aria-label="XPSR Studio, naar home">
           {/* Op home start het grote vizier hier naast het logo; elders staat het mini-vizier. */}

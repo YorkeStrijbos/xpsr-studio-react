@@ -3,7 +3,7 @@ import { ApertureLink } from '../Aperture.jsx';
 import { LoopVideo, Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
 import { SERVICES } from '../../data/site.js';
-import { gsap } from '../../lib/motion.js';
+import { STAGGER, gsap } from '../../lib/motion.js';
 import { revealIn, riseIn } from '../../motion/reveal.js';
 
 const p2 = (n) => String(n).padStart(2, '0');
@@ -40,7 +40,7 @@ export default function ServicesList() {
     let undo = () => {};
     const ctx = gsap.context(() => {
       undo = revealIn(el);
-      riseIn('.svl__item', '.svl__list', { stagger: 0.06 });
+      riseIn('.svl__item', '.svl__list', { stagger: STAGGER.items });
       riseIn('.svl__card, .svl__thumbs', '.svl__aside');
     }, el);
     return () => {
@@ -93,7 +93,7 @@ export default function ServicesList() {
             <div className="svl__card">
               {/* key: bij een wissel komt het nieuwe beeld met een korte zoom binnen */}
               <div key={s.code} className="svl__media">
-                <Media s={s} sizes="(min-width: 860px) 45vw, 90vw" />
+                <Media s={s} sizes="(min-width: 768px) 45vw, 90vw" />
               </div>
               <div className="svl__cap">
                 <span className="mono">Dienst {p2(open + 1)} / {p2(SERVICES.length)}</span>

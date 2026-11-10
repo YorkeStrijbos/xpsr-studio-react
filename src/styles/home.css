@@ -191,6 +191,7 @@
   padding-top: var(--nav-h);
   text-align: center;
   visibility: hidden;
+  pointer-events: none; /* klikken gaat door naar het beeld (reel) */
 }
 
 .hz__rows {
@@ -244,7 +245,7 @@
   color: var(--white);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .hz__claim {
     font-size: 13vw;
   }
@@ -409,7 +410,7 @@
     var(--steel);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .cloud {
     height: 120svh;
   }
@@ -565,7 +566,7 @@
   max-width: 44ch;
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .cases2 {
     height: auto;
     padding-block: var(--space-6);
@@ -675,7 +676,7 @@
   background: linear-gradient(to top, rgba(244, 242, 238, 0.55) 60%, var(--white));
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .hud {
     inset: calc(var(--nav-h) + 8px) 12px 16px;
   }
@@ -1132,7 +1133,7 @@
   clip: rect(0, 0, 0, 0);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .edit {
     display: block;
     height: auto;
@@ -1474,7 +1475,7 @@
   color: var(--grey);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .stack__heads {
     grid-column: 1 / -1;
     position: sticky;
@@ -1697,7 +1698,7 @@
   color: var(--white);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .expo__hud {
     grid-template-columns: 1fr;
     gap: var(--space-2);
@@ -1817,7 +1818,7 @@
   transform: none;
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .cloud__filter {
     border-radius: 18px;
     justify-content: center;
@@ -2323,7 +2324,7 @@
   border: 2px solid var(--red-accent);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .svl__list,
   .svl__aside {
     grid-column: 1 / -1;
@@ -2472,7 +2473,7 @@
   transform: scaleX(0);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .rail__stage {
     min-height: 0;
     padding-block: var(--space-6);
@@ -2689,7 +2690,7 @@
   color: var(--concrete-ink);
 }
 
-@media (max-width: 859px) {
+@media (max-width: 767px) {
   .cream__copy,
   .cream__facts {
     grid-column: 1 / -1;

@@ -1,18 +1,18 @@
 import { ApertureLink } from '../Aperture.jsx';
 import { Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
-import { gsap } from '../../lib/motion.js';
+import { EASE, gsap } from '../../lib/motion.js';
 import { scramble } from '../../motion/scramble.js';
 
 /** Eén kaart: technische laag eronder, echte laag erboven, onthuld door een rode laserlijn (--scan). */
 export function ScanCard({ c, index }) {
   const visual = c.cover ? (
-    <Picture name={c.cover.name} alt={c.cover.alt} sizes="(min-width: 860px) 40vw, 90vw" imgClassName="scan__img" />
+    <Picture name={c.cover.name} alt={c.cover.alt} sizes="(min-width: 768px) 40vw, 90vw" imgClassName="scan__img" />
   ) : (
     <NoSignal sub={c.client} />
   );
   return (
-    <article className="scan" data-cursor="BEKIJK">
+    <article className="scan" data-cursor="bekijk">
       <ApertureLink to={`/cases/${c.slug}`} className="scan__link" aria-label={`Bekijk de case ${c.client}`}>
         <div className="scan__media">
           <div className="scan__tech" aria-hidden="true">
@@ -54,7 +54,7 @@ export function bindScan(card, extra = {}) {
     { '--scan': '0%' },
     {
       '--scan': '100%',
-      ease: 'none',
+      ease: EASE.linear,
       scrollTrigger: {
         trigger: card,
         scrub: true,

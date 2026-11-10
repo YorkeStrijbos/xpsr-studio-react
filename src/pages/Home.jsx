@@ -6,7 +6,7 @@ import Pain from '../components/home/Pain.jsx';
 import AboutCream from '../components/home/AboutCream.jsx';
 import CasesRail from '../components/home/CasesRail.jsx';
 import ServicesList from '../components/home/ServicesList.jsx';
-import { gsap, prefersReducedMotion, ScrollTrigger } from '../lib/motion.js';
+import { EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../lib/motion.js';
 import { buildStops, placeAt, registerViewfinder, travelTo } from '../motion/viewfinder.js';
 import { homeStops, introStop } from '../motion/stops.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
@@ -57,8 +57,8 @@ export default function Home() {
       gsap.utils.toArray('[data-stamp]').slice(0, 3).forEach((h) => {
         gsap
           .timeline({ scrollTrigger: { trigger: h, start: 'top 80%' } })
-          .from(h, { scale: 1.4, autoAlpha: 0, duration: 0.35, ease: 'power4.in' })
-          .to(h, { x: 2, duration: 0.04, repeat: 5, yoyo: true, ease: 'none' })
+          .from(h, { scale: 1.4, autoAlpha: 0, duration: 0.35, ease: EASE.in })
+          .to(h, { x: 2, duration: 0.04, repeat: 5, yoyo: true, ease: EASE.linear })
           .set(h, { x: 0 });
       });
     });

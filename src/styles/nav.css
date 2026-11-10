@@ -4,8 +4,25 @@
   z-index: 100;
   border-bottom: 1px solid transparent;
   transition:
+    transform var(--dur-slow) var(--ease-move),
     background-color var(--dur-1) var(--ease-out),
     border-color var(--dur-1) var(--ease-out);
+}
+
+.nav.is-hidden {
+  transform: translateY(-100%);
+}
+
+/* Reduced motion: geen schuiven, alleen een fade. */
+@media (prefers-reduced-motion: reduce) {
+  .nav {
+    transition: opacity var(--dur-base) linear, background-color var(--dur-1) linear;
+  }
+  .nav.is-hidden {
+    transform: none;
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 .nav.is-solid {
@@ -157,7 +174,7 @@
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 768px) {
   .nav__links,
   .nav__cta {
     display: none;

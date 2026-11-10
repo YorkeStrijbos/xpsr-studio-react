@@ -7,7 +7,7 @@ export default function Portrait({ p }) {
     <figure className="portrait">
       <div className="portrait__img">
         {p.portrait ? (
-          <Picture name={p.portrait} alt={`Portret van ${p.name}`} sizes="(min-width: 860px) 22vw, 45vw" />
+          <Picture name={p.portrait} alt={`Portret van ${p.name}`} sizes="(min-width: 768px) 22vw, 45vw" />
         ) : (
           <NoSignal sub={`Portret ${p.name.split(' ')[0]}`} />
         )}
