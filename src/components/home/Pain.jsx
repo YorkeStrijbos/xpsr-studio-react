@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Picture } from '../Media.jsx';
 import CameraHud from './CameraHud.jsx';
+import NoSignal from '../NoSignal.jsx';
 import { CLOUD, CLOUD_BRANCHES, PAIN } from '../../data/site.js';
 import { gsap, prefersReducedMotion } from '../../lib/motion.js';
 import { frameCorners, vfEls } from '../../motion/viewfinder.js';
@@ -26,7 +27,6 @@ export default function Pain() {
         // (20px op schaal 0.6, zie stops.js) omhoog schaalt. Omlaag geschaald tekenen = altijd een scherpe rand.
         const disc = el.querySelector('.pain__disc');
         const startScale = () => 12 / disc.offsetWidth;
-        gsap.set(disc, { xPercent: -50, yPercent: -50 });
         const lines = gsap.utils.toArray('.pain__line', el);
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
@@ -169,9 +169,7 @@ export default function Pain() {
                 {c.name ? (
                   <Picture name={c.name} alt={c.alt} sizes={`${c.w}vw`} imgClassName="cloud__img" />
                 ) : (
-                  <div className="placeholder cloud__ph">
-                    <span className="mono">[PLACEHOLDER] {c.placeholder}</span>
-                  </div>
+                  <NoSignal sub={c.placeholder} />
                 )}
               </div>
             </div>

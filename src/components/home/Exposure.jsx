@@ -92,7 +92,7 @@ export default function Exposure() {
   return (
     <section ref={root} className="s-exposure expo" aria-labelledby="expo-title">
       <div className="expo__image">
-        <Picture name="reym-locatie" alt="Luchtfoto van een industrieterrein" sizes="100vw" imgClassName="expo__img" />
+        <Picture name="one-love-cruise" alt="Steigerbouwers aan het werk op een gevel" sizes="100vw" imgClassName="expo__img" />
         <span className="expo__zebra" aria-hidden="true" />
       </div>
       <div className="expo__shade" aria-hidden="true" />

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { ApertureLink } from '../components/Aperture.jsx';
 import { LoopVideo, Picture } from '../components/Media.jsx';
 import NotFound from './NotFound.jsx';
+import NoSignal from '../components/NoSignal.jsx';
 import { getCase, nextCase } from '../data/cases.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
 import '../styles/pages.css';
@@ -25,11 +26,7 @@ function CaseMeta({ c, className = '' }) {
 }
 
 function Placeholder({ label }) {
-  return (
-    <div className="placeholder">
-      <span className="mono">[PLACEHOLDER] {label}</span>
-    </div>
-  );
+  return <NoSignal sub={label} />;
 }
 
 export default function CaseDetail() {

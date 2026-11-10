@@ -1,5 +1,6 @@
 import { ApertureLink } from '../Aperture.jsx';
 import { Picture } from '../Media.jsx';
+import NoSignal from '../NoSignal.jsx';
 import { gsap } from '../../lib/motion.js';
 import { scramble } from '../../motion/scramble.js';
 
@@ -8,9 +9,7 @@ export function ScanCard({ c, index }) {
   const visual = c.cover ? (
     <Picture name={c.cover.name} alt={c.cover.alt} sizes="(min-width: 860px) 40vw, 90vw" imgClassName="scan__img" />
   ) : (
-    <div className="scan__ph">
-      <span className="mono">[PLACEHOLDER] Beeld {c.client}</span>
-    </div>
+    <NoSignal sub={c.client} />
   );
   return (
     <article className="scan" data-cursor="BEKIJK">

@@ -40,18 +40,11 @@ export function homeStops() {
       exit: { core: 0 },
     },
     {
-      // Bouwtekening: het actieve onderdeel licht rood op; vizier uit beeld.
-      trigger: '.s-blueprint',
+      // Diensten: de camera-tekening en de zoeker zijn het vizier; punt en ring uit beeld.
+      trigger: '.s-services',
       dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
       ring: { x: 0.5, y: 0.5, scale: 0.3, rotate: 540, opacity: 0 },
       aperture: 0.9,
-    },
-    {
-      // Storyboard: het REC-punt is het rode potlood dat de panelen tekent; vizier zelf uit beeld.
-      trigger: '.s-storyboard',
-      dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
-      ring: { x: 0.5, y: 0.5, scale: 0.3, rotate: 600, opacity: 0 },
-      aperture: 0.7,
     },
     {
       // Tijdlijn: de afspeelkop is het vizier; punt en ring uit beeld.
@@ -61,11 +54,11 @@ export function homeStops() {
       aperture: 0.5,
     },
     {
-      // Oplevering: de spot op de gordijnen is het vizier; punt en ring uit beeld.
-      trigger: '.s-premiere',
-      dot: { x: 0.5, y: 0.55, scale: 0.3, opacity: 0 },
-      ring: { x: 0.5, y: 0.55, scale: 0.3, rotate: 660, opacity: 0 },
-      aperture: 0.8,
+      // Exposure: het beeld zelf is de belichtingsmeter; vizier uit beeld.
+      trigger: '.s-exposure',
+      dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
+      ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: 1080, opacity: 0 },
+      aperture: 1,
     },
     {
       trigger: '.s-about',
@@ -74,24 +67,17 @@ export function homeStops() {
       aperture: 0.3,
     },
     {
-      // Exposure: het beeld zelf is de belichtingsmeter; vizier uit beeld.
-      trigger: '.s-exposure',
-      dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
-      ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: 1080, opacity: 0 },
-      aperture: 1,
-    },
-    {
-      // Het REC-punt eindigt als de noodstopknop: het reist naar de knop en gaat erin op.
+      // Het REC-punt eindigt als de grote REC-knop in de footer: het reist erheen en gaat erin op.
       trigger: '.fa__stage',
       end: 'bottom bottom',
       dot: {
         x: 0.5,
         y: () => {
           const s = q('.fa__stage').getBoundingClientRect();
-          const b = q('.estop').getBoundingClientRect();
+          const b = q('.rec').getBoundingClientRect();
           return H() - (s.bottom - (b.top + b.height / 2));
         },
-        scale: () => (q('.estop').offsetWidth * 0.58) / 20,
+        scale: () => q('.rec').offsetWidth / 20,
         opacity: 0,
       },
       ring: { x: 0.5, y: 0.6, scale: 0.6, rotate: 1260, opacity: 0 },

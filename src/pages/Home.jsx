@@ -4,12 +4,9 @@ import { useAperture } from '../components/Aperture.jsx';
 import HeroV2 from '../components/home/HeroV2.jsx';
 import Statement from '../components/home/Statement.jsx';
 import Pain from '../components/home/Pain.jsx';
-import Storyboard from '../components/home/Storyboard.jsx';
-import Premiere from '../components/home/Premiere.jsx';
-import ProcessBar from '../components/home/ProcessBar.jsx';
-import Blueprint from '../components/home/Blueprint.jsx';
 import AboutStack from '../components/home/AboutStack.jsx';
 import Exposure from '../components/home/Exposure.jsx';
+import Services from '../components/home/Services.jsx';
 import DayTimeline from '../components/home/DayTimeline.jsx';
 import { gsap, prefersReducedMotion, ScrollTrigger } from '../lib/motion.js';
 import { buildStops, placeAt, registerViewfinder, travelTo } from '../motion/viewfinder.js';
@@ -76,14 +73,10 @@ export default function Home() {
       <HeroV2 />
       <Statement />
       <Pain />
-      <Blueprint />
-      <Storyboard />
+      <Services />
       <DayTimeline />
-      <Premiere />
-      <AboutStack />
       <Exposure />
-      {/* Na de procesfases renderen, zodat hun pins al bestaan als de balk meet. */}
-      <ProcessBar />
+      <AboutStack />
     </>
   );
 }

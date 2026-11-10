@@ -317,3 +317,47 @@ html.lenis body {
   height: 100%;
   object-fit: cover;
 }
+
+/* NO SIGNAL: donker korrelbeeld zolang er geen footage is. */
+.nosignal {
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%, #1a1a1a, #080808 80%);
+  color: rgba(244, 242, 238, 0.55);
+  text-align: center;
+}
+
+.nosignal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.nosignal__label,
+.nosignal__sub {
+  position: relative;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.nosignal__label {
+  font-size: clamp(12px, 1.2vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+}
+
+.nosignal__sub {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--grey);
+}

@@ -1,5 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Picture } from '../Media.jsx';
+import NoSignal from '../NoSignal.jsx';
+import Workflow from './Workflow.jsx';
 import { ABOUT, CLIENTS_INDUSTRY, CLIENTS_OTHER, TEAM } from '../../data/site.js';
 import { gsap, prefersReducedMotion, ScrollTrigger } from '../../lib/motion.js';
 
@@ -10,9 +12,7 @@ function Portrait({ p }) {
         {p.portrait ? (
           <Picture name={p.portrait} alt={`Portret van ${p.name}`} sizes="(min-width: 860px) 22vw, 45vw" />
         ) : (
-          <div className="placeholder">
-            <span className="mono">[PLACEHOLDER] Portret {p.name.split(' ')[0]}</span>
-          </div>
+          <NoSignal sub={`Portret ${p.name.split(' ')[0]}`} />
         )}
       </div>
       <span className="portrait__c portrait__c--tl" aria-hidden="true" />
@@ -92,15 +92,7 @@ export default function AboutStack() {
                   ))}
                 </div>
               )}
-              {a.steps && (
-                <ol className="stack__steps mono">
-                  {a.steps.map((s, i) => (
-                    <li key={s}>
-                      <span>{String(i + 1).padStart(2, '0')}</span> {s}
-                    </li>
-                  ))}
-                </ol>
-              )}
+              {a.steps && <Workflow steps={a.steps} />}
               {a.badges && (
                 <ul className="stack__badges">
                   {a.badges.map((b) => (

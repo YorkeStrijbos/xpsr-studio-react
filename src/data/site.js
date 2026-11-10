@@ -47,12 +47,12 @@ export const PAIN = {
 
 // Beeldwolk: 3 dieptes, filterbaar per branche. Echte stills waar ze er zijn, placeholders voor industrie.
 // TODO XPSR: 12 tot 14 stills aanleveren, vooral industrie (lassen, slijpen, machines, vakmensen, hallen).
-export const CLOUD_BRANCHES = ['Industrie', 'Bouw', 'Horeca', 'Events', 'Zakelijk'];
+export const CLOUD_BRANCHES = ['Industrie', 'Bouw', 'Horeca', 'Events'];
 
 export const CLOUD = [
-  { name: 'one-love-cruise', alt: 'Steigerbouwers aan het werk op een gevel', branch: 'Bouw', depth: 1, x: 8, y: 12, w: 26 },
+  { placeholder: 'Steigerbouw', branch: 'Bouw', depth: 1, x: 8, y: 12, w: 26 },
   { placeholder: 'Lassen', branch: 'Industrie', depth: 0.5, x: 40, y: 5, w: 16 },
-  { name: 'block-corporate', alt: 'Team van Block in een witte studio', branch: 'Zakelijk', depth: 0.2, x: 64, y: 9, w: 11 },
+  { placeholder: 'Montage op locatie', branch: 'Industrie', depth: 0.2, x: 64, y: 9, w: 11 },
   { placeholder: 'Machinebouw', branch: 'Industrie', depth: 1, x: 74, y: 20, w: 22 },
   { name: 'boterlap-gerechten', alt: 'Gerechten van Boterlap', branch: 'Horeca', depth: 0.2, x: 29, y: 31, w: 11 },
   { placeholder: 'Hal van boven', branch: 'Industrie', depth: 0.5, x: 50, y: 35, w: 17 },
@@ -66,40 +66,28 @@ export const CLOUD = [
 ];
 
 
-// Prikbord rond de blauwdruk (Fase 01). Per dienst 2 of 3 items, plus losse items op de muur.
-// x/y = linkerbovenhoek in % van het scherm (desktop), rot = scheefstand, fix = punaise of tape.
-// Placeholders tot er echte foto's zijn. TODO XPSR: copy check, echte polaroids aanleveren.
-export const PIN_ITEMS = [
-  { s: 0, kind: 'polaroid', caption: 'Jan, 23 jaar, lasser', x: 3, y: 31, rot: -5, fix: 'pin' },
-  { s: 0, kind: 'script', head: 'INT. HAL - OCHTEND', body: 'JAN zet zijn helm op en loopt de hal in.', x: 9, y: 44, rot: 3, fix: 'tape' },
-  { s: 0, kind: 'postit', text: 'Waarom werk jij hier?', x: 22, y: 51, rot: 6, fix: 'pin' },
-  { s: 1, kind: 'strip', x: 37, y: 7, rot: -2, fix: 'tape' },
-  { s: 1, kind: 'polaroid', caption: 'De hal', x: 57, y: 4, rot: 4, fix: 'pin' },
-  { s: 1, kind: 'note', text: '90 sec', x: 52, y: 19, rot: -6, fix: 'pin' },
-  { s: 2, kind: 'sketch', x: 76, y: 12, rot: 2, fix: 'tape' },
-  { s: 2, kind: 'postit', text: 'Simpeler!', x: 90, y: 10, rot: -4, fix: 'pin' },
-  { s: 2, kind: 'script', head: 'VOICE-OVER', body: 'Eén onderdeel, drie stappen.', x: 86, y: 28, rot: 5, fix: 'pin' },
-  { s: 3, kind: 'contact', x: 75, y: 49, rot: -3, fix: 'tape' },
-  { s: 3, kind: 'polaroid', caption: 'Portret', x: 89, y: 57, rot: 5, fix: 'pin' },
-  { s: 4, kind: 'map', x: 56, y: 83, rot: 2, fix: 'tape' },
-  { s: 4, kind: 'polaroid', caption: 'Van bovenaf', x: 41, y: 85, rot: -4, fix: 'pin' },
-  { s: 5, kind: 'reels', x: 3, y: 63, rot: -2, fix: 'tape' },
-  { s: 5, kind: 'postit', text: 'Hook in 1 sec', x: 18, y: 84, rot: 4, fix: 'pin' },
-  { s: 5, kind: 'note', text: '[RESULTAAT]', x: 21, y: 66, rot: -5, fix: 'pin' },
-  { s: null, kind: 'callsheet', x: 63, y: 26, rot: 3, fix: 'tape' },
-  { s: null, kind: 'slate', caption: 'Klap!', x: 66, y: 86, rot: 6, fix: 'pin' },
-  { s: null, kind: 'gaffer', x: 0, y: 90, rot: -12 },
+// Volgorde = volgorde op de homepage. Zie ook cases.js voor de detailpagina's.
+// Diensten als beeldformaten in de zoeker. ar = beeldverhouding van de kaderlijnen.
+// media: still/loop uit src/assets/media, of leeg voor NO SIGNAL. Elk beeld maximaal één keer per pagina.
+// TODO XPSR: per dienst een eigen loop aanleveren.
+export const SERVICES = [
+  { code: 'A-01', title: 'Bedrijfsfilm', label: 'Bedrijfsfilm', line: 'Wat jullie doen, in 90 seconden.', ar: 2.39, kind: 'scope', cam: ['ISO 400', 'F 2.8', '1/50', 'WB 5600K'] },
+  { code: 'A-02', title: 'Recruitmentfilm', label: 'Recruitmentfilm', line: 'Vakmensen die solliciteren omdat ze de film zagen.', ar: 16 / 9, kind: 'focus', cam: ['ISO 400', 'F 2', '1/50', 'WB 4300K'] },
+  { code: 'A-03', title: 'Explainer / productfilm', label: 'Productfilm', line: 'Complex gemaakt simpel.', ar: 16 / 9, kind: 'callout', cam: ['ISO 200', 'F 5.6', '1/50', 'WB 5600K'] },
+  {
+    code: 'A-04',
+    title: 'Fotografie',
+    label: 'Fotografie',
+    line: 'Mensen, machines, projecten.',
+    ar: 3 / 2,
+    kind: 'photo',
+    cam: ['ISO 200', 'F 4', '1/250', 'WB 5600K'],
+    media: { type: 'still', name: 'block-corporate', alt: 'Teamfoto in een witte studio' },
+  },
+  { code: 'A-05', title: 'Drone', label: 'Drone', line: 'Overzicht van terrein, installatie of project.', ar: 16 / 9, kind: 'drone', cam: ['ISO 100', 'F 2.8', '1/50', 'ND 16'] },
+  { code: 'A-06', title: 'Social content', label: 'Social', line: 'Elke maand zichtbaar, met groeigarantie.', ar: 9 / 16, kind: 'social', cam: ['ISO 800', 'F 1.8', '1/50', 'WB 5600K'] },
 ];
 
-// Volgorde = volgorde op de homepage. Zie ook cases.js voor de detailpagina's.
-export const SERVICES = [
-  { code: 'A-01', title: 'Recruitmentfilm', line: 'Monteurs die solliciteren omdat ze de film zagen.' },
-  { code: 'A-02', title: 'Bedrijfsfilm', line: 'Wat je doet, in 90 seconden.' },
-  { code: 'A-03', title: 'Explainer / productfilm', line: 'Complex gemaakt simpel.' },
-  { code: 'A-04', title: 'Fotografie', line: 'Mensen, machines, projecten.' },
-  { code: 'A-05', title: 'Drone', line: 'Overzicht van terrein, installatie of project.' },
-  { code: 'A-06', title: 'Social content', line: 'Elke maand zichtbaar, met groeigarantie.' },
-];
 
 // TODO XPSR: toestemming per klant checken voordat namen of logo's live gaan.
 export const CLIENTS_INDUSTRY = ['REYM', 'WIKO', 'E-tronic', 'HBM Machines', 'Lichtbedrijf'];
@@ -113,8 +101,15 @@ export const ABOUT = [
   },
   {
     head: 'Werkwijze',
-    body: 'Briefing, script, één draaidag, montage, uitrol. Geen tussenpersonen.',
-    steps: ['Briefing', 'Script', 'Draaidag', 'Montage', 'Uitrol'],
+    body: 'Vijf stappen, één team. Geen tussenpersonen.',
+    // TODO XPSR: copy check.
+    steps: [
+      { no: '01', title: 'Plan', line: 'Eén gesprek op de vloer. Daarna weten we wat de film moet doen.', monitor: 'plan' },
+      { no: '02', title: 'Script', line: 'Elke zin staat vast voordat de camera aangaat.', monitor: 'script' },
+      { no: '03', title: 'Storyboard', line: 'Elk shot getekend, elke seconde gepland.', monitor: 'storyboard' },
+      { no: '04', title: 'Draaidag', line: 'Eén dag, VCA Vol, jullie werken gewoon door.', monitor: 'day' },
+      { no: '05', title: 'Oplevering', line: 'Film, foto’s en reels binnen twee weken.', monitor: 'delivery' },
+    ],
   },
   {
     head: 'Certificaten',
@@ -146,7 +141,7 @@ export const TEAM = [
 
 export const FOOTER = {
   ask: 'Zin in een draaidag?',
-  button: 'Plan een draaidag',
+  button: 'Plan een draaidag', // label onder het REC-punt
 };
 
 // Storyboard: zo plannen we de shots voordat de camera aangaat. Generiek voorbeeld van een recruitmentfilm.
@@ -171,7 +166,7 @@ export const SCRIPT = [
 ];
 
 // Eén draaidag als montage-tijdlijn. Tijden in uren (12.5 = 12:30). Track: V1 beeld, V2 drone.
-// Media optioneel (still of loop uit src/assets/media), anders een gestencilde placeholder.
+// Media optioneel (still of loop uit src/assets/media), anders NO SIGNAL.
 // TODO XPSR: copy check, tijden en instellingen naar jullie echte werkwijze; per fase een loop aanleveren.
 export const SHOOT_DAY = {
   start: 7,
@@ -200,7 +195,6 @@ export const SHOOT_DAY = {
       title: 'Draaien in de hal',
       line: 'Handen, machines, vonken, precisie. Het beeld dat laat zien hoe gaaf het werk is.',
       settings: ['50P slow motion', 'f/2', '1/100', 'ISO 800'],
-      media: { type: 'still', name: 'one-love-cruise', alt: 'Steigerbouwers aan het werk op een gevel' },
     },
     {
       track: 'V1',
@@ -219,7 +213,6 @@ export const SHOOT_DAY = {
       title: 'Drone over het terrein',
       line: 'Overzicht van terrein, installatie en project, van bovenaf.',
       settings: ['4K / 25P', 'f/4', '1/50', 'ND 0.9'],
-      media: { type: 'still', name: 'reym-locatie', alt: 'Luchtfoto van een REYM-locatie' },
     },
     {
       track: 'V1',
@@ -228,7 +221,6 @@ export const SHOOT_DAY = {
       title: 'Fotografie',
       line: 'Mensen, machines en projecten. Voor website, offertes en vacatures.',
       settings: ['f/4', '1/250', 'ISO 200', 'Flitser'],
-      media: { type: 'still', name: 'block-corporate', alt: 'Teamfoto in een witte studio' },
     },
     {
       track: 'V1',
