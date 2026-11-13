@@ -2,7 +2,6 @@ import { useId, useLayoutEffect, useRef, useState } from 'react';
 import Accent from '../Accent.jsx';
 import { ApertureLink } from '../Aperture.jsx';
 import { LoopVideo, Picture } from '../Media.jsx';
-import NoSignal from '../NoSignal.jsx';
 import { SERVICES, SERVICES_HEADING } from '../../content/home.js';
 import { STAGGER, gsap } from '../../lib/motion.js';
 import { revealIn, riseIn } from '../../motion/reveal.js';
@@ -13,7 +12,19 @@ const fmt = (ar) => (ar > 2 ? '2.39:1' : ar < 1 ? '9:16' : ar === 1.5 ? '3:2' : 
 function Media({ s, sizes }) {
   if (s.media?.type === 'motion') return <LoopVideo name={s.media.name} className="svl__img" label={s.media.alt} />;
   if (s.media) return <Picture name={s.media.name} alt={s.media.alt} sizes={sizes} imgClassName="svl__img" />;
-  return <NoSignal sub={s.label} />;
+  return <FormatCard s={s} />;
+}
+
+/** Zonder beeld: het beeldformaat als kader, met label en specs. Bewust ontworpen, geen placeholderbeeld. */
+function FormatCard({ s }) {
+  return (
+    <div className="svl__format" aria-hidden="true">
+      <span className="svl__frame" style={{ '--ar': s.ar }}>
+        <span className="mono svl__fmt">{fmt(s.ar)}</span>
+      </span>
+      <span className="mono svl__specs">{s.cam.join('  ·  ')}</span>
+    </div>
+  );
 }
 
 /** Klein rood zeskant: het diafragma als bullet, per dienst een eigen stand. */

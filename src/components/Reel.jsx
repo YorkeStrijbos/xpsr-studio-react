@@ -1,13 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { getMotion } from '../lib/media.js';
+import { SLOTS } from '../data/media.js';
 import { lockScroll } from '../lib/scroll.js';
 import '../styles/reel.css';
 
 const ReelContext = createContext(() => {});
 
-// TODO XPSR: industriële reel (lassen, slijpen, machines, vakmensen, drone) als master aanleveren.
-// Nu speelt het enige beschikbare industriefragment (REYM, lage resolutie).
-const REEL = 'loop-reym-juri';
+// Bron via het media-slot: /media/reel.mp4 zodra die er is, anders de fallback (zie src/data/media.js).
+const REEL = SLOTS.reel;
 
 export function ReelProvider({ children }) {
   const [open, setOpen] = useState(false);
@@ -27,12 +27,15 @@ export function useOpenReel() {
 function ReelDialog({ open, onClose }) {
   const dialogRef = useRef(null);
   const videoRef = useRef(null);
-  const m = getMotion(REEL);
+  const m = getMotion(REEL.fallback);
+  const returnTo = useRef(null);
 
   useEffect(() => {
     const d = dialogRef.current;
     if (!d) return;
     if (open && !d.open) {
+      // Onthouden waar de focus stond, zodat die bij sluiten terug naar de knop gaat.
+      returnTo.current = document.activeElement;
       d.showModal();
       lockScroll(true);
       const v = videoRef.current;
@@ -50,6 +53,7 @@ function ReelDialog({ open, onClose }) {
     videoRef.current?.pause();
     lockScroll(false);
     onClose();
+    returnTo.current?.focus?.();
   };
 
   return (
@@ -64,10 +68,10 @@ function ReelDialog({ open, onClose }) {
     >
       <div className="reel__frame">
         <video ref={videoRef} className="reel__video" poster={m.poster} controls playsInline loop preload="none">
+          {open && <source src={REEL.file} type="video/mp4" />}
           {open && <source src={m.mp4} type="video/mp4" />}
           {open && m.webm && <source src={m.webm} type="video/webm" />}
         </video>
-        <p className="reel__note label">[PLACEHOLDER] Volledige industriële reel volgt</p>
       </div>
       <button type="button" className="reel__close btn" onClick={() => dialogRef.current.close()}>
         Sluiten

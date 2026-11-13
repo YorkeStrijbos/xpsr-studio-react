@@ -280,6 +280,13 @@ export default function HeroZoom() {
           <div className="hz__foot">
             <p className="display hz__punch">{MANIFEST.accent}</p>
             <p className="lead hz__body">{MANIFEST.body}</p>
+            {/* Aan het eind van de zoom staat de reel schermvullend: hier door naar de volledige versie. */}
+            <button type="button" className="btn hz__full" onClick={openReel}>
+              <svg className="btn__icon" viewBox="0 0 10 12" aria-hidden="true">
+                <path d="M0 0l10 6-10 6z" fill="currentColor" />
+              </svg>
+              {HERO.fullReel}
+            </button>
           </div>
         </div>
       </div>

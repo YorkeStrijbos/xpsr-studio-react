@@ -4,7 +4,7 @@ import { ApertureLink } from '../components/Aperture.jsx';
 import { Picture } from '../components/Media.jsx';
 import { getBranche } from '../content/branches.js';
 import { SERVICES } from '../content/home.js';
-import { CASES } from '../data/cases.js';
+import { PUBLISHED } from '../data/cases.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
 import NotFound from './NotFound.jsx';
 import '../styles/pages.css';
@@ -20,7 +20,7 @@ export default function Branche() {
   usePageTitle(b?.meta.title ?? 'Niet gevonden', b?.meta.description);
   if (!b) return <NotFound />;
 
-  const cases = CASES.filter(b.cases);
+  const cases = PUBLISHED.filter(b.cases);
   const services = b.services.map((code) => SERVICES.find((s) => s.code === code)).filter(Boolean);
 
   return (

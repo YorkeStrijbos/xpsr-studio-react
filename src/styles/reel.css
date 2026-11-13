@@ -31,10 +31,6 @@
   background: var(--surface);
 }
 
-.reel__note {
-  margin-top: var(--space-2);
-}
-
 .reel__close {
   position: fixed;
   top: var(--space-3);

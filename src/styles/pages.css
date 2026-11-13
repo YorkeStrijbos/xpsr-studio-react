@@ -174,25 +174,108 @@
   border-top: 1px solid var(--line);
 }
 
-.contact__primary {
-  grid-column: 1 / span 8;
+.contact__form {
+  grid-column: 1 / span 7;
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
   align-content: start;
 }
 
-.contact__primary h2:not(:first-child) {
-  margin-top: var(--space-4);
+.contact__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
 }
 
-.contact__big {
-  font-size: var(--fs-h2);
-  overflow-wrap: anywhere;
-  transition: color var(--dur-base) var(--ease-reveal);
+.contact__field {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
-.contact__big:hover {
-  color: var(--red);
+.contact__field input,
+.contact__field select,
+.contact__field textarea {
+  width: 100%;
+  min-height: var(--btn-h);
+  padding: var(--space-1h) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-input);
+  background: var(--surface);
+  color: var(--white);
+  font: inherit;
+  transition: border-color var(--dur-fast) var(--ease-reveal);
+}
+
+.contact__field textarea {
+  resize: vertical;
+}
+
+.contact__field input:hover,
+.contact__field select:hover,
+.contact__field textarea:hover {
+  border-color: rgb(var(--white-rgb) / 0.4);
+}
+
+.contact__field input:focus-visible,
+.contact__field select:focus-visible,
+.contact__field textarea:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* Diensten als aanklikbare chips (echte checkboxes, visueel als pill). */
+.contact__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.contact__chip {
+  position: relative;
+  cursor: pointer;
+}
+
+.contact__chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact__chip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  transition: background-color var(--dur-fast) var(--ease-reveal), border-color var(--dur-fast) var(--ease-reveal), color var(--dur-fast) var(--ease-reveal);
+}
+
+.contact__chip input:checked + span {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--black);
+}
+
+.contact__chip input:focus-visible + span {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+.contact__submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.contact__note {
+  color: var(--grey);
+  font-size: var(--fs-small);
 }
 
 .contact__side {
@@ -206,21 +289,51 @@
   margin: 0 0 var(--space-2);
 }
 
-.contact__side address {
-  font-style: normal;
-  color: var(--white);
-}
-
-.contact__socials {
+.contact__steps {
   display: grid;
-  gap: var(--space-2);
-  justify-items: start;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-@media (max-width: 768px) {
-  .contact__primary,
+.contact__steps li {
+  display: grid;
+  gap: var(--space-0);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--line);
+}
+
+.contact__no {
+  color: var(--grey);
+  font-size: var(--fs-label);
+}
+
+.contact__step {
+  font-size: var(--fs-h4);
+}
+
+.contact__line {
+  color: var(--grey-2);
+}
+
+.contact__side p {
+  margin-bottom: var(--space-1h);
+}
+
+.contact__address {
+  margin-top: var(--space-2);
+  color: var(--grey-2);
+  font-style: normal;
+}
+
+@media (max-width: 767px) {
+  .contact__form,
   .contact__side {
     grid-column: 1 / -1;
+  }
+  .contact__row {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -329,4 +442,35 @@
 .view-toggle {
   display: flex;
   gap: var(--space-1);
+}
+
+/* Quote van de klant: alleen als die echt is aangeleverd. */
+.case-quote {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--section-s);
+}
+
+.case-quote__text {
+  margin: 0;
+  max-width: 24ch;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-tight);
+}
+
+.case-quote__by {
+  color: var(--grey);
+}
+
+.case-credits {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--section-s);
+}
+
+.case-credits ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  color: var(--grey-2);
 }

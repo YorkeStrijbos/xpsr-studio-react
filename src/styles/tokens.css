@@ -98,6 +98,7 @@
   /* Elementen */
   --radius: clamp(14px, 1.6vw, 24px); /* kaarten en beeld */
   --radius-pill: 999px;
+  --radius-input: 12px;
   --btn-h: 48px;
   --touch: 44px;
 

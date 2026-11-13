@@ -2,10 +2,10 @@ import { useLayoutEffect, useRef } from 'react';
 import { ApertureLink } from '../Aperture.jsx';
 import { LoopVideo, Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
-import { CASES } from '../../data/cases.js';
+import { PUBLISHED } from '../../data/cases.js';
 
-// Alleen cases met beeld: een leeg beeldslot is erger dan geen slot. Maximaal zes.
-const FEATURED = CASES.filter((c) => c.cover || c.heroMotion).slice(0, 6);
+// Alleen gepubliceerde cases (met beeld): een leeg beeldslot is erger dan geen slot. Maximaal zes.
+const FEATURED = PUBLISHED.slice(0, 6);
 import { WORK } from '../../content/home.js';
 import Accent from '../Accent.jsx';
 import { EASE, MQ, gsap, prefersReducedMotion } from '../../lib/motion.js';

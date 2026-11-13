@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ApertureLink, useAperture } from './Aperture.jsx';
 import { CONTACT } from '../data/site.js';
 import { CTA as FOOTER, TAGLINE } from '../content/home.js';
@@ -91,32 +92,38 @@ export default function Footer() {
       .fromTo(flashRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0, duration: 0.1, ease: EASE.linear });
   };
 
+  // Op /contact staat het formulier al: daar geen tweede "Zin in een draaidag?".
+  const { pathname } = useLocation();
+  const showAsk = pathname !== '/contact';
+
   return (
     <>
       <footer className="fa">
-        <div className="fa__stage">
-          <h2 className="display fa__ask">{FOOTER.ask}</h2>
-          <a
-            ref={recRef}
-            href="/contact"
-            className="rec"
-            onClick={press}
-            onPointerEnter={enter}
-            onPointerLeave={leave}
-            onFocus={enter}
-            onBlur={leave}
-            aria-label={FOOTER.button}
-            data-cursor=""
-          >
-            <span ref={tcRef} className="rec__tc mono" aria-hidden="true">
-              00:00:00:00
-            </span>
-            <span className="rec__label mono" aria-hidden="true">
-              REC
-            </span>
-          </a>
-          <p className="mono fa__hint">{FOOTER.button}</p>
-        </div>
+        {showAsk && (
+          <div className="fa__stage">
+            <h2 className="display fa__ask">{FOOTER.ask}</h2>
+            <a
+              ref={recRef}
+              href="/contact"
+              className="rec"
+              onClick={press}
+              onPointerEnter={enter}
+              onPointerLeave={leave}
+              onFocus={enter}
+              onBlur={leave}
+              aria-label={FOOTER.button}
+              data-cursor=""
+            >
+              <span ref={tcRef} className="rec__tc mono" aria-hidden="true">
+                00:00:00:00
+              </span>
+              <span className="rec__label mono" aria-hidden="true">
+                REC
+              </span>
+            </a>
+            <p className="mono fa__hint">{FOOTER.button}</p>
+          </div>
+        )}
 
         <div className="fa__info">
           <div className="container fa__grid">

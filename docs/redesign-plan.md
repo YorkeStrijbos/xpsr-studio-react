@@ -8,6 +8,19 @@ Werkwijze per fase: bouwen, `node scripts/screenshots.mjs` draaien en de eigen s
 
 ---
 
+## Herprioritering (13 november): laten zien wat XPSR kan, en klanten aantrekken
+
+Volgorde aangepast op het doel. Eerst het werk en de weg naar contact, daarna vorm.
+
+- [x] Reel-player via media-slot (`/media/reel.mp4`), geen zichtbare placeholder, focus terug naar de knop bij sluiten; knop "Bekijk de volledige reel" aan het eind van de hero-zoom.
+- [x] Cases: alleen gepubliceerd (met beeld) wordt getoond en gelinkt; lege velden nooit zichtbaar; velden voor bewijs (resultaat, quote, jaar, credits) klaar voor echte input; volgende case alleen gepubliceerd.
+- [x] Geen NO SIGNAL meer op home, `/cases` en casepagina's (diensten zonder beeld tonen een formaatkaart).
+- [x] `/contact`: aanvraagformulier (opent mailprogramma, geen externe dienst) en "Zo gaat het verder"; geen dubbele footer-CTA op die pagina.
+- [ ] **Wacht op XPSR**: showreel, 4 à 6 cases met loop, stills, resultaat en quote, toestemming per klant.
+- [ ] Formulierdienst kiezen (optioneel; nu mailto).
+
+---
+
 ## Beslispunten (eerst beantwoorden)
 
 Deze brief draait een paar recente, expliciete keuzes terug. Standaard volgt het plan de brief; per punt kies jij.
@@ -63,7 +76,7 @@ Volledige bevindingen en screenshots: `screenshots/audit/` (1440 en 390, per sec
 
 **Taken**
 - [x] Alle copy in één content-bestand (`src/content/home.js`, later per pagina), met de teksten uit de brief: hero, manifest (doorstreping behouden), vier statements, zes diensten, klanten "Ze gingen je voor.", VCA-regel, CTA, footer en meta-description.
-- [ ] **Wacht op keuze.** Drie voorstellen voor de kop van uitgelicht werk (nu voorlopig A: "Dit lieten we zien.").
+- [x] Kop uitgelicht werk: A, "Dit lieten we zien." (standaard, 13 november).
 - [x] Volgorde homepage: hero, zoom naar reel, manifest, statements, uitgelicht werk, één draaidag zes opbrengsten, branches, werkwijze, over ons (met foto-strip), klanten, CTA, footer.
 - [x] Beeldwolk met filters weg van de homepage; wordt `/cases` met toggle Wall / Lijst (uitgewerkt in fase 5).
 - [x] Nieuwe sectie Branches: grote beeldkaarten (industrie, bouw, horeca, events, zorg, retail) met één zin en link naar `/branche/:slug`.

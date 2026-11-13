@@ -2,6 +2,7 @@ import { ApertureLink } from '../Aperture.jsx';
 import { Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
 import { EASE, gsap } from '../../lib/motion.js';
+import { filled } from '../../data/cases.js';
 import { scramble } from '../../motion/scramble.js';
 
 /** Eén kaart: technische laag eronder, echte laag erboven, onthuld door een rode laserlijn (--scan). */
@@ -23,23 +24,24 @@ export function ScanCard({ c, index }) {
           <span className="scan__no mono">{`C-${String(index + 1).padStart(2, '0')}`}</span>
         </div>
       </ApertureLink>
+      {/* Alleen ingevulde velden: placeholders zijn nooit zichtbaar. */}
       <dl className="scan__meta mono">
-        <div>
-          <dt>Klant</dt>
-          <dd data-scramble>{c.client}</dd>
-        </div>
-        <div>
-          <dt>Wat</dt>
-          <dd data-scramble>{c.made}</dd>
-        </div>
-        <div>
-          <dt>Resultaat</dt>
-          <dd data-scramble className="scan__result">
-            {c.result}
-          </dd>
-        </div>
+        {[
+          ['Klant', c.client],
+          ['Wat', c.made],
+          ['Resultaat', c.result],
+        ]
+          .filter(([, v]) => filled(v))
+          .map(([k, v]) => (
+            <div key={k}>
+              <dt>{k}</dt>
+              <dd data-scramble className={k === 'Resultaat' ? 'scan__result' : undefined}>
+                {v}
+              </dd>
+            </div>
+          ))}
       </dl>
-      <p className="scan__line">{c.line}</p>
+      {filled(c.line) && <p className="scan__line">{c.line}</p>}
     </article>
   );
 }

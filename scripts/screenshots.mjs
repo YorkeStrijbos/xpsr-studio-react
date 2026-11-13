@@ -171,6 +171,13 @@ async function shootCases(page, dir, w) {
   await page.goto(`${BASE}/cases`, { waitUntil: 'networkidle' });
   await wait(1500);
   await page.screenshot({ path: path.join(dir, `cases-${w}.png`), fullPage: true });
+  // De wall heeft geen links: voor de casepagina's naar de lijstweergave.
+  const lijst = page.getByRole('button', { name: 'Lijst' });
+  if (await lijst.count()) {
+    await lijst.click();
+    await wait(800);
+    await page.screenshot({ path: path.join(dir, `cases-lijst-${w}.png`), fullPage: true });
+  }
   const slugs = await page.evaluate(() => [...new Set([...document.querySelectorAll('a[href^="/cases/"]')].map((a) => a.getAttribute('href').split('/')[2]))]);
   for (const slug of slugs) {
     await page.goto(`${BASE}/cases/${slug}`, { waitUntil: 'networkidle' });

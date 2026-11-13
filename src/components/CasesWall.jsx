@@ -1,12 +1,15 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Picture } from './Media.jsx';
-import NoSignal from './NoSignal.jsx';
-import { CLOUD, CLOUD_BRANCHES } from '../data/site.js';
+import { CLOUD as ALL, CLOUD_BRANCHES as ALL_BRANCHES } from '../data/site.js';
+
+// Alleen tegels met echt beeld, en alleen branches die beeld hebben.
+const CLOUD = ALL.filter((c) => c.name);
+const CLOUD_BRANCHES = ALL_BRANCHES.filter((b) => CLOUD.some((c) => c.branch === b));
 import { DUR, EASE, gsap, prefersReducedMotion } from '../lib/motion.js';
 
 /*
  * Wall: beelden op drie dieptes, filterbaar per branche. Verhuisd van de homepage naar /cases.
- * TODO fase 5: alleen branches met cases als filter, Flip bij het wisselen, tegels zonder media weg.
+ * TODO fase 5: Flip bij het wisselen; tegels en branches zonder beeld worden al niet getoond.
  */
 export default function CasesWall() {
   const root = useRef(null);
@@ -72,7 +75,7 @@ export default function CasesWall() {
           <div className="cloud__par" data-depth={c.depth}>
             <div className="cloud__frame">
               <span className="cloud__tag mono">{c.branch}</span>
-              {c.name ? <Picture name={c.name} alt={c.alt} sizes={`${c.w}vw`} imgClassName="cloud__img" /> : <NoSignal sub={c.placeholder} />}
+              <Picture name={c.name} alt={c.alt} sizes={`${c.w}vw`} imgClassName="cloud__img" />
             </div>
           </div>
         </div>

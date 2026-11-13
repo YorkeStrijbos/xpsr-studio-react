@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import CasesWall from '../components/CasesWall.jsx';
 import { ScanCard, bindScan } from '../components/home/CasesScan.jsx';
-import { CASES } from '../data/cases.js';
+import { PUBLISHED } from '../data/cases.js';
 import { gsap, prefersReducedMotion } from '../lib/motion.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
 import '../styles/home.css';
@@ -52,7 +52,7 @@ export default function Cases() {
       ) : (
         <section ref={list} className="section container" aria-label="Alle cases">
           <div className="cases-page">
-            {CASES.map((c, i) => (
+            {PUBLISHED.map((c, i) => (
               <ScanCard key={c.slug} c={c} index={i} />
             ))}
           </div>

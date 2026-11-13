@@ -14,6 +14,7 @@ export const HERO = {
   sub: 'Film, foto en social content voor bedrijven die beter zijn dan hun beeld nu laat zien. Eén team, van idee tot laatste formaat.',
   primary: 'Bekijk de reel',
   secondary: 'Plan een draaidag',
+  fullReel: 'Bekijk de volledige reel',
 };
 
 export const MANIFEST = {

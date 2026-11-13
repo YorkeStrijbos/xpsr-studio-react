@@ -178,6 +178,12 @@
   color: var(--white);
 }
 
+/* De statement-laag laat klikken door naar de video; deze knop moet zelf wel klikbaar zijn. */
+.hz__full {
+  margin-top: var(--space-2);
+  pointer-events: auto;
+}
+
 /* Flow: mobiel en reduced motion. Geen pin of zoom: video in de letters, daaronder meta en statement. */
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
   .hz__stage {
@@ -2838,4 +2844,42 @@
   .ww__steps {
     grid-template-columns: 1fr;
   }
+}
+
+/* Dienst zonder beeld: het formaat als kader (16:9, 9:16, 2.39:1 ...), met label en camera-instellingen. */
+.svl__card {
+  container-type: size;
+}
+
+.svl__format {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-2);
+  background: var(--surface);
+}
+
+.svl__frame {
+  --ar: 1.7778;
+  display: grid;
+  place-items: center;
+  width: min(70cqw, 56cqh * var(--ar));
+  aspect-ratio: var(--ar);
+  border: 1px solid rgb(var(--white-rgb) / 0.6);
+}
+
+.svl__fmt,
+.svl__specs {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+}
+
+.svl__fmt {
+  color: var(--white);
+}
+
+.svl__specs {
+  color: var(--grey);
 }

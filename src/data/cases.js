@@ -1,6 +1,7 @@
 // Alle cases op één plek. Nieuwe case = object toevoegen. Volgorde = volgorde op de site.
 // Media verwijzen naar namen uit src/assets/media (zie scripts/build-media.sh).
-// Niets verzinnen: resultaat en context blijven placeholders tot XPSR ze aanlevert.
+// Niets verzinnen: resultaat en context blijven placeholders tot XPSR ze aanlevert. Placeholders worden nooit getoond.
+// Bewijs per case (alleen echt, door XPSR aangeleverd): result (één regel), quote { text, name, role }, year, credits [].
 // TODO XPSR: per industriecase 1 loop van 4 tot 6 s, 6 tot 10 stills, resultaat en toestemming aanleveren.
 // TODO XPSR: copy check op alle "made" en "line"-teksten.
 
@@ -114,14 +115,19 @@ export const CASES = [
   },
 ];
 
-// Op de homepage: alle industriecases plus één afsluiter "Ook buiten de hal".
-export const HOME_CASES = [...CASES.filter((c) => c.industry), CASES.find((c) => c.slug === 'de-zwarte-boer')];
+/** Een tekstveld telt pas als het echt is ingevuld (geen "[PLACEHOLDER]" of "[RESULTAAT]"). */
+export const filled = (t) => typeof t === 'string' && t.trim() !== '' && !t.trim().startsWith('[');
+
+/** Gepubliceerd = er is beeld. Alleen deze cases worden getoond en gelinkt: een lege case is erger dan geen case. */
+export const hasMedia = (c) => !!(c.cover || c.heroMotion);
+export const PUBLISHED = CASES.filter(hasMedia);
 
 export function getCase(slug) {
   return CASES.find((c) => c.slug === slug);
 }
 
+/** Volgende gepubliceerde case (rondgaand). */
 export function nextCase(slug) {
-  const i = CASES.findIndex((c) => c.slug === slug);
-  return CASES[(i + 1) % CASES.length];
+  const i = PUBLISHED.findIndex((c) => c.slug === slug);
+  return PUBLISHED[(i + 1) % PUBLISHED.length];
 }
