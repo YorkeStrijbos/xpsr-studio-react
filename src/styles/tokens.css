@@ -1,5 +1,14 @@
 /* XPSR design tokens. Eén bron voor kleur, type, ruimte en motion. Zie docs/DESIGN.md. */
 
+/* Bodyfont: Geist (Vercel, SIL OFL 1.1, licentie in public/fonts). Eén variabel bestand voor alle gewichten. */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2-variations'), url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Metrische fallback voor Anton, zodat de wissel van font geen layout shift geeft. */
 @font-face {
   font-family: 'Anton Fallback';
@@ -36,7 +45,7 @@
 
   /* Typografie */
   --font-display: 'Anton', 'Anton Fallback', Impact, 'Arial Narrow', sans-serif;
-  --font-body: Arial, 'Helvetica Neue', Helvetica, sans-serif; /* TODO XPSR: bodyfont kiezen (fase 1) */
+  --font-body: 'Geist', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Vloeiende schaal. Body minimaal 17 px. Mono-labels 12 px, nooit kleiner. */

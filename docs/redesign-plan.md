@@ -1,6 +1,6 @@
 # XPSR Studio: redesign-plan (Awwwards-ronde)
 
-Status: **in uitvoering.** Beslispunten B1 t/m B5 volgen de brief (akkoord 13 november). Fase 1: alles af behalve de bodyfont (wacht op keuze).
+Status: **in uitvoering.** Beslispunten B1 t/m B5 volgen de brief (akkoord 13 november). Fase 1 afgerond.
 
 Leidende principes: beheersing boven effect, één idee per scherm, productiewaarde is de boodschap, één accentkleur, één typografisch systeem. Twijfel: weglaten.
 
@@ -40,14 +40,14 @@ Volledige bevindingen en screenshots: `screenshots/audit/` (1440 en 390, per sec
 
 ---
 
-## Fase 1: Design system
+## Fase 1: Design system ✓
 
 **Taken**
 - [x] `docs/DESIGN.md` als bron van waarheid: kleur, typografie, spacing, grid, knoppen, nav, motion.
 - [x] Kleurtokens (`src/styles/tokens.css`): neutraal diep zwart, één warm off-white, één lichte crème, één accentrood. Alle andere kleuren en hardcoded hex/rgba uit componenten en CSS weg. Rood alleen voor REC/live, primaire CTA, actieve states en maximaal één accentwoord per kop.
 - [x] Rode achtergronden en gradients weg (statements, footer, diensten-gloed, hero-zweem), afhankelijk van B1.
 - [x] Display: Anton behouden, tracking zo dat letters elkaar nergens raken (controle in de kop van de hero en het manifest).
-- [ ] **Wacht op keuze.** Bodyfont: drie premium grotesk-opties met licentie-info en een screenshot van elk in de manifest-sectie; wachten op keuze; daarna laden (self-hosted, `font-display: swap`, preload).
+- [x] Bodyfont: Geist gekozen (13 november). Drie premium grotesk-opties met licentie-info en een screenshot van elk in de manifest-sectie; wachten op keuze; daarna laden (self-hosted, `font-display: swap`, preload).
 - [x] Mono alleen voor camera-UI, labels en specs.
 - [x] Vloeiende typeschaal met `clamp()`; body minimaal 17 px, regelhoogte 1,5, maximaal 65 tekens per regel; `hyphens: manual`, geen afbreekstreepjes midden in samengestelde woorden ("Vol-gecertificeerd" wordt niet meer afgebroken; non-breaking hyphen waar nodig).
 - [x] Spacing: drie sectiehoogtes (s, m, l) en een 12-koloms grid met vaste marges; alle secties erop.

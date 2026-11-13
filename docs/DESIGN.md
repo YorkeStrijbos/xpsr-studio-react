@@ -34,7 +34,7 @@ Uitzondering: `#000` en `#fff` in masks (SVG-mask, CSS mask-image) zijn alfakana
 ## Typografie
 
 - **Display**: Anton, altijd hoofdletters, tracking `--tracking-display` (0,012em) zodat letters elkaar nergens raken, regelhoogte 0,92.
-- **Body**: nog te kiezen (fase 1, drie opties). Tot dan Arial als tijdelijke fallback.
+- **Body**: Geist (Vercel, SIL OFL 1.1), zelf gehost als één variabel bestand (`public/fonts/Geist-Variable.woff2`), preload en `font-display: swap`. Gewichten: 400 lopende tekst, 500 lead, 700 knoppen en labels.
 - **Mono**: JetBrains Mono, alleen voor camera-UI, labels en specs. Nooit kleiner dan 12 px.
 
 Schaal (vloeiend, `clamp()`):
