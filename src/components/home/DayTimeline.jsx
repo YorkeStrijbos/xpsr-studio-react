@@ -158,7 +158,7 @@ export default function DayTimeline() {
           },
         });
         // 2. Render-queue schuift over de tijdlijn; balken lopen op (per rij iets later).
-        tl.fromTo('.edit__stagequeue', { yPercent: 40, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.4, ease: EASE.out })
+        tl.fromTo('.edit__stagequeue', { yPercent: 40, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.4, ease: EASE.reveal })
           .to(q, {
             v: 1,
             duration: 1.6,
@@ -183,7 +183,7 @@ export default function DayTimeline() {
         tl.fromTo('.edit__flash', { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.08, immediateRender: false })
           .set('.edit__leader', { autoAlpha: 0 }, '<')
           .set('.edit__premiere', { autoAlpha: 1 }, '<')
-          .from(claim.lines, { yPercent: 110, stagger: 0.08, duration: 0.3, ease: EASE.out })
+          .from(claim.lines, { yPercent: 110, stagger: 0.08, duration: 0.3, ease: EASE.reveal })
           .from('.edit__premiere .edit__exports li', { autoAlpha: 0, x: 20, stagger: 0.08, duration: 0.2 }, '<0.1')
           .from('.edit__premiere .edit__cta', { autoAlpha: 0, y: 16, duration: 0.2 })
           .to({}, { duration: 0.6 });

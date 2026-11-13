@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { ApertureLink, useAperture } from './Aperture.jsx';
 import { CONTACT, FOOTER, TAGLINE } from '../data/site.js';
-import { EASE, gsap, prefersReducedMotion } from '../lib/motion.js';
+import { DUR, EASE, gsap, prefersReducedMotion } from '../lib/motion.js';
 import '../styles/footer.css';
 
 const p2 = (n) => String(n).padStart(2, '0');
@@ -41,7 +41,7 @@ export default function Footer() {
   const leave = () => {
     const st = state.current;
     st.fill?.kill();
-    gsap.to(recRef.current, { '--fill': '0deg', duration: 0.4 });
+    gsap.to(recRef.current, { '--fill': '0deg', duration: DUR.fast });
     cancelAnimationFrame(st.raf);
     tcRef.current.textContent = '00:00:00:00';
     recRef.current.classList.remove('is-live');
@@ -85,8 +85,8 @@ export default function Footer() {
         },
       })
       .set(corners, { autoAlpha: 1, x: (i) => from[i][0], y: (i) => from[i][1] })
-      .to(corners, { x: (i) => to[i][0], y: (i) => to[i][1], duration: 0.45, ease: EASE.move })
-      .fromTo(['#main', '.fa'], { filter: 'blur(6px)' }, { filter: 'blur(0px)', duration: 0.35, ease: EASE.out }, '<0.1')
+      .to(corners, { x: (i) => to[i][0], y: (i) => to[i][1], duration: DUR.fast, ease: EASE.move })
+      .fromTo(['#main', '.fa'], { filter: 'blur(6px)' }, { filter: 'blur(0px)', duration: DUR.fast, ease: EASE.reveal }, '<0.1')
       .fromTo(flashRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0, duration: 0.1, ease: EASE.linear });
   };
 
@@ -158,7 +158,7 @@ export default function Footer() {
           <div className="container fa__base">
             <span className="mono">© {year} XPSR Studio</span>
             <nav aria-label="Footer">
-              <ApertureLink to="/cases" className="mono">Cases</ApertureLink>
+              <ApertureLink to="/cases" className="mono">Werk</ApertureLink>
               <ApertureLink to="/over-ons" className="mono">Over ons</ApertureLink>
               <ApertureLink to="/contact" className="mono">Contact</ApertureLink>
             </nav>

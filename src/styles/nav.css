@@ -5,8 +5,8 @@
   border-bottom: 1px solid transparent;
   transition:
     transform var(--dur-slow) var(--ease-move),
-    background-color var(--dur-1) var(--ease-out),
-    border-color var(--dur-1) var(--ease-out);
+    background-color var(--dur-base) var(--ease-reveal),
+    border-color var(--dur-base) var(--ease-reveal);
 }
 
 .nav.is-hidden {
@@ -16,7 +16,7 @@
 /* Reduced motion: geen schuiven, alleen een fade. */
 @media (prefers-reduced-motion: reduce) {
   .nav {
-    transition: opacity var(--dur-base) linear, background-color var(--dur-1) linear;
+    transition: opacity var(--dur-base) linear, background-color var(--dur-base) linear;
   }
   .nav.is-hidden {
     transform: none;
@@ -25,18 +25,14 @@
   }
 }
 
+/* Vanaf de eerste scroll volledig dekkend: er schuift niets zichtbaar onder de nav door. */
 .nav.is-solid {
-  background: rgb(var(--black-rgb) / 0.92);
+  background: var(--black);
   border-bottom-color: var(--line);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
 }
 
-/* backdrop-filter maakt van de header een containing block voor fixed kinderen; uit zodra het menu open is. */
 .nav.is-menu {
   background: var(--black);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
 }
 
 .nav__inner {
@@ -49,7 +45,7 @@
 .nav__logo {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-1h);
 }
 
 .wordmark {
@@ -60,17 +56,17 @@
 
 .wordmark__main {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: var(--fs-h4);
   letter-spacing: 0.02em;
 }
 
 .wordmark__sub {
-  margin-top: 3px;
-  font-size: 9px;
+  margin-top: var(--space-0);
+  font-size: var(--fs-label);
   font-weight: 700;
-  letter-spacing: 0.62em;
+  letter-spacing: 0.42em;
   text-transform: uppercase;
-  color: var(--grey);
+  color: var(--grey-2);
 }
 
 .nav__links {
@@ -81,7 +77,7 @@
 
 .nav__link {
   position: relative;
-  padding-block: 8px;
+  padding-block: var(--space-1);
   font-size: var(--fs-small);
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -98,7 +94,7 @@
   background: var(--red);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform var(--dur-1) var(--ease-out);
+  transition: transform var(--dur-base) var(--ease-reveal);
 }
 
 .nav__link:hover::after,
@@ -110,7 +106,7 @@
 .nav__actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-1h);
   padding-left: var(--space-4);
   border-left: 1px solid var(--line);
 }
@@ -128,15 +124,15 @@
 
 .nav__toggle span {
   position: absolute;
-  left: 15px;
-  right: 15px;
+  left: var(--space-2);
+  right: var(--space-2);
   height: 2px;
   background: var(--white);
-  transition: transform var(--dur-1) var(--ease-out);
+  transition: transform var(--dur-base) var(--ease-reveal);
 }
 
-.nav__toggle span:first-child { top: 19px; }
-.nav__toggle span:last-child { top: 26px; }
+.nav__toggle span:first-child { top: var(--space-2); }
+.nav__toggle span:last-child { top: var(--space-3); }
 .nav__toggle.is-open span:first-child { transform: translateY(3.5px) rotate(45deg); }
 .nav__toggle.is-open span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
 
@@ -155,13 +151,13 @@
 }
 
 .menu__link {
-  font-size: clamp(48px, 14vw, 88px);
+  font-size: var(--fs-h2);
 }
 
 .menu__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--space-1h);
   margin-top: var(--space-4);
 }
 

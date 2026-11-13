@@ -90,7 +90,7 @@ export default function AboutCream() {
       {/* TODO XPSR: toestemming per klant checken; logo's als SVG aanleveren en de namen vervangen. */}
       <div className="container cream__clients-wrap">
         <h2 className="display cream__h cream__h--sm" data-reveal>
-          Industrie eerst. <span className="accent">Daarna de rest.</span>
+          Industrie eerst. Daarna de <span className="accent">rest.</span>
         </h2>
         <ul className="cream__clients">
           {[...CLIENTS_INDUSTRY, ...CLIENTS_OTHER].map((c, i) => (

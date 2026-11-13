@@ -16,6 +16,10 @@ body {
   font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
+  /* Nooit automatisch afbreken: geen streepjes midden in samengestelde woorden. */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
@@ -60,7 +64,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--red-accent);
+  outline: 2px solid var(--red);
   outline-offset: 3px;
 }
 
@@ -91,7 +95,17 @@ html.lenis body {
 }
 
 .section {
-  padding-block: var(--space-6);
+  padding-block: var(--section-m);
+}
+
+/* Drie sectiehoogtes: kies er één per sectie. */
+.section--s { padding-block: var(--section-s); }
+.section--m { padding-block: var(--section-m); }
+.section--l { padding-block: var(--section-l); }
+
+/* Lopende tekst: maximaal 65 tekens per regel. */
+p {
+  max-width: var(--measure);
 }
 
 /* Typografie */
@@ -100,7 +114,7 @@ html.lenis body {
   font-weight: 400;
   line-height: var(--lh-display);
   text-transform: uppercase;
-  letter-spacing: 0.005em;
+  letter-spacing: var(--tracking-display);
   text-wrap: balance;
 }
 
@@ -110,9 +124,9 @@ html.lenis body {
 
 .lead {
   font-size: var(--fs-lead);
-  line-height: 1.4;
+  line-height: var(--lh-tight);
   color: var(--grey-2);
-  max-width: 38ch;
+  max-width: 42ch;
   text-wrap: pretty;
 }
 
@@ -128,7 +142,7 @@ html.lenis body {
 
 .mono {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fs-label);
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -136,7 +150,8 @@ html.lenis body {
 }
 
 .label--red {
-  color: var(--red-accent);
+  /* Klein label: niet rood (contrast). Naam blijft voor bestaande markup. */
+  color: var(--grey-2);
 }
 
 .muted {
@@ -158,17 +173,21 @@ html.lenis body {
 }
 
 /* Knoppen */
+/*
+ * Knoppen: twee stijlen, verder overal gelijk (hoogte, padding, radius, hover, focus).
+ * Secundair: outline in hetzelfde off-white als de navtekst. Primair: rood gevuld.
+ */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 14px 24px;
-  border-radius: 999px;
-  /* Omlijnde knop: limoen-crème accent, zoals de knop in het kleurvoorbeeld. */
-  border: 1.5px solid var(--accent);
+  justify-content: center;
+  gap: var(--space-1h);
+  min-height: var(--btn-h);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--white);
   background: transparent;
-  color: var(--accent);
+  color: var(--white);
   font-family: var(--font-body);
   font-size: var(--fs-small);
   font-weight: 700;
@@ -177,14 +196,19 @@ html.lenis body {
   white-space: nowrap;
   cursor: pointer;
   transition:
-    background-color var(--dur-1) var(--ease-out),
-    border-color var(--dur-1) var(--ease-out),
-    color var(--dur-1) var(--ease-out);
+    background-color var(--dur-fast) var(--ease-reveal),
+    border-color var(--dur-fast) var(--ease-reveal),
+    color var(--dur-fast) var(--ease-reveal);
 }
 
 .btn:hover {
-  background: var(--accent);
+  background: var(--white);
   color: var(--black);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
 }
 
 .btn--primary {
@@ -193,10 +217,11 @@ html.lenis body {
   color: var(--white);
 }
 
+/* Hover op primair: off-white rand en vulling, zelfde beweging als secundair. */
 .btn--primary:hover {
-  background: var(--red-accent);
-  border-color: var(--red-accent);
-  color: var(--white);
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--black);
 }
 
 .btn__icon {
@@ -208,18 +233,18 @@ html.lenis body {
 .link-arrow {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-1h);
   font-size: var(--fs-small);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   border-bottom: 1px solid var(--line);
-  padding-bottom: 4px;
-  transition: border-color var(--dur-1) var(--ease-out);
+  padding-bottom: var(--space-0);
+  transition: border-color var(--dur-base) var(--ease-reveal);
 }
 
 .link-arrow:hover {
-  border-color: var(--red-accent);
+  border-color: var(--red);
 }
 
 /* Toegankelijkheid */
@@ -237,10 +262,10 @@ html.lenis body {
 
 .skip-link {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  top: var(--space-1h);
+  left: var(--space-1h);
   z-index: 1000;
-  padding: 12px 18px;
+  padding: var(--space-1h) var(--space-2);
   background: var(--white);
   color: var(--black);
   font-weight: 700;
@@ -258,8 +283,7 @@ html.lenis body {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 50% 35%, rgba(var(--light-warm) / 0.08), transparent 60%),
-    var(--ink-2);
+    var(--surface);
   color: var(--grey);
   text-align: center;
   padding: var(--space-3);
@@ -268,19 +292,19 @@ html.lenis body {
 /* Media-pauzeknop */
 .media-toggle {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  right: var(--space-1h);
+  bottom: var(--space-1h);
   z-index: 3;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: var(--touch);
+  height: var(--touch);
   border: 1px solid rgb(var(--white-rgb) / 0.35);
   border-radius: 50%;
   background: rgb(var(--black-rgb) / 0.55);
   cursor: pointer;
   opacity: 0.7;
-  transition: opacity var(--dur-1) var(--ease-out);
+  transition: opacity var(--dur-base) var(--ease-reveal);
 }
 
 .media-toggle:hover,
@@ -328,12 +352,12 @@ html.lenis body {
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: 8px;
+  gap: var(--space-1);
   width: 100%;
   height: 100%;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 45%, var(--ink-2), var(--black) 80%);
+    radial-gradient(ellipse 70% 60% at 50% 45%, var(--surface-2), var(--black) 80%);
   color: rgb(var(--white-rgb) / 0.55);
   text-align: center;
 }
@@ -355,13 +379,13 @@ html.lenis body {
 }
 
 .nosignal__label {
-  font-size: clamp(12px, 1.2vw, 16px);
+  font-size: var(--fs-small);
   font-weight: 500;
   letter-spacing: 0.3em;
 }
 
 .nosignal__sub {
-  font-size: 10px;
+  font-size: var(--fs-label);
   letter-spacing: 0.14em;
   color: var(--grey);
 }

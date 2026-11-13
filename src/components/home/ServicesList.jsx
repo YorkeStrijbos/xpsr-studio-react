@@ -50,10 +50,10 @@ export default function ServicesList() {
   }, []);
 
   return (
-    <section ref={root} className="s-services svl" aria-labelledby="svl-title">
+    <section ref={root} id="diensten" className="s-services svl" aria-labelledby="svl-title">
       <div className="container">
         <h2 id="svl-title" className="display svl__h" data-reveal>
-          Eén draaidag. <span className="accent">Zes opbrengsten.</span>
+          <span className="line">Eén draaidag.</span> <span className="line">Zes <span className="accent">opbrengsten.</span></span>
         </h2>
 
         <div className="svl__grid">

@@ -22,7 +22,7 @@
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: var(--ink);
+  background: var(--surface);
 }
 
 .case-detail__hero-el,
@@ -61,7 +61,7 @@
 
 .case-detail__shot {
   overflow: hidden;
-  background: var(--ink);
+  background: var(--surface);
 }
 
 .case-detail__shot:first-child:nth-last-child(odd) {
@@ -96,12 +96,12 @@
 .next-case__title {
   display: block;
   margin-top: var(--space-2);
-  transition: color var(--dur-1) var(--ease-out);
+  transition: color var(--dur-base) var(--ease-reveal);
 }
 
 .next-case:hover .next-case__title,
 .next-case:focus-visible .next-case__title {
-  color: var(--red-accent);
+  color: var(--red);
 }
 
 .next-case__media {
@@ -115,7 +115,7 @@
   height: 100%;
   object-fit: cover;
   filter: brightness(0.3);
-  transition: filter var(--dur-2) var(--ease-out);
+  transition: filter var(--dur-slow) var(--ease-reveal);
 }
 
 .next-case:hover .next-case__img,
@@ -186,13 +186,13 @@
 }
 
 .contact__big {
-  font-size: clamp(1.75rem, 0.8rem + 4.2vw, 5rem);
+  font-size: var(--fs-h2);
   overflow-wrap: anywhere;
-  transition: color var(--dur-1) var(--ease-out);
+  transition: color var(--dur-base) var(--ease-reveal);
 }
 
 .contact__big:hover {
-  color: var(--red-accent);
+  color: var(--red);
 }
 
 .contact__side {
@@ -233,7 +233,7 @@
 }
 
 .case-meta dt {
-  margin-bottom: 4px;
+  margin-bottom: var(--space-0);
   color: var(--grey);
 }
 
@@ -243,7 +243,7 @@
 }
 
 .case-meta__result {
-  color: var(--red-accent);
+  color: var(--white);
   font-weight: 700;
 }
 

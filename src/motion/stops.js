@@ -46,9 +46,9 @@ export function homeStops() {
       aperture: 1,
     },
     {
-      // Crème paneel: alleen het rode REC-punt rechtsboven, de lichte ring zou wegvallen.
+      // Crème paneel: geen vizier. Rood alleen waar het iets betekent (REC in hero en statements, CTA).
       trigger: '.s-about',
-      dot: { x: 0.94, y: 0.14, scale: 0.6 },
+      dot: { x: 0.94, y: 0.14, scale: 0.6, opacity: 0 },
       ring: { x: 0.94, y: 0.14, scale: 0.42, rotate: 900, opacity: 0 },
       aperture: 0.3,
     },

@@ -12,19 +12,15 @@ gsap.registerPlugin(ScrollTrigger, SplitText, Flip, Draggable);
  * tokens.css spiegelt ze voor CSS-transities (--ease-reveal, --ease-move, --dur-*).
  */
 export const EASE = {
-  reveal: 'expo.out', // tekst en blokken die binnenkomen
-  move: 'power3.inOut', // transities: iets gaat van A naar B
-  out: 'power3.out', // korte reacties (hover, klik)
-  in: 'power3.in', // iets verdwijnt
-  snap: 'expo.in', // hard weg, bijvoorbeeld een vlak dat tot een punt krimpt
-  linear: 'none', // gescrubd aan scroll
+  reveal: 'expo.out', // binnenkomen: tekst, blokken, beeld
+  move: 'power3.inOut', // van A naar B: transities, zoom, verdwijnen
+  linear: 'none', // geen easing: gescrubd aan scroll
 };
 
 export const DUR = {
-  fast: 0.35,
-  base: 0.6,
-  slow: 0.9,
-  reveal: 1.1,
+  fast: 0.35, // hover, kleine reacties
+  base: 0.7, // transities
+  slow: 1.1, // reveals
 };
 
 export const STAGGER = {
@@ -43,7 +39,7 @@ export const MQ = {
   reduced: '(prefers-reduced-motion: reduce)',
 };
 
-gsap.defaults({ ease: EASE.out, duration: DUR.base });
+gsap.defaults({ ease: EASE.reveal, duration: DUR.base });
 
 const query = '(prefers-reduced-motion: reduce)';
 

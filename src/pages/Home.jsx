@@ -1,4 +1,5 @@
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ViewfinderLayer } from '../components/Viewfinder.jsx';
 import { useAperture } from '../components/Aperture.jsx';
 import HeroZoom from '../components/home/HeroZoom.jsx';
@@ -6,15 +7,24 @@ import Pain from '../components/home/Pain.jsx';
 import AboutCream from '../components/home/AboutCream.jsx';
 import CasesRail from '../components/home/CasesRail.jsx';
 import ServicesList from '../components/home/ServicesList.jsx';
-import { EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../lib/motion.js';
+import { ScrollTrigger, gsap, prefersReducedMotion } from '../lib/motion.js';
 import { buildStops, placeAt, registerViewfinder, travelTo } from '../motion/viewfinder.js';
 import { homeStops, introStop } from '../motion/stops.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
+import { scrollToElement } from '../lib/scroll.js';
 import '../styles/home.css';
 
 export default function Home() {
   usePageTitle(null);
   const { ready } = useAperture();
+  const { hash } = useLocation();
+
+  // Ankers uit de nav (/#diensten): naar de sectie scrollen zodra de pins hun ruimte hebben ingenomen.
+  useEffect(() => {
+    if (!hash) return;
+    const id = setTimeout(() => scrollToElement(document.querySelector(hash)), 120);
+    return () => clearTimeout(id);
+  }, [hash]);
   const stopsRef = useRef(null);
 
   // Callback-ref: het vizier moet geregistreerd zijn vóór de layout-effecten van de secties draaien.
@@ -49,21 +59,6 @@ export default function Home() {
     const t = setTimeout(() => stopsRef.current && travelTo(stopsRef.current[0], 1.2), 50);
     return () => clearTimeout(t);
   }, [ready]);
-
-  // Koppen: regels komen op uit een masker; maximaal drie "stempel"-koppen.
-  useLayoutEffect(() => {
-    if (prefersReducedMotion()) return;
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray('[data-stamp]').slice(0, 3).forEach((h) => {
-        gsap
-          .timeline({ scrollTrigger: { trigger: h, start: 'top 80%' } })
-          .from(h, { scale: 1.4, autoAlpha: 0, duration: 0.35, ease: EASE.in })
-          .to(h, { x: 2, duration: 0.04, repeat: 5, yoyo: true, ease: EASE.linear })
-          .set(h, { x: 0 });
-      });
-    });
-    return () => ctx.revert();
-  }, []);
 
   return (
     <>

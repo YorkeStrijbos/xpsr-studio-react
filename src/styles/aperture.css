@@ -36,13 +36,13 @@
 
 .aperture__blades {
   fill: none;
-  stroke: var(--steel-2);
+  stroke: var(--surface-2);
   stroke-width: 0.35;
 }
 
 .aperture__rim {
   fill: none;
-  stroke: var(--red-accent);
+  stroke: var(--red);
   stroke-width: 0.3;
 }
 
@@ -61,24 +61,24 @@
 
 .pre__rec {
   position: absolute;
-  left: 48px;
-  top: 28px;
+  left: var(--space-4);
+  top: var(--space-3h);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-1);
 }
 
 .pre__dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--red-accent);
+  background: var(--red);
 }
 
 .pre__tc {
   position: absolute;
-  right: 48px;
-  bottom: 28px;
+  right: var(--space-4);
+  bottom: var(--space-3h);
 }
 
 .pre__c {

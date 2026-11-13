@@ -8,11 +8,15 @@ import { DUR, EASE, STAGGER, gsap, prefersReducedMotion } from '../lib/motion.js
 import { hexClipPath } from '../motion/iris.js';
 import '../styles/nav.css';
 
+// Ankers (#) verwijzen naar secties op de homepage. TODO: Branches krijgt in fase 2 zijn sectie (#branches).
 const LINKS = [
-  { to: '/cases', label: 'Cases' },
+  { to: '/cases', label: 'Werk' },
+  { to: '/#diensten', label: 'Diensten' },
+  { to: '/#branches', label: 'Branches' },
   { to: '/over-ons', label: 'Over ons' },
   { to: '/contact', label: 'Contact' },
 ];
+const isActive = (to, pathname) => !to.includes('#') && pathname.startsWith(to);
 
 function PlayIcon() {
   return (
@@ -106,8 +110,8 @@ export default function Nav() {
             <ApertureLink
               key={l.to}
               to={l.to}
-              className={`nav__link ${pathname.startsWith(l.to) ? 'is-active' : ''}`}
-              aria-current={pathname.startsWith(l.to) ? 'page' : undefined}
+              className={`nav__link ${isActive(l.to, pathname) ? 'is-active' : ''}`}
+              aria-current={isActive(l.to, pathname) ? 'page' : undefined}
             >
               {l.label}
             </ApertureLink>

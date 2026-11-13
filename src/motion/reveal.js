@@ -2,7 +2,7 @@ import { DUR, EASE, STAGGER, SplitText, gsap, prefersReducedMotion } from '../li
 
 /*
  * Eén tekst-reveal voor de hele site: woorden rijzen op uit hun masker zodra de kop in beeld komt.
- * Niet gescrubd, maar afgespeeld: DUR.reveal, STAGGER.words, EASE.reveal.
+ * Niet gescrubd, maar afgespeeld: DUR.slow, STAGGER.words, EASE.reveal.
  * Gebruik: data-reveal op de kop, en revealIn(scope) in een gsap.context van de sectie.
  */
 export function revealIn(scope) {
@@ -11,7 +11,7 @@ export function revealIn(scope) {
     const split = new SplitText(el, { type: 'words', mask: 'words' });
     gsap.from(split.words, {
       yPercent: 110,
-      duration: DUR.reveal,
+      duration: DUR.slow,
       ease: EASE.reveal,
       stagger: STAGGER.words,
       scrollTrigger: { trigger: el, start: 'top 85%' },
@@ -27,7 +27,7 @@ export function riseIn(targets, trigger, vars = {}) {
   gsap.from(targets, {
     autoAlpha: 0,
     y: 40,
-    duration: DUR.reveal,
+    duration: DUR.slow,
     ease: EASE.reveal,
     stagger: STAGGER.lines,
     scrollTrigger: { trigger, start: 'top 80%' },

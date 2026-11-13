@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../lib/motion.js';
+import { DUR, EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../lib/motion.js';
 import { scrollToTop } from '../lib/scroll.js';
 import { createIris } from '../motion/iris.js';
 import '../styles/aperture.css';
@@ -121,6 +121,12 @@ export function ApertureProvider({ children }) {
   const go = useCallback(
     (to) => {
       if (busy.current || to === location.pathname) return;
+      // Anker op dezelfde pagina (bijvoorbeeld /#diensten vanaf home): geen transitie, alleen de hash zetten.
+      const [path, hash] = to.split('#');
+      if (hash && (path || '/') === location.pathname) {
+        navigate(to);
+        return;
+      }
       const layer = layerRef.current;
       busy.current = true;
 
@@ -168,10 +174,10 @@ export function ApertureProvider({ children }) {
             busy.current = false;
           },
         })
-        .to(state, { o: 0, duration: 0.55, ease: EASE.in, onUpdate: () => setOpen(state.o) })
+        .to(state, { o: 0, duration: DUR.fast, ease: EASE.move, onUpdate: () => setOpen(state.o) })
         .fromTo(flashRef.current, { autoAlpha: 0.85 }, { autoAlpha: 0, duration: 0.08, ease: EASE.linear })
         .add(swap)
-        .to(state, { o: 1, duration: 0.8, ease: EASE.reveal, onUpdate: () => setOpen(state.o) }, '+=0.1');
+        .to(state, { o: 1, duration: DUR.base, ease: EASE.reveal, onUpdate: () => setOpen(state.o) }, '+=0.1');
     },
     [location.pathname, navigate],
   );

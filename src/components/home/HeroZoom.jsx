@@ -25,7 +25,7 @@ function findZoomPoint(texts, fs, W, H) {
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   ctx.clearRect(0, 0, W, H);
   ctx.font = `${fs}px ${getComputedStyle(texts[0]).fontFamily}`;
-  ctx.letterSpacing = `${-0.01 * fs}px`;
+  ctx.letterSpacing = getComputedStyle(texts[0]).letterSpacing; // gelijk aan --tracking-display
   ctx.textAlign = 'center';
   ctx.fillStyle = '#000';
   texts.forEach((t) => ctx.fillText(t.textContent, +t.getAttribute('x'), +t.getAttribute('y')));
@@ -115,9 +115,9 @@ export default function HeroZoom() {
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         intro.current = gsap
           .timeline({ paused: true })
-          .from('.hz__cut-text', { y: 60, opacity: 0, duration: DUR.reveal, ease: EASE.reveal, stagger: STAGGER.lines * 1.5 }, 0)
+          .from('.hz__cut-text', { y: 60, opacity: 0, duration: DUR.slow, ease: EASE.reveal, stagger: STAGGER.lines * 1.5 }, 0)
           // Wrapper, niet de video zelf: die schaalt al mee met de scroll-tijdlijn.
-          .from('.hz__video', { scale: 1.25, duration: DUR.reveal * 1.6, ease: EASE.reveal }, 0)
+          .from('.hz__video', { scale: 1.25, duration: DUR.slow, ease: EASE.reveal }, 0)
           .from('.hz__fade', { autoAlpha: 0, y: 16, duration: DUR.slow, ease: EASE.reveal, stagger: STAGGER.lines }, 0.35);
         return () => {
           intro.current = null;
@@ -132,10 +132,10 @@ export default function HeroZoom() {
         tl.fromTo(
           zoomG,
           { scale: 1, svgOrigin: () => `${zoomAt.current.x} ${zoomAt.current.y}` },
-          { scale: ZOOM, duration: 1, ease: EASE.snap },
+          { scale: ZOOM, duration: 1, ease: EASE.move },
           0,
         )
-          .fromTo('.hz__vid', { scale: 1.12 }, { scale: 1, duration: 1.1, ease: EASE.out }, 0)
+          .fromTo('.hz__vid', { scale: 1.12 }, { scale: 1, duration: 1.1, ease: EASE.reveal }, 0)
           .to('.hz__meta', { autoAlpha: 0, y: -16, duration: 0.25 }, 0)
           // Door de letter heen: het zwarte vlak valt weg, de video is schermvullend.
           .set(cut, { autoAlpha: 0 }, 1)
@@ -196,21 +196,8 @@ export default function HeroZoom() {
                   ))}
                 </g>
               </mask>
-              {/* Donker vlak: bijna zwart, nauwelijks lichter in het midden, met een zweem warme gloed onderin. */}
-              <radialGradient id="hz-base" cx="0.5" cy="0.45" r="0.75">
-                <stop offset="0" stopColor="#120806" />
-                <stop offset="0.6" stopColor="#0B0504" />
-                <stop offset="1" stopColor="#060302" />
-              </radialGradient>
-              <radialGradient id="hz-glow" r="0.5">
-                <stop offset="0" stopColor="#4A100B" stopOpacity="0.28" />
-                <stop offset="1" stopColor="#4A100B" stopOpacity="0" />
-              </radialGradient>
             </defs>
-            <g mask="url(#hz-cut)">
-              <rect width="100%" height="100%" fill="url(#hz-base)" />
-              <rect x="10%" y="70%" width="80%" height="70%" fill="url(#hz-glow)" />
-            </g>
+            <rect width="100%" height="100%" className="hz__cut-plate" mask="url(#hz-cut)" />
           </svg>
           <div className="hz__shade" />
         </div>

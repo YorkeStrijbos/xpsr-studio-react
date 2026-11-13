@@ -64,7 +64,7 @@ export default function CasesRail() {
           <div className="rail__intro">
             {/* TODO XPSR: copy check. */}
             <h2 id="rail-title" className="display rail__h" data-reveal>
-              Zij bouwen het. <span className="accent">Wij lieten het zien.</span>
+              Zij bouwen het. Wij lieten het <span className="accent">zien.</span>
             </h2>
             <p className="rail__sub">Industrie eerst. Daarna de rest.</p>
             <ApertureLink to="/cases" className="link-arrow">

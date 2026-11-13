@@ -13,13 +13,13 @@
 
 .cam__text {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0.1em;
   fill: rgb(var(--white-rgb) / 0.7);
 }
 
 .cam__rec {
-  fill: var(--red-accent);
+  fill: var(--red);
 }
 
 .sketch__ink {
@@ -27,7 +27,7 @@
 }
 
 .sketch__ink--red {
-  stroke: var(--red-accent);
+  stroke: var(--red);
   stroke-width: 1.6;
 }
 

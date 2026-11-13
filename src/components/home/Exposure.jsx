@@ -82,7 +82,7 @@ export default function Exposure() {
           scrollTrigger: { trigger: el, start: 'top top', end: '+=130%', pin: true, scrub: 1 },
         })
         .to(st, { ev: 1.5, duration: 1, ease: EASE.move, onUpdate: () => render(st.ev) })
-        .to(st, { ev: 0, duration: 0.6, ease: EASE.out, onUpdate: () => render(st.ev) })
+        .to(st, { ev: 0, duration: 0.6, ease: EASE.reveal, onUpdate: () => render(st.ev) })
         .fromTo('.expo__copy > *', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.3 }, '-=0.1')
         .to({}, { duration: 0.4 });
     }, el);

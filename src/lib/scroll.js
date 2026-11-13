@@ -18,6 +18,14 @@ export function initSmoothScroll() {
   };
 }
 
+/** Vloeiend naar een element scrollen (onder de nav), via Lenis als die draait. */
+export function scrollToElement(el) {
+  if (!el) return;
+  const offset = -parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h') || '0');
+  if (lenis) lenis.scrollTo(el, { offset });
+  else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: 'smooth' });
+}
+
 export function scrollToTop() {
   if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
   else window.scrollTo(0, 0);

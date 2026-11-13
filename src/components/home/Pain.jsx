@@ -42,8 +42,8 @@ export default function Pain() {
         const SLOT = IN + HOLD + OUT + GAP;
         spans.forEach((span, i) => {
           const at = 0.3 + i * SLOT;
-          tl.fromTo(span, { yPercent: 110, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: IN, ease: EASE.out, immediateRender: false }, at);
-          tl.fromTo(span, { yPercent: 0, autoAlpha: 1 }, { yPercent: -110, autoAlpha: 0, duration: OUT, ease: EASE.in, immediateRender: false }, at + IN + HOLD);
+          tl.fromTo(span, { yPercent: 110, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: IN, ease: EASE.reveal, immediateRender: false }, at);
+          tl.fromTo(span, { yPercent: 0, autoAlpha: 1 }, { yPercent: -110, autoAlpha: 0, duration: OUT, ease: EASE.move, immediateRender: false }, at + IN + HOLD);
         });
         // Korte rust na de laatste regel, dan scrolt de sectie gewoon door.
         tl.to({}, { duration: 0.3 });
@@ -62,8 +62,8 @@ export default function Pain() {
       // Muis beweegt de wolk licht mee, per diepte.
       const layers = gsap.utils.toArray('.cloud__par', el).map((p) => ({
         d: Number(p.dataset.depth),
-        x: gsap.quickTo(p, 'x', { duration: 0.8, ease: EASE.out }),
-        y: gsap.quickTo(p, 'y', { duration: 0.8, ease: EASE.out }),
+        x: gsap.quickTo(p, 'x', { duration: 0.8, ease: EASE.reveal }),
+        y: gsap.quickTo(p, 'y', { duration: 0.8, ease: EASE.reveal }),
       }));
       const onMove = (e) => {
         const nx = e.clientX / window.innerWidth - 0.5;

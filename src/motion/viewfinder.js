@@ -1,4 +1,4 @@
-import { EASE, gsap } from '../lib/motion.js';
+import { DUR, EASE, gsap } from '../lib/motion.js';
 import { createIris } from './iris.js';
 
 /*
@@ -66,7 +66,7 @@ function cornerFracRect(c) {
 
 export function frameCorners(rect, vars = {}) {
   const t = cornerTargets(rect);
-  els.corners.forEach((c, i) => gsap.to(c, { x: t[i].x, y: t[i].y, autoAlpha: 1, duration: 0.6, ease: EASE.reveal, overwrite: 'auto', ...vars }));
+  els.corners.forEach((c, i) => gsap.to(c, { x: t[i].x, y: t[i].y, autoAlpha: 1, duration: DUR.base, ease: EASE.reveal, overwrite: 'auto', ...vars }));
 }
 
 export function setCorners(rect) {

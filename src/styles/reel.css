@@ -28,7 +28,7 @@
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  background: var(--ink);
+  background: var(--surface);
 }
 
 .reel__note {
@@ -43,7 +43,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .reel[open] {
-    animation: reel-in var(--dur-1) var(--ease-out);
+    animation: reel-in var(--dur-base) var(--ease-reveal);
   }
 }
 
