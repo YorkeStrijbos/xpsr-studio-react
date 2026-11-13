@@ -4,6 +4,7 @@ import { LoopVideo } from '../Media.jsx';
 import { useOpenReel } from '../Reel.jsx';
 import { HERO, MANIFEST } from '../../content/home.js';
 import { DUR, EASE, MQ, STAGGER, ScrollTrigger, gsap, useMediaQuery } from '../../lib/motion.js';
+import { snapThrough } from '../../lib/scroll.js';
 
 const ZOOM = 70; // eindschaal van de kop: ruim genoeg om met één letterstreep het hele scherm te vullen
 const CAP = 0.735; // hoofdletterhoogte van Anton, als deel van de korps
@@ -50,7 +51,7 @@ function findZoomPoint(texts, fs, W, H) {
 /*
  * De kop is de video. Footage speelt vanaf het eerste frame in de letters van de claim.
  * Techniek: een SVG over de video, met een zwart vlak waarin de tekst als gat is uitgespaard (mask).
- * Desktop, gepind en gescrubd: de tekst in het mask schaalt op rond de I van het laatste woord. Dat is een
+ * Desktop, gepind; één scroll speelt de zoom helemaal af: de tekst in het mask schaalt op rond de I van het laatste woord. Dat is een
  * SVG-transform, dus vector: geen gigantische rasters zoals bij het schalen van een HTML-laag. We vliegen door
  * de letter heen, de video vult het scherm en het statement licht woord voor woord op.
  * Mobiel en reduced motion: geen pin en geen zoom. Video in de letters (vier regels), daaronder het statement.
@@ -150,7 +151,8 @@ export default function HeroZoom() {
 
         gsap
           .timeline({
-            scrollTrigger: { trigger: stage, start: 'top top', end: '+=200%', pin: true, scrub: 1, invalidateOnRefresh: true },
+            // Eén scroll is genoeg: de zoom speelt vanzelf af tot het statement staat (of terug naar de kop).
+            scrollTrigger: { trigger: stage, start: 'top top', end: '+=120%', pin: true, scrub: true, invalidateOnRefresh: true, onUpdate: snapThrough({ duration: 2.4 }) },
           })
           .add(tl);
       });

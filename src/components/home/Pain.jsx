@@ -48,7 +48,7 @@ export default function Pain() {
 
         gsap
           .timeline({
-            scrollTrigger: { trigger: '.pain__pin', start: 'top top', end: `+=${lines.length * 80}%`, pin: true, scrub: 0.4, invalidateOnRefresh: true },
+            scrollTrigger: { trigger: '.pain__pin', start: 'top top', end: `+=${lines.length * 45}%`, pin: true, scrub: 0.4, invalidateOnRefresh: true },
           })
           .add(tl);
       });
