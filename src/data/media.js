@@ -7,12 +7,12 @@
  */
 export const SLOTS = {
   reel: {
-    file: '/media/reel.mp4',
+    file: `${import.meta.env.BASE_URL}media/reel.mp4`,
     fallback: 'loop-reym-juri', // TODO XPSR: showreel aanleveren; tot die tijd speelt dit korte fragment.
     spec: 'Showreel 60 tot 90 s, 1920x1080 of groter, 25 fps, H.264 rond 10 Mbps, met audio (AAC 192 kbps). Opent in de fullscreen player.',
   },
   heroReel: {
-    file: '/media/hero-reel.mp4',
+    file: `${import.meta.env.BASE_URL}media/hero-reel.mp4`,
     fallback: 'loop-reym-juri', // TODO XPSR: hero-reel.mp4 aanleveren; deze fallback is 380 px breed en dus zacht.
     spec: '1920x1080, 8 tot 12 s naadloze loop, 25 fps, H.264 rond 6 Mbps, geen audio. Industrie: vonken, lassen, machines, vakmensen. Veel contrast en licht: hij speelt in de letters van de kop.',
   },

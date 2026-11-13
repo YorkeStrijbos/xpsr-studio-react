@@ -104,7 +104,7 @@ export default function Footer() {
             <h2 className="display fa__ask">{FOOTER.ask}</h2>
             <a
               ref={recRef}
-              href="/contact"
+              href={`${import.meta.env.BASE_URL}contact`}
               className="rec"
               onClick={press}
               onPointerEnter={enter}
