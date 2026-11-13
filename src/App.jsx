@@ -11,6 +11,7 @@ import Cases from './pages/Cases.jsx';
 import CaseDetail from './pages/CaseDetail.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
+import Branche from './pages/Branche.jsx';
 import NotFound from './pages/NotFound.jsx';
 import { initSmoothScroll } from './lib/scroll.js';
 
@@ -31,6 +32,7 @@ export default function App() {
             <Route path="/cases/:slug" element={<CaseDetail />} />
             <Route path="/over-ons" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/branche/:slug" element={<Branche />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

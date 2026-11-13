@@ -1,8 +1,9 @@
 import { useId, useLayoutEffect, useRef, useState } from 'react';
+import Accent from '../Accent.jsx';
 import { ApertureLink } from '../Aperture.jsx';
 import { LoopVideo, Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
-import { SERVICES } from '../../data/site.js';
+import { SERVICES, SERVICES_HEADING } from '../../content/home.js';
 import { STAGGER, gsap } from '../../lib/motion.js';
 import { revealIn, riseIn } from '../../motion/reveal.js';
 
@@ -53,7 +54,7 @@ export default function ServicesList() {
     <section ref={root} id="diensten" className="s-services svl" aria-labelledby="svl-title">
       <div className="container">
         <h2 id="svl-title" className="display svl__h" data-reveal>
-          <span className="line">Eén draaidag.</span> <span className="line">Zes <span className="accent">opbrengsten.</span></span>
+          <span className="line">{SERVICES_HEADING[0]}</span> <Accent className="line" text={SERVICES_HEADING[1]} />
         </h2>
 
         <div className="svl__grid">

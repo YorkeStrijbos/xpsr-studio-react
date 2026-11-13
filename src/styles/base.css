@@ -118,6 +118,11 @@ p {
   text-wrap: balance;
 }
 
+/* Kop op vaste regels: <span class="line"> breekt nooit midden in een zin af. */
+.display .line {
+  display: block;
+}
+
 .h1 { font-size: var(--fs-h1); }
 .h2 { font-size: var(--fs-h2); }
 .h3 { font-size: var(--fs-h3); }

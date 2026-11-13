@@ -1,4 +1,4 @@
-// Centrale content voor XPSR Studio (V2: industrie eerst).
+// Content voor de overige pagina's (over ons, contact, draaidag). Homepage-copy: src/content/home.js.
 // Copy-regels: geen em dashes, geen verzonnen cijfers of quotes.
 // TODO XPSR: copy check. Alle teksten hieronder zijn een voorstel uit de V2-brief.
 
@@ -15,35 +15,9 @@ export const CONTACT = {
   ],
 };
 
-export const TAGLINE = 'Film, foto en social voor de industrie. Productiehuis uit Harderwijk.';
 
-export const HERO = {
-  label: 'Industrie / Techniek / Film & foto',
-  // TODO XPSR: definitieve claim bevestigen.
-  claim: ['Jullie bouwen het.', 'Wij laten het zien.'],
-  // TODO XPSR: bevestigen dat "VCA Vol-gecertificeerd" zo genoemd mag worden.
-  sub: 'Film, foto en social voor de industrie. VCA Vol-gecertificeerd, dus we draaien waar anderen niet mogen komen.',
-};
 
-export const STATEMENT = {
-  rows: [
-    ['Geen', { struck: 'bedrijfsfilmpje.' }],
-    ['Een reden', 'om bij jullie'],
-    ['te werken.'],
-  ],
-  // TODO XPSR: keuze tussen "Just staal. Just verhaal." en "Geen stock. Geen saai. Gewoon staal."
-  punch: 'Geen stock. Geen saai. Gewoon staal.',
-  body: 'Technische bedrijven maken de mooiste dingen van Nederland en laten de saaiste filmpjes zien. Wij draaien dat om. Met film die werft, uitlegt en verkoopt.',
-};
 
-export const PAIN = {
-  lines: [
-    'Je zoekt monteurs. Zij zoeken een werkgever die er gaaf uitziet.',
-    'Je product is complex. Je klant heeft 8 seconden.',
-    'Je hal is spectaculair. Niemand weet het.',
-  ],
-  turn: 'Tijd om de lichten aan te zetten.',
-};
 
 // Beeldwolk: 3 dieptes, filterbaar per branche. Echte stills waar ze er zijn, placeholders voor industrie.
 // TODO XPSR: 12 tot 14 stills aanleveren, vooral industrie (lassen, slijpen, machines, vakmensen, hallen).
@@ -66,41 +40,8 @@ export const CLOUD = [
 ];
 
 
-// Volgorde = volgorde op de homepage. Zie ook cases.js voor de detailpagina's.
-// Diensten als accordion met beeldkaart. ar en cam zijn de camera-instellingen in het onderschrift van de kaart.
-// media: still/loop uit src/assets/media, of leeg voor NO SIGNAL. Elk beeld maximaal één keer per pagina.
-// TODO XPSR: per dienst een eigen loop aanleveren.
-export const SERVICES = [
-  { code: 'A-01', title: 'Bedrijfsfilm', label: 'Bedrijfsfilm', line: 'Wat jullie doen, in 90 seconden.', ar: 2.39, kind: 'scope', cam: ['ISO 400', 'F 2.8', '1/50', 'WB 5600K'] },
-  { code: 'A-02', title: 'Recruitmentfilm', label: 'Recruitmentfilm', line: 'Vakmensen die solliciteren omdat ze de film zagen.', ar: 16 / 9, kind: 'focus', cam: ['ISO 400', 'F 2', '1/50', 'WB 4300K'] },
-  { code: 'A-03', title: 'Explainer / productfilm', label: 'Productfilm', line: 'Complex gemaakt simpel.', ar: 16 / 9, kind: 'callout', cam: ['ISO 200', 'F 5.6', '1/50', 'WB 5600K'] },
-  {
-    code: 'A-04',
-    title: 'Fotografie',
-    label: 'Fotografie',
-    line: 'Mensen, machines, projecten.',
-    ar: 3 / 2,
-    kind: 'photo',
-    cam: ['ISO 200', 'F 4', '1/250', 'WB 5600K'],
-    media: { type: 'still', name: 'block-corporate', alt: 'Teamfoto in een witte studio' },
-  },
-  { code: 'A-05', title: 'Drone', label: 'Drone', line: 'Overzicht van terrein, installatie of project.', ar: 16 / 9, kind: 'drone', cam: ['ISO 100', 'F 2.8', '1/50', 'ND 16'] },
-  {
-    code: 'A-06',
-    title: 'Social content',
-    label: 'Social',
-    line: 'Elke maand zichtbaar, met groeigarantie.',
-    ar: 9 / 16,
-    kind: 'social',
-    cam: ['ISO 800', 'F 1.8', '1/50', 'WB 5600K'],
-    media: { type: 'still', name: 'social-content-behind-the-scenes', alt: 'Achter de schermen bij een social-shoot' },
-  },
-];
 
 
-// TODO XPSR: toestemming per klant checken voordat namen of logo's live gaan.
-export const CLIENTS_INDUSTRY = ['REYM', 'WIKO', 'E-tronic', 'HBM Machines', 'Lichtbedrijf'];
-export const CLIENTS_OTHER = ['Bij RoSa', 'Verlan', 'De Zwarte Boer', 'Buitenplaats Het Loo', 'YOUNG Group'];
 
 export const ABOUT = [
   {
@@ -148,10 +89,6 @@ export const TEAM = [
 ];
 
 
-export const FOOTER = {
-  ask: 'Zin in een draaidag?',
-  button: 'Plan een draaidag', // label onder het REC-punt
-};
 
 // Storyboard: zo plannen we de shots voordat de camera aangaat. Generiek voorbeeld van een recruitmentfilm.
 // TODO XPSR: copy check.

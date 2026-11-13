@@ -1,6 +1,6 @@
 # XPSR Studio: redesign-plan (Awwwards-ronde)
 
-Status: **in uitvoering.** Beslispunten B1 t/m B5 volgen de brief (akkoord 13 november). Fase 1 afgerond.
+Status: **in uitvoering.** Beslispunten B1 t/m B5 volgen de brief (akkoord 13 november). Fase 1 afgerond. Fase 2 afgerond op de keuze van de werk-kop na.
 
 Leidende principes: beheersing boven effect, één idee per scherm, productiewaarde is de boodschap, één accentkleur, één typografisch systeem. Twijfel: weglaten.
 
@@ -59,17 +59,17 @@ Volledige bevindingen en screenshots: `screenshots/audit/` (1440 en 390, per sec
 
 **Acceptatie**: geen hardcoded kleur, fontgrootte of spacing in componenten (grep op `#`, `rgb(`, `px` in component-CSS geeft alleen tokens); screenshots tonen één rustig, consistent systeem; alle tekst AA.
 
-## Fase 2: Copy en structuur
+## Fase 2: Copy en structuur ✓
 
 **Taken**
-- [ ] Alle copy in één content-bestand (`src/content/home.js`, later per pagina), met de teksten uit de brief: hero, manifest (doorstreping behouden), vier statements, zes diensten, klanten "Ze gingen je voor.", VCA-regel, CTA, footer en meta-description.
-- [ ] Drie voorstellen voor de kop van uitgelicht werk; wachten op keuze.
-- [ ] Volgorde homepage: hero, zoom naar reel, manifest, statements, uitgelicht werk, één draaidag zes opbrengsten, branches, werkwijze, over ons (met foto-strip), klanten, CTA, footer.
-- [ ] Beeldwolk met filters weg van de homepage; wordt `/cases` met toggle Wall / Lijst (uitgewerkt in fase 5).
-- [ ] Nieuwe sectie Branches: grote beeldkaarten (industrie, bouw, horeca, events, zorg, retail) met één zin en link naar `/branche/:slug`.
-- [ ] Branche-template `/branche/:slug`, gevoed door `src/content/branches.js` (titel, intro, hero-media, relevante cases, diensten, FAQ, meta). Alleen structuur en voorbeeldvelden.
-- [ ] Werkwijze-sectie op de homepage (kort; de uitgebreide draaidag-tijdlijn blijft op `/over-ons`).
-- [ ] Industrie-taal van de homepage en uit de meta; die komt terug op `/branche/industrie`.
+- [x] Alle copy in één content-bestand (`src/content/home.js`, later per pagina), met de teksten uit de brief: hero, manifest (doorstreping behouden), vier statements, zes diensten, klanten "Ze gingen je voor.", VCA-regel, CTA, footer en meta-description.
+- [ ] **Wacht op keuze.** Drie voorstellen voor de kop van uitgelicht werk (nu voorlopig A: "Dit lieten we zien.").
+- [x] Volgorde homepage: hero, zoom naar reel, manifest, statements, uitgelicht werk, één draaidag zes opbrengsten, branches, werkwijze, over ons (met foto-strip), klanten, CTA, footer.
+- [x] Beeldwolk met filters weg van de homepage; wordt `/cases` met toggle Wall / Lijst (uitgewerkt in fase 5).
+- [x] Nieuwe sectie Branches: grote beeldkaarten (industrie, bouw, horeca, events, zorg, retail) met één zin en link naar `/branche/:slug`.
+- [x] Branche-template `/branche/:slug`, gevoed door `src/content/branches.js` (titel, intro, hero-media, relevante cases, diensten, FAQ, meta). Alleen structuur en voorbeeldvelden.
+- [x] Werkwijze-sectie op de homepage (kort; de uitgebreide draaidag-tijdlijn blijft op `/over-ons`).
+- [x] Industrie-taal van de homepage en uit de meta; die komt terug op `/branche/industrie`.
 
 **Bestanden**: `src/content/*.js`, `src/data/site.js` (afbouwen), `src/pages/Home.jsx`, nieuw `src/pages/Branche.jsx`, `src/components/home/Branches.jsx`, `src/components/home/Werkwijze.jsx`, `src/App.jsx`, `index.html`.
 

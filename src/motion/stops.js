@@ -33,17 +33,17 @@ export function homeStops() {
       exit: { core: 0 },
     },
     {
+      trigger: '.s-cases',
+      dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
+      ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: 720, opacity: 0 },
+      aperture: 1,
+    },
+    {
       // Diensten en cases: rustige secties zonder vizier; punt en ring uit beeld.
       trigger: '.s-services',
       dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
       ring: { x: 0.5, y: 0.5, scale: 0.3, rotate: 540, opacity: 0 },
       aperture: 0.9,
-    },
-    {
-      trigger: '.s-cases',
-      dot: { x: 0.5, y: 0.5, scale: 0.3, opacity: 0 },
-      ring: { x: 0.5, y: 0.5, scale: 0.4, rotate: 720, opacity: 0 },
-      aperture: 1,
     },
     {
       // Crème paneel: geen vizier. Rood alleen waar het iets betekent (REC in hero en statements, CTA).

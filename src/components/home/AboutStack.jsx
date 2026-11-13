@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef } from 'react';
 import Portrait from '../Portrait.jsx';
 import Workflow from './Workflow.jsx';
-import { ABOUT, CLIENTS_INDUSTRY, CLIENTS_OTHER, TEAM } from '../../data/site.js';
+import { ABOUT, TEAM } from '../../data/site.js';
+import { CLIENTS } from '../../content/home.js';
 import { EASE, ScrollTrigger, gsap, prefersReducedMotion } from '../../lib/motion.js';
 
 /*
@@ -83,15 +84,10 @@ export default function AboutStack() {
                 // TODO XPSR: toestemming per klant checken; logo's als SVG aanleveren.
                 <div className="stack__clients">
                   <ul className="stack__clients-main">
-                    {CLIENTS_INDUSTRY.map((c) => (
+                    {CLIENTS.names.map((c) => (
                       <li key={c} className="display">
                         {c}
                       </li>
-                    ))}
-                  </ul>
-                  <ul className="stack__clients-other">
-                    {CLIENTS_OTHER.map((c) => (
-                      <li key={c}>{c}</li>
                     ))}
                   </ul>
                 </div>

@@ -261,3 +261,72 @@
 .cases-page__sub {
   margin-bottom: var(--space-5);
 }
+
+/* ---------- Branchepagina (template) ---------- */
+.branche__hero {
+  margin-bottom: var(--section-s);
+}
+
+.branche__hero picture,
+.branche__hero-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.branche__cases,
+.branche__services {
+  display: grid;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.branche__case,
+.branche__services li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.branche__case .display,
+.branche__services .display {
+  font-size: var(--fs-h4);
+}
+
+.branche__case .mono {
+  color: var(--grey);
+  font-size: var(--fs-label);
+}
+
+.branche__services li > span:last-child {
+  color: var(--grey-2);
+}
+
+.branche__faq {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+}
+
+.branche__faq dt {
+  font-size: var(--fs-lead);
+}
+
+.branche__faq dd {
+  margin: var(--space-1) 0 0;
+  color: var(--grey-2);
+}
+
+/* Weergave-schakelaar (Werk: Wall / Lijst) */
+.view-toggle {
+  display: flex;
+  gap: var(--space-1);
+}

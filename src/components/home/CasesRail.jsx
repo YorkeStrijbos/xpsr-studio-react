@@ -3,6 +3,11 @@ import { ApertureLink } from '../Aperture.jsx';
 import { LoopVideo, Picture } from '../Media.jsx';
 import NoSignal from '../NoSignal.jsx';
 import { CASES } from '../../data/cases.js';
+
+// Alleen cases met beeld: een leeg beeldslot is erger dan geen slot. Maximaal zes.
+const FEATURED = CASES.filter((c) => c.cover || c.heroMotion).slice(0, 6);
+import { WORK } from '../../content/home.js';
+import Accent from '../Accent.jsx';
 import { EASE, MQ, gsap, prefersReducedMotion } from '../../lib/motion.js';
 import { revealIn } from '../../motion/reveal.js';
 
@@ -62,16 +67,15 @@ export default function CasesRail() {
       <div className="rail__stage">
         <div className="rail__track">
           <div className="rail__intro">
-            {/* TODO XPSR: copy check. */}
+            {/* TODO XPSR: kop kiezen uit WORK.headingOptions. */}
             <h2 id="rail-title" className="display rail__h" data-reveal>
-              Zij bouwen het. Wij lieten het <span className="accent">zien.</span>
+              <Accent text={WORK.heading} />
             </h2>
-            <p className="rail__sub">Industrie eerst. Daarna de rest.</p>
             <ApertureLink to="/cases" className="link-arrow">
-              Alle cases
+              {WORK.all}
             </ApertureLink>
           </div>
-          {CASES.map((c) => (
+          {FEATURED.map((c) => (
             <article key={c.slug} className="rail__card">
               <ApertureLink to={`/cases/${c.slug}`} className="rail__media" data-cursor="bekijk" aria-label={`Bekijk de case ${c.client}`}>
                 <Cover c={c} />

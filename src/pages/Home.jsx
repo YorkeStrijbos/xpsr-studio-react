@@ -7,6 +7,8 @@ import Pain from '../components/home/Pain.jsx';
 import AboutCream from '../components/home/AboutCream.jsx';
 import CasesRail from '../components/home/CasesRail.jsx';
 import ServicesList from '../components/home/ServicesList.jsx';
+import Branches from '../components/home/Branches.jsx';
+import Werkwijze from '../components/home/Werkwijze.jsx';
 import { ScrollTrigger, gsap, prefersReducedMotion } from '../lib/motion.js';
 import { buildStops, placeAt, registerViewfinder, travelTo } from '../motion/viewfinder.js';
 import { homeStops, introStop } from '../motion/stops.js';
@@ -65,8 +67,10 @@ export default function Home() {
       <ViewfinderLayer ref={vfRef} />
       <HeroZoom />
       <Pain />
-      <ServicesList />
       <CasesRail />
+      <ServicesList />
+      <Branches />
+      <Werkwijze />
       <AboutCream />
     </>
   );

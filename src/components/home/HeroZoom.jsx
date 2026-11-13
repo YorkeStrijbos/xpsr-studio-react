@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import { ApertureLink, useAperture } from '../Aperture.jsx';
 import { LoopVideo } from '../Media.jsx';
 import { useOpenReel } from '../Reel.jsx';
-import { HERO, STATEMENT } from '../../data/site.js';
+import { HERO, MANIFEST } from '../../content/home.js';
 import { DUR, EASE, MQ, STAGGER, ScrollTrigger, gsap, useMediaQuery } from '../../lib/motion.js';
 
 const ZOOM = 70; // eindschaal van de kop: ruim genoeg om met één letterstreep het hele scherm te vullen
@@ -168,6 +168,45 @@ export default function HeroZoom() {
     };
   }, []);
 
+  // Zolang de knoppen in de hero in beeld zijn, verbergt de nav zijn eigen knoppen: nooit twee keer dezelfde set.
+  // Gecontroleerd op scroll (één keer per frame): in de gepinde hero blijven de knoppen in beeld maar faden ze weg.
+  useLayoutEffect(() => {
+    const meta = root.current.querySelector('.hz__meta');
+    const html = document.documentElement;
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const r = meta.getBoundingClientRect();
+      const cs = getComputedStyle(meta);
+      const visible = r.top < window.innerHeight && r.bottom > 0 && cs.visibility !== 'hidden' && +cs.opacity > 0.5;
+      html.classList.toggle('hero-ctas', visible);
+    };
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(update);
+    };
+    // De scrub ijlt na: na het laatste scroll-event nog even blijven controleren tot de fade stilstaat.
+    let settle = 0;
+    const onScrollEnd = () => {
+      clearInterval(settle);
+      let n = 0;
+      settle = setInterval(() => {
+        update();
+        if (++n > 12) clearInterval(settle);
+      }, 100);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    ScrollTrigger.addEventListener('scrollEnd', onScrollEnd);
+    return () => {
+      clearInterval(settle);
+      window.removeEventListener('scroll', onScroll);
+      ScrollTrigger.removeEventListener('scrollEnd', onScrollEnd);
+      html.classList.remove('hero-ctas');
+    };
+  }, []);
+
   // Intro afspelen zodra de preloader de lens opent (of direct bij een volgend bezoek in deze sessie).
   useLayoutEffect(() => {
     if (ready) intro.current?.play();
@@ -209,17 +248,17 @@ export default function HeroZoom() {
               <svg className="btn__icon" viewBox="0 0 10 12" aria-hidden="true">
                 <path d="M0 0l10 6-10 6z" fill="currentColor" />
               </svg>
-              Bekijk de reel
+              {HERO.primary}
             </button>
             <ApertureLink to="/contact" className="btn">
-              Plan een draaidag
+              {HERO.secondary}
             </ApertureLink>
           </div>
         </div>
 
         <div className="hz__statement container">
           <h2 className="display hz__rows">
-            {STATEMENT.rows.map((row, i) => (
+            {MANIFEST.rows.map((row, i) => (
               <span key={i} className="hz__srow">
                 {row.flatMap((part, j) =>
                   typeof part === 'string'
@@ -239,8 +278,8 @@ export default function HeroZoom() {
             ))}
           </h2>
           <div className="hz__foot">
-            <p className="display hz__punch">{STATEMENT.punch}</p>
-            <p className="lead hz__body">{STATEMENT.body}</p>
+            <p className="display hz__punch">{MANIFEST.accent}</p>
+            <p className="lead hz__body">{MANIFEST.body}</p>
           </div>
         </div>
       </div>

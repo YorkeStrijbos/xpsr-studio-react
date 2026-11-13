@@ -1982,10 +1982,6 @@
   font-size: var(--fs-h2);
 }
 
-/* Kop op vaste regels, nooit midden in een zin afbreken. */
-.svl__h .line {
-  display: block;
-}
 
 .svl__grid {
   display: grid;
@@ -2602,19 +2598,16 @@
   padding: var(--space-2);
   border-right: 1px solid var(--cream-line);
   border-bottom: 1px solid var(--cream-line);
-  color: var(--cream-muted);
+  /* Alle namen gelijkwaardig: zelfde grootte, gewicht en kleur. Klaar voor monochrome SVG-logo's. */
+  color: var(--cream-ink);
   text-align: center;
-  font-size: var(--fs-small);
-  letter-spacing: 0.04em;
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
   transition: color var(--dur-base) var(--ease-reveal), background-color var(--dur-base) var(--ease-reveal);
 }
 
-.cream__client.is-industry {
-  font-family: var(--font-display);
-  font-size: var(--fs-h4);
-  text-transform: uppercase;
-  color: var(--cream-ink);
-}
 
 .cream__client:hover {
   background: var(--cream-line);
@@ -2628,5 +2621,202 @@
   }
   .cream__clients {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Branches: beeldkaarten per sector ---------- */
+.br {
+  background: var(--black);
+}
+
+.br__label,
+.ww__label {
+  margin: 0 0 var(--space-2);
+  color: var(--grey);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.br__h,
+.ww__h {
+  margin: 0 0 var(--space-5);
+  font-size: var(--fs-h2);
+}
+
+.br__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--col-gap);
+}
+
+.br__card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface);
+  isolation: isolate;
+}
+
+.br__card picture {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.br__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.br__img {
+  z-index: -2; /* onder het leesbaarheidsverloop (::before, z -1) */
+  object-fit: cover;
+  transition: scale var(--dur-slow) var(--ease-reveal);
+}
+
+.br__card:hover .br__img {
+  scale: 1.04;
+}
+
+/* Leesbaarheid op beeld: verloop van onderen. */
+.br__card:not(.br__card--type)::before {
+  content: '';
+  position: absolute;
+  inset: 25% 0 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(var(--black-rgb) / 0.92) 0%, rgb(var(--black-rgb) / 0.7) 45%, transparent);
+}
+
+.br__body {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  padding-right: calc(var(--space-3) + var(--touch));
+}
+
+.br__name {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-display);
+}
+
+.br__line {
+  color: var(--grey-2);
+  max-width: 30ch;
+}
+
+/* Typografische kaart: geen beeld, de naam draagt de kaart. */
+.br__card--type {
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.br__card--type .br__name {
+  font-size: var(--fs-h2);
+}
+
+.br__go {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: var(--touch);
+  height: var(--touch);
+  border: 1.5px solid var(--white);
+  border-radius: 50%;
+  transition: background-color var(--dur-fast) var(--ease-reveal), color var(--dur-fast) var(--ease-reveal);
+}
+
+.br__go svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.br__card:hover .br__go {
+  background: var(--white);
+  color: var(--black);
+}
+
+@media (max-width: 767px) {
+  .br__grid {
+    grid-template-columns: 1fr;
+  }
+  .br__card {
+    aspect-ratio: 5 / 4;
+  }
+}
+
+/* ---------- Werkwijze: vijf stappen ---------- */
+.ww {
+  background: var(--black);
+  border-top: 1px solid var(--line);
+}
+
+.ww__steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--col-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ww__step {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1h);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.ww__no {
+  color: var(--grey);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+}
+
+.ww__title {
+  margin: 0;
+  font-size: var(--fs-h4);
+}
+
+.ww__line {
+  color: var(--grey-2);
+}
+
+.ww__vca {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1h);
+  margin-top: var(--space-5);
+  font-size: var(--fs-lead);
+}
+
+.ww__rec {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+@media (max-width: 1023px) {
+  .ww__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .ww__steps {
+    grid-template-columns: 1fr;
   }
 }

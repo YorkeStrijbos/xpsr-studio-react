@@ -35,6 +35,21 @@
   background: var(--black);
 }
 
+/* Zolang de hero zijn eigen knoppen toont, staan ze niet ook in de nav. */
+html.hero-ctas .nav__actions .btn {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.nav__actions .btn {
+  transition:
+    opacity var(--dur-fast) var(--ease-reveal),
+    visibility var(--dur-fast),
+    background-color var(--dur-fast) var(--ease-reveal),
+    border-color var(--dur-fast) var(--ease-reveal),
+    color var(--dur-fast) var(--ease-reveal);
+}
+
 .nav__inner {
   display: flex;
   align-items: center;

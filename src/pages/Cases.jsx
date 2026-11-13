@@ -1,54 +1,63 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
+import CasesWall from '../components/CasesWall.jsx';
 import { ScanCard, bindScan } from '../components/home/CasesScan.jsx';
 import { CASES } from '../data/cases.js';
 import { gsap, prefersReducedMotion } from '../lib/motion.js';
 import { usePageTitle } from '../lib/usePageTitle.js';
 import '../styles/home.css';
 
+const VIEWS = [
+  { id: 'wall', label: 'Wall' },
+  { id: 'lijst', label: 'Lijst' },
+];
+
+/*
+ * Werk: de wall (beelden per branche, van de homepage verhuisd) of een lijst met alle cases.
+ * TODO fase 5: lijstweergave met naam, branche, type en jaar en een video-preview die de cursor volgt; Flip bij filteren.
+ */
 export default function Cases() {
-  usePageTitle('Cases');
-  const grid = useRef(null);
-  const industry = CASES.filter((c) => c.industry);
-  const other = CASES.filter((c) => !c.industry);
+  usePageTitle('Werk');
+  const [view, setView] = useState('wall');
+  const list = useRef(null);
 
   useLayoutEffect(() => {
-    const cards = grid.current.querySelectorAll('.scan');
+    if (view !== 'lijst') return;
+    const cards = list.current.querySelectorAll('.scan');
     if (prefersReducedMotion()) {
       cards.forEach((c) => c.style.setProperty('--scan', '100%'));
       return;
     }
     const ctx = gsap.context(() => {
       cards.forEach((card) => bindScan(card, { start: 'top 85%', end: 'center 50%' }));
-    }, grid.current);
+    }, list.current);
     return () => ctx.revert();
-  }, []);
+  }, [view]);
 
   return (
-    <div ref={grid}>
+    <div>
       <header className="page-head container">
-        <span className="mono label--red">Cases</span>
-        <h1 className="display h1">Uit de hal</h1>
-        <p className="lead">Film, foto en social voor maakbedrijven, machinebouw, installatietechniek en industriële dienstverlening.</p>
+        <span className="mono label--red">Werk</span>
+        <h1 className="display h1">Werk</h1>
+        <div className="view-toggle" role="group" aria-label="Weergave">
+          {VIEWS.map((v) => (
+            <button key={v.id} type="button" className={`cloud__chip ${view === v.id ? 'is-on' : ''}`} aria-pressed={view === v.id} onClick={() => setView(v.id)}>
+              {v.label}
+            </button>
+          ))}
+        </div>
       </header>
 
-      <section className="section container" aria-label="Industrie">
-        <div className="cases-page">
-          {industry.map((c, i) => (
-            <ScanCard key={c.slug} c={c} index={i} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section container" aria-labelledby="other-title">
-        <h2 id="other-title" className="display h2 cases-page__sub">
-          Ook buiten de hal
-        </h2>
-        <div className="cases-page">
-          {other.map((c, i) => (
-            <ScanCard key={c.slug} c={c} index={industry.length + i} />
-          ))}
-        </div>
-      </section>
+      {view === 'wall' ? (
+        <CasesWall />
+      ) : (
+        <section ref={list} className="section container" aria-label="Alle cases">
+          <div className="cases-page">
+            {CASES.map((c, i) => (
+              <ScanCard key={c.slug} c={c} index={i} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

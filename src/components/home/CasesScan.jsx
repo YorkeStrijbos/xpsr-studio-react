@@ -21,7 +21,6 @@ export function ScanCard({ c, index }) {
           <div className="scan__real">{visual}</div>
           <span className="scan__laser" aria-hidden="true" />
           <span className="scan__no mono">{`C-${String(index + 1).padStart(2, '0')}`}</span>
-          {!c.industry && <span className="scan__tag mono">Ook buiten de hal</span>}
         </div>
       </ApertureLink>
       <dl className="scan__meta mono">

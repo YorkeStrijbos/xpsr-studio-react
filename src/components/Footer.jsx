@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { ApertureLink, useAperture } from './Aperture.jsx';
-import { CONTACT, FOOTER, TAGLINE } from '../data/site.js';
+import { CONTACT } from '../data/site.js';
+import { CTA as FOOTER, TAGLINE } from '../content/home.js';
 import { DUR, EASE, gsap, prefersReducedMotion } from '../lib/motion.js';
 import '../styles/footer.css';
 
