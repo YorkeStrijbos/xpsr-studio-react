@@ -25,7 +25,9 @@ Principes: beheersing boven effect, één idee per scherm, één accentkleur, é
 
 **Rood** alleen voor: REC- en live-indicatoren, de primaire CTA, actieve states, en hooguit één accentwoord per kop.
 Rood als tekst alleen op grote koppen (24 px en groter): rood op zwart is 3,5:1, genoeg voor grote tekst, niet voor kleine.
-Geen rode of bordeaux tinten in achtergronden, geen rode gradients.
+Geen rode of bordeaux tinten in achtergronden, geen rode gradients. **Eén bewuste uitzondering** (op verzoek, 13 november):
+de statements-scène staat op een rood-zwart verloop (`--grad-scene`), dat bij "Tijd om de lichten aan te zetten" fel
+wordt (`--grad-scene-lit`). De randen lopen uit naar zwart, zodat de secties ernaast neutraal blijven.
 
 Gemeten contrast: off-white op zwart 17:1, off-white op rood 4,8:1, cream-ink op crème 15:1.
 

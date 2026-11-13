@@ -43,6 +43,13 @@
   --cream-muted: #5F5A53; /* secundaire tekst op crème, 5,4:1 */
   --cream-line: rgb(var(--ink-rgb) / 0.14);
 
+  /*
+   * Eén bewuste uitzondering op "geen rode achtergronden": de statements-scène (op verzoek, 13 november).
+   * Rustig: rood-zwart, licht van onderen. Aan: hetzelfde vlak, feller en hoger (voor "Tijd om de lichten aan te zetten").
+   */
+  --grad-scene: radial-gradient(ellipse 80% 78% at 50% 100%, #D2402A 0%, #A8241A 26%, #6E170F 52%, #2A0806 78%, rgb(var(--black-rgb)) 100%);
+  --grad-scene-lit: radial-gradient(ellipse 95% 95% at 50% 85%, #F26A3E 0%, #DA3A24 30%, #A8241A 58%, #4A0F0A 86%, rgb(var(--black-rgb)) 100%);
+
   /* Typografie */
   --font-display: 'Anton', 'Anton Fallback', Impact, 'Arial Narrow', sans-serif;
   --font-body: 'Geist', 'Helvetica Neue', Arial, sans-serif;

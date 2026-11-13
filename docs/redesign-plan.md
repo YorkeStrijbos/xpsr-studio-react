@@ -14,7 +14,7 @@ Deze brief draait een paar recente, expliciete keuzes terug. Standaard volgt het
 
 | # | Brief | Huidige stand (eerder door jou gevraagd) | Standaard in dit plan |
 |---|---|---|---|
-| B1 | Neutraal diep zwart, geen rode of bordeaux tint, geen rode gradients als achtergrond | Warm zwart met rode ondertoon, rood-zwart vlak in de statements, rode footer (ember) | Brief: neutraal zwart, rood alleen functioneel |
+| B1 | Neutraal diep zwart, geen rode of bordeaux tint, geen rode gradients als achtergrond (uitzondering 13 november: rood-zwart verloop in de statements-scène, op verzoek) | Warm zwart met rode ondertoon, rood-zwart vlak in de statements, rode footer (ember) | Brief: neutraal zwart, rood alleen functioneel |
 | B2 | Secundaire knop: outline in dezelfde off-white als de navtekst | Limoen-crème accent uit het kleurvoorbeeld | Brief: off-white |
 | B3 | Camera-overlay in hero en statements, subtiel | Overlay uit de hero gehaald, versimpeld in de statements | Brief: subtiel terug in de hero |
 | B4 | Statements als donkere video-scène die bij statement 4 opengaat | Rood-zwart gradientvlak | Brief: video-scène (met foto-fallback) |
