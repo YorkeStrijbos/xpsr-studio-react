@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { getMotion, getStill } from '../lib/media.js';
+import { SLOTS } from '../data/media.js';
 import { useReducedMotion } from '../lib/motion.js';
 
 export function Picture({ name, alt, sizes = '100vw', priority = false, className, imgClassName }) {
@@ -44,10 +45,12 @@ function PauseIcon() {
  * en heeft altijd een pauzeknop. Bij reduced motion start hij gepauzeerd op de poster.
  */
 export const LoopVideo = forwardRef(function LoopVideo(
-  { name, className, eager = false, active = true, label = 'video' },
+  { name, slot, className, eager = false, active = true, label = 'video' },
   forwardedRef,
 ) {
-  const m = getMotion(name);
+  // slot: een media-slot uit data/media.js. Eerst het aangeleverde bestand, anders de fallback.
+  const s = slot ? SLOTS[slot] : null;
+  const m = getMotion(s ? s.fallback : name);
   const reduced = useReducedMotion();
   const ownRef = useRef(null);
   const ref = forwardedRef ?? ownRef;
@@ -110,6 +113,7 @@ export const LoopVideo = forwardRef(function LoopVideo(
         aria-hidden="true"
         tabIndex={-1}
       >
+        {near && s && <source src={s.file} type="video/mp4" />}
         {near && <source src={m.mp4} type="video/mp4" />}
         {near && m.webm && <source src={m.webm} type="video/webm" />}
       </video>

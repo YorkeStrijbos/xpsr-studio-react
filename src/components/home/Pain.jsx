@@ -7,9 +7,8 @@ import { EASE, MQ, gsap, prefersReducedMotion } from '../../lib/motion.js';
 import { frameCorners, vfEls } from '../../motion/viewfinder.js';
 
 /*
- * Het probleem. Vanuit het REC-punt van het vizier groeit een rood vlak; daarop verschijnen drie regels.
- * Dan krimpt het vlak razendsnel tot een punt dat de cursor wordt ("KIJK"),
- * en rondom zweeft een wolk beelden op drie dieptes.
+ * Het probleem. Een schermvullend rood-zwart vlak met de camera-zoeker erover, direct vanaf het begin;
+ * daarop verschijnen de regels één voor één. Daarna zweeft een wolk beelden op drie dieptes.
  */
 export default function Pain() {
   const root = useRef(null);
@@ -23,27 +22,12 @@ export default function Pain() {
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       mm.add({ wide: MQ.desktop, narrow: MQ.mobile }, () => {
-        // Het rode vlak is een eigen schijf op ware grootte (150vmax), die vanaf het REC-punt
-        // (20px op schaal 0.6, zie stops.js) omhoog schaalt. Omlaag geschaald tekenen = altijd een scherpe rand.
-        const disc = el.querySelector('.pain__disc');
-        const startScale = () => 12 / disc.offsetWidth;
         const lines = gsap.utils.toArray('.pain__line', el);
-        // Binnenkomst: het vlak groeit al terwijl de sectie het scherm in schuift, als een rode zon die opkomt.
-        // Zo is er geen leeg zwart scherm tussen de hero en het probleem.
-        const ENTRY = 0.35;
-        gsap.fromTo(
-          disc,
-          { scale: startScale, autoAlpha: 1 },
-          { scale: ENTRY, ease: EASE.in, immediateRender: false, scrollTrigger: { trigger: '.pain__pin', start: 'top 70%', end: 'top top', scrub: 1, invalidateOnRefresh: true } },
-        );
         const tl = gsap.timeline({
           defaults: { ease: EASE.linear },
           scrollTrigger: { trigger: '.pain__pin', start: 'top top', end: '+=200%', pin: true, scrub: 1, invalidateOnRefresh: true },
         });
-        tl.set(vfEls.core, { scale: 0 }, 0)
-          .fromTo(disc, { scale: ENTRY, autoAlpha: 1 }, { scale: 1, duration: 0.7, ease: EASE.in, immediateRender: false }, 0)
-          // Zodra het vlak het scherm vult, schakelt de camera-zoeker in.
-          .fromTo('.pain__hud', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 0.85);
+        tl.set(vfEls.core, { scale: 0 }, 0);
         // Alle regels starten onzichtbaar onder hun masker.
         const spans = lines.map((l) => l.firstChild);
         gsap.set(spans, { yPercent: 110, y: 0, autoAlpha: 0 });
@@ -57,15 +41,12 @@ export default function Pain() {
         const GAP = 0.15;
         const SLOT = IN + HOLD + OUT + GAP;
         spans.forEach((span, i) => {
-          const at = 1 + i * SLOT;
+          const at = 0.3 + i * SLOT;
           tl.fromTo(span, { yPercent: 110, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: IN, ease: EASE.out, immediateRender: false }, at);
           tl.fromTo(span, { yPercent: 0, autoAlpha: 1 }, { yPercent: -110, autoAlpha: 0, duration: OUT, ease: EASE.in, immediateRender: false }, at + IN + HOLD);
         });
-        // Na de laatste regel krimpt het vlak razendsnel tot een punt.
-        const end = 1 + spans.length * SLOT;
-        tl.to('.pain__hud', { autoAlpha: 0, duration: 0.15 }, end - 0.1)
-          .to(disc, { scale: 0, duration: 0.35, ease: EASE.snap }, end)
-          .fromTo('.pain__hint', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, end + 0.3);
+        // Korte rust na de laatste regel, dan scrolt de sectie gewoon door.
+        tl.to({}, { duration: 0.3 });
       });
 
       // Beeldwolk: dieptes bewegen met verschillende snelheid op scroll.
@@ -139,9 +120,6 @@ export default function Pain() {
             <span>{PAIN.turn}</span>
           </p>
         </div>
-        <p className="pain__hint mono" aria-hidden="true">
-          Scroll, en kijk rond
-        </p>
       </div>
 
       <div ref={cloud} className={`cloud ${branch ? 'is-filtered' : ''}`} data-cursor="bekijk">

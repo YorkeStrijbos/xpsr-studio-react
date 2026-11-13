@@ -11,22 +11,47 @@
 }
 
 :root {
-  /* Kleur (huisstijl) */
-  --black: #0A0A0A;
-  --ink: #111111;
-  --ink-2: #1A1A1A;
-  --white: #F4F2EE;
-  --grey: #8A8A8A;
-  --grey-2: #B8B6B2;
-  --line: rgba(244, 242, 238, 0.12);
-  --red: #CA2B39;
-  --red-accent: #D81E2C;
-  --steel: #1C1D1F;
-  --steel-2: #2A2C2F;
-  --concrete: #E6E3DD;
-  --concrete-ink: #1A1A1A;
+  /* Kleur (huisstijl): bloedrood en warm zwart, crème in plaats van wit. RGB-triplets voor rgb(var(--x-rgb) / a). */
+  --black-rgb: 17 8 7;
+  --white-rgb: 243 234 218;
+  --ink-rgb: 30 17 14;
+  --red-rgb: 190 38 28;
+  --black: rgb(var(--black-rgb));
+  --black-deep: #080403; /* hero en cases: nog donkerder */
+  --ink: #1A0D0B;
+  --ink-2: #241310;
+  --white: rgb(var(--white-rgb)); /* crème */
+  --grey: #8F7F78;
+  --grey-2: #C4B6A6;
+  --line: rgb(var(--white-rgb) / 0.12);
+  --red: #B3241B;
+  --red-accent: rgb(var(--red-rgb));
+  --red-deep: #5C120D;
+  --red-mid: #8C1C15;
+  --accent: #DCE3AE; /* licht limoen-crème, voor omlijnde knoppen en kleine accenten */
+  --steel: #22130F;
+  --steel-2: #301C17;
+  --concrete: #EFE5D3; /* crème paneel */
+  --concrete-ink: rgb(var(--ink-rgb));
+  --concrete-muted: #7A6B60;
+  --concrete-line: rgb(var(--ink-rgb) / 0.14);
   --spark: #FFB347;
   --light-warm: 255 244 230; /* spotlicht, als RGB-triplet voor rgba() */
+
+  /*
+   * Gradients. Ember: het volle rode vlak (zwarte hoeken, felle gloed linksonder en rechtsonder, donkere kern
+   * onderin). Glow: donkere sectie met een zachte rode gloed in het midden; de randen blijven zwart.
+   */
+  --grad-ember:
+    radial-gradient(38% 26% at 50% 104%, rgb(var(--black-rgb)) 0%, rgb(var(--black-rgb) / 0) 100%),
+    radial-gradient(42% 55% at 12% 88%, #BE2A1E 0%, rgb(190 42 30 / 0) 100%),
+    radial-gradient(42% 55% at 88% 88%, #BE2A1E 0%, rgb(190 42 30 / 0) 100%),
+    radial-gradient(75% 85% at 50% 42%, #921D16 0%, #5C120D 48%, #200907 82%, rgb(var(--black-rgb)) 100%);
+  --grad-glow:
+    radial-gradient(60% 45% at 50% 60%, rgb(var(--red-rgb) / 0.16) 0%, rgb(var(--red-rgb) / 0) 100%),
+    rgb(var(--black-rgb));
+  /* Overloop: elke sectierand komt uit op dit zwart, dus nergens een harde lijn. */
+  --fade: 28vh;
 
   /* Typografie */
   --font-display: 'Anton', 'Anton Fallback', Impact, 'Arial Narrow', sans-serif; /* TODO XPSR: display-font bevestigen */

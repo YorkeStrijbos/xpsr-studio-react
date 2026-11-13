@@ -165,8 +165,10 @@ html.lenis body {
   min-height: 48px;
   padding: 14px 24px;
   border-radius: 999px;
-  border: 1px solid var(--line);
+  /* Omlijnde knop: limoen-crème accent, zoals de knop in het kleurvoorbeeld. */
+  border: 1.5px solid var(--accent);
   background: transparent;
+  color: var(--accent);
   font-family: var(--font-body);
   font-size: var(--fs-small);
   font-weight: 700;
@@ -181,7 +183,8 @@ html.lenis body {
 }
 
 .btn:hover {
-  border-color: var(--white);
+  background: var(--accent);
+  color: var(--black);
 }
 
 .btn--primary {
@@ -193,6 +196,7 @@ html.lenis body {
 .btn--primary:hover {
   background: var(--red-accent);
   border-color: var(--red-accent);
+  color: var(--white);
 }
 
 .btn__icon {
@@ -271,9 +275,9 @@ html.lenis body {
   place-items: center;
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(244, 242, 238, 0.35);
+  border: 1px solid rgb(var(--white-rgb) / 0.35);
   border-radius: 50%;
-  background: rgba(10, 10, 10, 0.55);
+  background: rgb(var(--black-rgb) / 0.55);
   cursor: pointer;
   opacity: 0.7;
   transition: opacity var(--dur-1) var(--ease-out);
@@ -329,8 +333,8 @@ html.lenis body {
   height: 100%;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 45%, #1a1a1a, #080808 80%);
-  color: rgba(244, 242, 238, 0.55);
+    radial-gradient(ellipse 70% 60% at 50% 45%, var(--ink-2), var(--black) 80%);
+  color: rgb(var(--white-rgb) / 0.55);
   text-align: center;
 }
 

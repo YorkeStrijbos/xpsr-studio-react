@@ -2,10 +2,10 @@
    Homepage V2: industrie, vol licht
    ========================================================= */
 
-/* ---------- Hero: kaartje in de kop zoomt uit tot schermvullend, statement erachter ---------- */
+/* ---------- Hero: de kop is de video; op scroll vliegen we door een letter heen ---------- */
 .hz {
   position: relative;
-  background: var(--black);
+  background: var(--black-deep);
 }
 
 .hz__stage {
@@ -15,167 +15,96 @@
   overflow: hidden;
 }
 
-/* Schermvullend beeld, door JS geknipt tot het kaartje. Zonder JS: verborgen tot de eerste meting. */
-.hz__media {
+/* Overloop naar de volgende sectie: onderrand naar zwart, boven de video maar onder tekst en knoppen. */
+.hz__stage::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 4;
+  height: var(--fade);
+  background: linear-gradient(to bottom, rgb(var(--black-rgb) / 0), rgb(var(--black-rgb)));
+  pointer-events: none;
+}
+
+/* Video en masklaag mengen alleen met elkaar (isolation), niet met de rest van de pagina. */
+.hz__screen {
   position: absolute;
   inset: 0;
   z-index: 1;
-  clip-path: inset(50% 50% 50% 50%);
-  will-change: clip-path;
+  isolation: isolate;
+  overflow: hidden;
 }
 
-.hz__media picture,
-.hz__img {
+.hz__video,
+.hz__vid {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.hz__img {
+.hz__vid {
   object-fit: cover;
+  will-change: transform;
+}
+
+/* Pauzeknop van de loop boven de masklaag, rechtsonder in de zoeker. */
+.hz__video .media-toggle {
+  z-index: 4;
+  right: calc(var(--gutter) + 12px);
+  bottom: calc(var(--space-3) + 12px);
+}
+
+/* Zwart vlak met de kop als uitsparing (SVG-mask): door de letters zie je de video. */
+.hz__cut {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hz__cut-text {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
 }
 
 .hz__shade {
   position: absolute;
   inset: 0;
+  z-index: 3;
   opacity: 0;
-  background:
-    radial-gradient(ellipse at 50% 55%, rgba(10, 10, 10, 0.45), rgba(10, 10, 10, 0.85) 75%),
-    rgba(10, 10, 10, 0.25);
-}
-
-.hz__hud {
-  position: absolute;
-  inset: calc(var(--nav-h) + 12px) var(--gutter) var(--space-3);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--white);
-  opacity: 0;
-  visibility: hidden;
-}
-
-.hz__c {
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  border: 0 solid rgba(244, 242, 238, 0.9);
-}
-
-.hz__c--tl { left: 0; top: 0; border-top-width: 2px; border-left-width: 2px; }
-.hz__c--tr { right: 0; top: 0; border-top-width: 2px; border-right-width: 2px; }
-.hz__c--bl { left: 0; bottom: 0; border-bottom-width: 2px; border-left-width: 2px; }
-.hz__c--br { right: 0; bottom: 0; border-bottom-width: 2px; border-right-width: 2px; }
-
-.hz__rec,
-.hz__spec {
-  position: absolute;
-  top: 34px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hz__rec { left: 38px; }
-.hz__spec { right: 38px; }
-
-.hz__dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--red-accent);
-}
-
-/* Intro: gecentreerd, veel lucht. */
-.hz__intro {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: var(--space-4);
-  padding-top: var(--nav-h);
-  text-align: center;
   pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 55%, rgb(var(--black-rgb) / 0.45), rgb(var(--black-rgb) / 0.85) 75%),
+    rgb(var(--black-rgb) / 0.25);
 }
 
-.hz__label,
 .hz__meta {
-  pointer-events: auto;
-}
-
-.hz__label {
-  margin: 0;
-  color: var(--grey-2);
-}
-
-.hz__label .hz__fade {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hz__claim {
-  display: grid;
-  justify-items: center;
-  margin: 0;
-  font-size: clamp(3rem, 8.4vw, 11rem);
-  line-height: 0.9;
-}
-
-.hz__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--space-4);
+  z-index: 5;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  column-gap: 0.22em;
-}
-
-.hz__group {
-  display: inline-flex;
-  align-items: center;
-  column-gap: 0.22em;
-}
-
-/* Masker voor de opkomende woorden. */
-.hz__word {
-  display: inline-block;
-  overflow: hidden;
-  padding: 0.04em 0;
-  will-change: transform;
-}
-
-.hz__in {
-  display: inline-block;
-}
-
-/* Plek van het kaartje: het beeld zelf ligt in .hz__media; dit is alleen de rand. */
-.hz__slot {
-  display: inline-block;
-  width: 1.5em;
-  height: 0.8em;
-  border-radius: 14px;
-  box-shadow: 0 0 0 1px rgba(244, 242, 238, 0.35);
-}
-
-.hz__meta {
-  display: grid;
-  justify-items: center;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: var(--space-3);
+  padding-inline: var(--gutter);
 }
 
 .hz__sub {
-  max-width: 46ch;
+  max-width: 40ch;
   margin: 0;
-  color: var(--grey-2);
+  color: var(--white);
 }
 
 .hz__ctas {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 12px;
 }
 
@@ -183,7 +112,7 @@
 .hz__statement {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 6;
   display: grid;
   place-content: center;
   justify-items: center;
@@ -191,7 +120,7 @@
   padding-top: var(--nav-h);
   text-align: center;
   visibility: hidden;
-  pointer-events: none; /* klikken gaat door naar het beeld (reel) */
+  pointer-events: none; /* klikken gaat door naar de video (reel) */
 }
 
 .hz__rows {
@@ -202,7 +131,7 @@
   line-height: 0.92;
 }
 
-.hz__row {
+.hz__srow {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -245,42 +174,60 @@
   color: var(--white);
 }
 
-@media (max-width: 767px) {
-  .hz__claim {
-    font-size: 13vw;
+/* Flow: mobiel en reduced motion. Geen pin of zoom: video in de letters, daaronder meta en statement. */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .hz__stage {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
   }
-  .hz__slot {
-    border-radius: 10px;
+  .hz__screen {
+    position: relative;
+    inset: auto;
+    height: 100svh;
+    min-height: 560px;
+  }
+  .hz__meta {
+    position: relative;
+    bottom: auto;
+    padding: var(--space-4) var(--gutter) 0;
+  }
+  .hz__statement {
+    position: relative;
+    inset: auto;
+    visibility: visible;
+    padding-block: var(--space-6);
+  }
+}
+
+@media (max-width: 767px) {
+  .hz__meta {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .hz__rows {
     font-size: 11vw;
   }
 }
 
-/* Reduced motion: kaartje blijft klein in de kop, statement staat er gewoon onder. */
-.hz.is-static .hz__statement {
-  position: relative;
-  inset: auto;
-  visibility: visible;
-  padding-block: var(--space-6);
-}
-
-.hz.is-static .hz__sw {
-  opacity: 1;
-}
-
-.hz.is-static .hz__struck {
-  opacity: 0.35;
-}
-
-.hz.is-static .hz__strike {
-  transform: none;
+@media (prefers-reduced-motion: reduce) {
+  .hz__sw {
+    opacity: 1;
+  }
+  .hz__struck {
+    opacity: 0.35;
+  }
+  .hz__strike {
+    transform: none;
+  }
 }
 
 /* ---------- Het probleem ---------- */
 .pain {
   position: relative;
   background: var(--black);
+  /* De gradientlaag steekt 10% buiten het vlak (voor het meebewegen); clip, geen scrollcontainer, houdt de pin intact. */
+  overflow-x: clip;
 }
 
 /* Boven de vizier-laag (z 40): de tekst staat op het rode vlak. */
@@ -292,29 +239,36 @@
 
 .pain__disc {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  /* Centreren met translate (los van GSAP's transform), zodat schalen nooit de positie verschuift. */
-  translate: -50% -50%;
-  width: 150vmax;
-  height: 150vmax;
-  border-radius: 50%;
+  inset: 0;
   overflow: hidden;
-  background: var(--red);
-  visibility: hidden;
+  background: var(--black);
 }
 
-/* Rood-zwarte zon binnen het vlak. Het zichtbare deel is het binnenste ~75%, dus daar loopt hij naar zwart. */
+/* Overloop: het rode vlak begint en eindigt in zwart, gelijk met de secties ervoor en erna. */
+.pain__disc::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--black-rgb)) 0,
+    rgb(var(--black-rgb) / 0) var(--fade),
+    rgb(var(--black-rgb) / 0) calc(100% - var(--fade)),
+    rgb(var(--black-rgb)) 100%
+  );
+}
+
+/* Rood-zwarte gradient over het hele scherm: fel onderin het midden, naar zwart in de hoeken. Staat er meteen. */
 .pain__sun {
   position: absolute;
   inset: -10%;
   background: radial-gradient(
-    ellipse 34% 30% at 50% 60%,
-    #d9512c 0%,
-    #c22f2b 24%,
-    #8c1a17 50%,
-    #3d0b09 78%,
-    #0a0a0a 100%
+    ellipse 70% 75% at 45% 85%,
+    #D9452A 0%,
+    var(--red) 22%,
+    var(--red-mid) 48%,
+    var(--red-deep) 74%,
+    var(--black) 100%
   );
   animation: pain-sun 32s ease-in-out infinite alternate;
   will-change: transform;
@@ -324,10 +278,6 @@
   0% { transform: translate3d(-4%, 2%, 0) scale(1); }
   50% { transform: translate3d(2%, -2%, 0) scale(1.05); }
   100% { transform: translate3d(5%, 3%, 0) scale(0.98); }
-}
-
-.pain__hud {
-  visibility: hidden;
 }
 
 .pain__lines {
@@ -355,23 +305,17 @@
   color: var(--white);
 }
 
-.pain__hint {
-  position: absolute;
-  left: 50%;
-  bottom: var(--space-4);
-  transform: translateX(-50%);
-  color: var(--grey);
-  visibility: hidden;
-}
-
 .cloud {
+  /* Vrije ruimte tussen de branchebalk en de bovenste beelden. */
+  --cloud-gap: clamp(96px, 12vw, 180px);
   position: relative;
-  height: 140svh;
+  height: calc(140svh + var(--cloud-gap));
   overflow: clip; /* clip i.p.v. hidden, zodat de branchebalk sticky kan blijven */
 }
 
 .cloud__item {
   position: absolute;
+  margin-top: var(--cloud-gap); /* alle tegels (top in % uit site.js) een vast stuk omlaag, onder de balk */
   width: calc(var(--w) * 1%);
 }
 
@@ -405,14 +349,14 @@
 
 .cloud__ph {
   background:
-    linear-gradient(rgba(244, 242, 238, 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
-    linear-gradient(90deg, rgba(244, 242, 238, 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(rgb(var(--white-rgb) / 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgb(var(--white-rgb) / 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
     var(--steel);
 }
 
 @media (max-width: 767px) {
   .cloud {
-    height: 120svh;
+    height: calc(120svh + var(--cloud-gap));
   }
   .cloud__item {
     width: calc(var(--w) * 1.8%);
@@ -492,8 +436,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(244, 242, 238, 0.08) 1px, transparent 1px) 0 0 / 32px 32px,
-    linear-gradient(90deg, rgba(244, 242, 238, 0.08) 1px, transparent 1px) 0 0 / 32px 32px;
+    linear-gradient(rgb(var(--white-rgb) / 0.08) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgb(var(--white-rgb) / 0.08) 1px, transparent 1px) 0 0 / 32px 32px;
 }
 
 .scan__real {
@@ -509,7 +453,7 @@
   width: 2px;
   margin-left: -1px;
   background: var(--red-accent);
-  box-shadow: 0 0 24px 4px rgba(216, 30, 44, 0.8);
+  box-shadow: 0 0 24px 4px rgb(var(--red-rgb) / 0.8);
 }
 
 .scan__ph {
@@ -521,7 +465,7 @@
   text-align: center;
   color: var(--grey);
   background:
-    radial-gradient(circle at 50% 40%, rgba(202, 43, 57, 0.12), transparent 60%),
+    radial-gradient(circle at 50% 40%, rgb(var(--red-rgb) / 0.12), transparent 60%),
     var(--steel-2);
 }
 
@@ -530,7 +474,7 @@
   position: absolute;
   top: 12px;
   padding: 5px 8px;
-  background: rgba(10, 10, 10, 0.85);
+  background: rgb(var(--black-rgb) / 0.85);
   color: var(--white);
 }
 
@@ -583,17 +527,18 @@
   }
 }
 
-/* ---------- Camera-zoeker (HUD) ---------- */
+/* ---------- Camera-zoeker (HUD), minimaal ---------- */
 .hud {
   position: absolute;
   inset: calc(var(--nav-h) + 16px) var(--gutter) 28px;
   pointer-events: none;
-  color: rgba(244, 242, 238, 0.78);
+  color: rgb(var(--white-rgb) / 0.7);
 }
 
+/* Derdenlijnen: heel licht, alleen als structuur. */
 .hud__third {
   position: absolute;
-  background: rgba(244, 242, 238, 0.14);
+  background: rgb(var(--white-rgb) / 0.1);
 }
 
 .hud__third--v1,
@@ -605,89 +550,71 @@
 .hud__third--h1 { top: 33.333%; }
 .hud__third--h2 { top: 66.666%; }
 
-.hud__cross {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 28px;
-  height: 28px;
-  margin: -14px 0 0 -14px;
-  background:
-    linear-gradient(rgba(244, 242, 238, 0.6), rgba(244, 242, 238, 0.6)) 50% 0 / 1px 100% no-repeat,
-    linear-gradient(rgba(244, 242, 238, 0.6), rgba(244, 242, 238, 0.6)) 0 50% / 100% 1px no-repeat;
-}
-
 .hud__frame {
   position: absolute;
-  width: 28px;
-  height: 28px;
-  border: 0 solid rgba(244, 242, 238, 0.75);
+  width: 22px;
+  height: 22px;
+  border: 0 solid rgb(var(--white-rgb) / 0.6);
 }
 
-.hud__frame--tl { left: 0; top: 0; border-top-width: 2px; border-left-width: 2px; }
-.hud__frame--tr { right: 0; top: 0; border-top-width: 2px; border-right-width: 2px; }
-.hud__frame--bl { left: 0; bottom: 0; border-bottom-width: 2px; border-left-width: 2px; }
-.hud__frame--br { right: 0; bottom: 0; border-bottom-width: 2px; border-right-width: 2px; }
+.hud__frame--tl { left: 0; top: 0; border-top-width: 1.5px; border-left-width: 1.5px; }
+.hud__frame--tr { right: 0; top: 0; border-top-width: 1.5px; border-right-width: 1.5px; }
+.hud__frame--bl { left: 0; bottom: 0; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+.hud__frame--br { right: 0; bottom: 0; border-bottom-width: 1.5px; border-right-width: 1.5px; }
 
 .hud__c {
   position: absolute;
-  display: grid;
-  gap: 6px;
-}
-
-.hud__c .mono {
-  font-size: 11px;
+  top: 32px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  white-space: pre;
 }
 
-.hud__c--tl { left: 40px; top: 36px; }
-.hud__c--tr { right: 40px; top: 36px; text-align: right; justify-items: end; }
-.hud__c--bl { left: 40px; bottom: 36px; }
-.hud__c--br { right: 40px; bottom: 36px; text-align: right; justify-items: end; }
-
-.hud__rec {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--white);
-}
+.hud__c--tl { left: 36px; }
+.hud__c--tr { right: 36px; }
+.hud__c--bl { left: 36px; top: auto; bottom: 32px; }
+.hud__c--br { right: 36px; top: auto; bottom: 32px; }
 
 .hud__histo {
-  width: 64px;
-  height: 24px;
+  width: 48px;
+  height: 18px;
 }
 
 .hud__histo rect {
-  fill: rgba(244, 242, 238, 0.6);
+  fill: rgb(var(--white-rgb) / 0.55);
 }
 
 .hud__levels {
   display: flex;
   gap: 3px;
-  height: 24px;
+  height: 16px;
   align-items: flex-end;
 }
 
 .hud__levels span {
-  width: 4px;
+  width: 3px;
   height: calc(var(--l) * 100%);
-  background: linear-gradient(to top, rgba(244, 242, 238, 0.55) 60%, var(--white));
+  background: rgb(var(--white-rgb) / 0.6);
+}
+
+.hud__rec {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--white);
 }
 
 @media (max-width: 767px) {
   .hud {
     inset: calc(var(--nav-h) + 8px) 12px 16px;
   }
-  .hud__c--tr .mono:nth-child(n + 3),
-  .hud__levels {
-    display: none;
-  }
   .hud__c--tl,
-  .hud__c--bl { left: 16px; }
+  .hud__c--bl { left: 14px; }
   .hud__c--tr,
-  .hud__c--br { right: 16px; }
+  .hud__c--br { display: none; }
 }
 
 /* ---------- Draaidag: montageprogramma ---------- */
@@ -698,7 +625,7 @@
   grid-template-rows: 1fr var(--tl-h);
   height: 100svh;
   padding-top: var(--nav-h);
-  background: #0c0c0d;
+  background: #130A08;
   overflow: hidden;
 }
 
@@ -743,8 +670,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(10, 10, 10, 0.75), transparent 45%, transparent 55%, rgba(10, 10, 10, 0.8)),
-    linear-gradient(to top, rgba(10, 10, 10, 0.5), transparent 40%);
+    linear-gradient(90deg, rgb(var(--black-rgb) / 0.75), transparent 45%, transparent 55%, rgb(var(--black-rgb) / 0.8)),
+    linear-gradient(to top, rgb(var(--black-rgb) / 0.5), transparent 40%);
 }
 
 .edit__hudtop {
@@ -804,8 +731,8 @@
 
 .edit__settings li {
   padding: 6px 10px;
-  border: 1px solid rgba(244, 242, 238, 0.25);
-  background: rgba(10, 10, 10, 0.55);
+  border: 1px solid rgb(var(--white-rgb) / 0.25);
+  background: rgb(var(--black-rgb) / 0.55);
   font-size: 11px;
 }
 
@@ -814,7 +741,7 @@
   display: grid;
   grid-template-columns: 132px 1fr;
   border-top: 1px solid var(--line);
-  background: #111113;
+  background: #170C0A;
 }
 
 .edit__labels {
@@ -830,7 +757,7 @@
   font-size: 10px;
   white-space: nowrap;
   color: var(--grey);
-  border-bottom: 1px solid rgba(244, 242, 238, 0.06);
+  border-bottom: 1px solid rgb(var(--white-rgb) / 0.06);
 }
 
 .edit__lanes {
@@ -857,7 +784,7 @@
 
 .edit__lane {
   position: relative;
-  border-bottom: 1px solid rgba(244, 242, 238, 0.06);
+  border-bottom: 1px solid rgb(var(--white-rgb) / 0.06);
 }
 
 .edit__marker {
@@ -869,7 +796,7 @@
   width: 20px;
   height: 18px;
   clip-path: polygon(0 0, 100% 0, 100% 65%, 50% 100%, 0 65%);
-  background: #3a3c40;
+  background: #3B2722;
 }
 
 .edit__marker:first-child { transform: none; }
@@ -891,8 +818,8 @@
   align-items: center;
   overflow: hidden;
   padding-inline: 10px;
-  background: #2a2a2c;
-  border: 1px solid rgba(244, 242, 238, 0.15);
+  background: #2C1B17;
+  border: 1px solid rgb(var(--white-rgb) / 0.15);
   border-radius: 2px;
   transition: background-color var(--dur-1) var(--ease-out);
 }
@@ -902,11 +829,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: rgba(244, 242, 238, 0.85);
+  color: rgb(var(--white-rgb) / 0.85);
 }
 
 .edit__clip.is-past {
-  background: #3a3a3c;
+  background: #3A2621;
 }
 
 .edit__clip.is-active {
@@ -915,7 +842,7 @@
 }
 
 .edit__lane--audio {
-  background: rgba(244, 242, 238, 0.03);
+  background: rgb(var(--white-rgb) / 0.03);
 }
 
 .edit__wave {
@@ -926,7 +853,7 @@
 }
 
 .edit__wave rect {
-  fill: rgba(244, 242, 238, 0.6);
+  fill: rgb(var(--white-rgb) / 0.6);
 }
 
 .edit__head {
@@ -937,7 +864,7 @@
   width: 2px;
   margin-left: -1px;
   background: var(--red-accent);
-  box-shadow: 0 0 14px rgba(216, 30, 44, 0.8);
+  box-shadow: 0 0 14px rgb(var(--red-rgb) / 0.8);
   z-index: 2;
 }
 
@@ -963,13 +890,13 @@
 .edit__stagequeue {
   display: grid;
   place-items: center;
-  background: rgba(10, 10, 10, 0.55);
+  background: rgb(var(--black-rgb) / 0.55);
 }
 
 .edit__queue {
   width: min(760px, 90vw);
   padding: 18px 22px;
-  border: 1px solid rgba(244, 242, 238, 0.85);
+  border: 1px solid rgb(var(--white-rgb) / 0.85);
   background: var(--black);
   font-size: 12px;
 }
@@ -980,7 +907,7 @@
   gap: 18px;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(244, 242, 238, 0.1);
+  border-bottom: 1px solid rgb(var(--white-rgb) / 0.1);
 }
 
 .edit__queue-row:last-child {
@@ -1001,7 +928,7 @@
   position: relative;
   flex: 1;
   height: 8px;
-  background: rgba(244, 242, 238, 0.12);
+  background: rgb(var(--white-rgb) / 0.12);
 }
 
 /* Balk wit, alleen de laatste pixel rood. */
@@ -1029,12 +956,12 @@
   width: min(60vmin, 520px);
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid rgba(244, 242, 238, 0.9);
+  border: 1px solid rgb(var(--white-rgb) / 0.9);
   background:
-    linear-gradient(rgba(244, 242, 238, 0.6), rgba(244, 242, 238, 0.6)) center / 1px 100% no-repeat,
-    linear-gradient(90deg, rgba(244, 242, 238, 0.6), rgba(244, 242, 238, 0.6)) center / 100% 1px no-repeat,
-    conic-gradient(rgba(244, 242, 238, 0.18) var(--sweep), transparent 0);
-  box-shadow: 0 0 0 18px var(--black), 0 0 0 19px rgba(244, 242, 238, 0.35);
+    linear-gradient(rgb(var(--white-rgb) / 0.6), rgb(var(--white-rgb) / 0.6)) center / 1px 100% no-repeat,
+    linear-gradient(90deg, rgb(var(--white-rgb) / 0.6), rgb(var(--white-rgb) / 0.6)) center / 100% 1px no-repeat,
+    conic-gradient(rgb(var(--white-rgb) / 0.18) var(--sweep), transparent 0);
+  box-shadow: 0 0 0 18px var(--black), 0 0 0 19px rgb(var(--white-rgb) / 0.35);
 }
 
 .edit__leader-num {
@@ -1062,7 +989,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent 55%);
+  background: linear-gradient(to top, rgb(var(--black-rgb) / 0.9), transparent 55%);
 }
 
 .edit__sound {
@@ -1305,7 +1232,7 @@
   .pain__pin {
     height: auto;
     padding-block: var(--space-6);
-    background: radial-gradient(ellipse 80% 70% at 50% 60%, #c22f2b, #3d0b09 70%, #0a0a0a);
+    background: radial-gradient(ellipse 80% 70% at 50% 60%, var(--red), var(--red-deep) 70%, var(--black));
   }
   .pain__sun {
     animation: none;
@@ -1625,14 +1552,14 @@
   display: flex;
   justify-content: space-between;
   padding-top: 22px;
-  border-bottom: 1px solid rgba(244, 242, 238, 0.6);
+  border-bottom: 1px solid rgb(var(--white-rgb) / 0.6);
 }
 
 .expo__tick {
   position: relative;
   width: 0;
   height: 12px;
-  border-left: 1px solid rgba(244, 242, 238, 0.6);
+  border-left: 1px solid rgb(var(--white-rgb) / 0.6);
 }
 
 .expo__tick .mono {
@@ -1657,23 +1584,23 @@
   height: 30px;
   margin-left: -1.5px;
   background: var(--red-accent);
-  box-shadow: 0 0 14px rgba(216, 30, 44, 0.8);
+  box-shadow: 0 0 14px rgb(var(--red-rgb) / 0.8);
 }
 
 .expo.is-correct .expo__needle {
   background: var(--white);
-  box-shadow: 0 0 14px rgba(244, 242, 238, 0.8);
+  box-shadow: 0 0 14px rgb(var(--white-rgb) / 0.8);
 }
 
 .expo__histo {
   width: 100%;
   height: 64px;
-  border: 1px solid rgba(244, 242, 238, 0.3);
+  border: 1px solid rgb(var(--white-rgb) / 0.3);
   background: rgba(0, 0, 0, 0.45);
 }
 
 .expo__histo rect {
-  fill: rgba(244, 242, 238, 0.8);
+  fill: rgb(var(--white-rgb) / 0.8);
 }
 
 .expo__settings {
@@ -1728,11 +1655,11 @@
   gap: 8px;
   width: max-content;
   max-width: calc(100% - 2 * var(--gutter));
-  margin: var(--space-3) auto 0;
+  margin: var(--space-5) auto 0;
   padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(10, 10, 10, 0.78);
+  background: rgb(var(--black-rgb) / 0.78);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -1842,7 +1769,7 @@
 .wf__monitor {
   position: relative;
   aspect-ratio: 16 / 9;
-  border: 1px solid rgba(244, 242, 238, 0.25);
+  border: 1px solid rgb(var(--white-rgb) / 0.25);
   background: var(--black);
   overflow: hidden;
 }
@@ -1852,7 +1779,7 @@
   z-index: 2;
   width: 16px;
   height: 16px;
-  border: 0 solid rgba(244, 242, 238, 0.85);
+  border: 0 solid rgb(var(--white-rgb) / 0.85);
 }
 
 .wf__c--tl { left: 8px; top: 8px; border-top-width: 1.5px; border-left-width: 1.5px; }
@@ -1932,7 +1859,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(#0a0a0a 0%, rgba(10, 10, 10, 0.75) 38%, transparent 46%, transparent 54%, rgba(10, 10, 10, 0.75) 62%, #0a0a0a 100%);
+  background: linear-gradient(var(--black) 0%, rgb(var(--black-rgb) / 0.75) 38%, transparent 46%, transparent 54%, rgb(var(--black-rgb) / 0.75) 62%, var(--black) 100%);
 }
 
 .prompter::after {
@@ -1943,7 +1870,7 @@
   top: 50%;
   z-index: 1;
   height: 1px;
-  background: rgba(216, 30, 44, 0.6);
+  background: rgb(var(--red-rgb) / 0.6);
 }
 
 /* 03 Storyboard */
@@ -1961,7 +1888,7 @@
 
 .wf__panel-frame {
   fill: none;
-  stroke: rgba(244, 242, 238, 0.6);
+  stroke: rgb(var(--white-rgb) / 0.6);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
@@ -1987,19 +1914,19 @@
 .wf__lane {
   position: relative;
   height: 16px;
-  background: rgba(244, 242, 238, 0.04);
+  background: rgb(var(--white-rgb) / 0.04);
 }
 
 .wf__lane--audio {
-  background: repeating-linear-gradient(90deg, rgba(244, 242, 238, 0.4) 0 1px, transparent 1px 4px) center / 100% 60% no-repeat, rgba(244, 242, 238, 0.04);
+  background: repeating-linear-gradient(90deg, rgb(var(--white-rgb) / 0.4) 0 1px, transparent 1px 4px) center / 100% 60% no-repeat, rgb(var(--white-rgb) / 0.04);
 }
 
 .wf__clip {
   position: absolute;
   top: 2px;
   bottom: 2px;
-  background: #3a3a3c;
-  border: 1px solid rgba(244, 242, 238, 0.15);
+  background: #3A2621;
+  border: 1px solid rgb(var(--white-rgb) / 0.15);
 }
 
 .wf__head {
@@ -2030,7 +1957,7 @@
 .wf__render-bar {
   position: relative;
   height: 6px;
-  background: rgba(244, 242, 238, 0.12);
+  background: rgb(var(--white-rgb) / 0.12);
 }
 
 .wf__render-bar > span {
@@ -2050,7 +1977,7 @@
 /* ---------- Diensten: accordion met beeldkaart ---------- */
 .svl {
   padding-block: var(--space-7) var(--space-6);
-  background: var(--black);
+  background: var(--grad-glow);
 }
 
 .svl__h {
@@ -2234,7 +2161,7 @@
   content: '';
   position: absolute;
   inset: 50% 0 0;
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.75), transparent);
+  background: linear-gradient(to top, rgb(var(--black-rgb) / 0.75), transparent);
   pointer-events: none;
 }
 
@@ -2338,7 +2265,8 @@
 
 /* ---------- Cases: horizontale rail ---------- */
 .rail {
-  background: var(--black);
+  /* Dieper zwart dan de rest; bovenaan loopt het in vanuit het gewone zwart, zonder lijn. */
+  background: linear-gradient(to bottom, var(--black) 0, var(--black-deep) 30vh);
 }
 
 .rail__stage {
@@ -2513,6 +2441,7 @@
   --r: clamp(20px, 2.6vw, 36px);
   position: relative;
   z-index: 2;
+  /* Bewust een harde rand: het crème paneel schuift met ronde bovenhoeken over de vorige sectie. */
   margin-top: calc(-1 * var(--r));
   padding-block: var(--space-7) var(--space-6);
   border-radius: var(--r) var(--r) 0 0;
@@ -2568,11 +2497,11 @@
 .cream__text {
   margin: 0;
   max-width: 44ch;
-  color: #5d5b57;
+  color: var(--concrete-muted);
 }
 
 .cream .link-arrow {
-  border-color: rgba(26, 26, 26, 0.25);
+  border-color: rgb(var(--ink-rgb) / 0.25);
 }
 
 /* Feitengrid: dunne lijnen ertussen, zoals de cijfers bij Bitwip. */
@@ -2581,18 +2510,18 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 0;
-  border-top: 1px solid rgba(26, 26, 26, 0.15);
+  border-top: 1px solid rgb(var(--ink-rgb) / 0.15);
 }
 
 .cream__fact {
   display: grid;
   gap: 6px;
   padding: var(--space-4) var(--space-3) var(--space-4) 0;
-  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
+  border-bottom: 1px solid rgb(var(--ink-rgb) / 0.15);
 }
 
 .cream__fact:nth-child(odd) {
-  border-right: 1px solid rgba(26, 26, 26, 0.15);
+  border-right: 1px solid rgb(var(--ink-rgb) / 0.15);
 }
 
 .cream__fact:nth-child(even) {
@@ -2609,7 +2538,7 @@
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #6b6965;
+  color: var(--concrete-muted);
 }
 
 /* Fotostrip: ronde hoeken, verschillende breedtes, drijft op scroll naar links. */
@@ -2629,7 +2558,7 @@
   height: clamp(220px, 28vw, 420px);
   overflow: hidden;
   border-radius: clamp(14px, 1.6vw, 24px);
-  background: #d6d2cb;
+  background: #E2D5C0;
 }
 
 .cream__shot--wide { width: clamp(320px, 38vw, 620px); }
@@ -2660,8 +2589,8 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid rgba(26, 26, 26, 0.15);
-  border-left: 1px solid rgba(26, 26, 26, 0.15);
+  border-top: 1px solid rgb(var(--ink-rgb) / 0.15);
+  border-left: 1px solid rgb(var(--ink-rgb) / 0.15);
 }
 
 .cream__client {
@@ -2669,9 +2598,9 @@
   place-items: center;
   min-height: clamp(90px, 9vw, 140px);
   padding: var(--space-2);
-  border-right: 1px solid rgba(26, 26, 26, 0.15);
-  border-bottom: 1px solid rgba(26, 26, 26, 0.15);
-  color: #8a8781;
+  border-right: 1px solid rgb(var(--ink-rgb) / 0.15);
+  border-bottom: 1px solid rgb(var(--ink-rgb) / 0.15);
+  color: #9A8A7E;
   text-align: center;
   font-size: var(--fs-small);
   letter-spacing: 0.04em;
@@ -2686,7 +2615,7 @@
 }
 
 .cream__client:hover {
-  background: #dcd8d1;
+  background: #E6DAC6;
   color: var(--concrete-ink);
 }
 

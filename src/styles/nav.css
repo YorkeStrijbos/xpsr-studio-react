@@ -26,7 +26,7 @@
 }
 
 .nav.is-solid {
-  background: rgba(10, 10, 10, 0.92);
+  background: rgb(var(--black-rgb) / 0.92);
   border-bottom-color: var(--line);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);

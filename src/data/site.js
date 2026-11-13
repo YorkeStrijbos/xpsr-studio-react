@@ -246,8 +246,8 @@ export const SHOOT_DAY = {
 
 // Wat er op de monitor staat tijdens het draaien.
 export const CAMERA_HUD = {
-  tl: ['REC 00:00:12:18', '4K / 25P / LOG'],
-  tr: ['ISO 400', 'f/2.8', '1/50', '5600K'],
-  bl: ['Zebra 95%', 'ND 0.6'],
-  br: ['Audio −12 dB', 'Accu 74%'],
+  rec: 'REC 00:00:12:18',
+  spec: 'ISO 400  ·  f/2.8  ·  1/50',
+  zebra: 'Zebra 95%',
+  audio: 'Audio −12 dB',
 };

@@ -16,7 +16,7 @@
 }
 
 .reel::backdrop {
-  background: rgba(10, 10, 10, 0.94);
+  background: rgb(var(--black-rgb) / 0.94);
 }
 
 .reel__frame {
