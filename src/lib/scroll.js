@@ -26,12 +26,7 @@ export function scrollToElement(el) {
   else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: 'smooth' });
 }
 
-/**
- * Eén scroll-beweging speelt een gepinde scène helemaal af: zodra je de pin in scrollt, rolt de pagina vanzelf
- * door naar het eind (omlaag) of terug naar het begin (omhoog). Tijdens die rit wordt handmatig scrollen genegeerd.
- * Gebruik als onUpdate van een ScrollTrigger. Zonder Lenis (reduced motion) gewoon scrollen.
- */
-// Laatste echte scroll-input van de gebruiker: een refresh of een programmatische scroll start geen rit.
+// Laatste echte scroll-input van de gebruiker: een refresh of een programmatische scroll start geen scène.
 let inputAt = 0;
 if (typeof window !== 'undefined') {
   const mark = () => {
@@ -40,20 +35,33 @@ if (typeof window !== 'undefined') {
   ['wheel', 'touchmove', 'keydown'].forEach((t) => window.addEventListener(t, mark, { passive: true, capture: true }));
 }
 
-export function snapThrough({ duration = 2 } = {}) {
+/**
+ * Eén scroll speelt een gepinde scène af. De tijdlijn loopt op tijd, niet op scroll: dat blijft vloeiend,
+ * hoe je ook scrolt. Zodra je de pin in scrollt, springt de scroll (onzichtbaar, want gepind) naar het eind,
+ * speelt de tijdlijn af en is scrollen even uit. Omhoog spoelt hij sneller terug naar het begin.
+ * Geeft ScrollTrigger-callbacks terug. Komt er geen gebruiker aan te pas (anker, refresh), dan klopt de eindstand.
+ */
+export function playOnScroll(tl, { reverseSpeed = 1.8 } = {}) {
   let busy = false;
-  return (self) => {
-    if (busy || !lenis || self.progress <= 0 || self.progress >= 1 || performance.now() - inputAt > 400) return;
+  const run = (self, forward) => {
     busy = true;
-    lenis.scrollTo(self.direction > 0 ? self.end : self.start, {
-      duration,
-      easing: (t) => t,
-      lock: true,
-      force: true,
-      onComplete: () => {
-        busy = false;
-      },
+    lenis?.stop();
+    lenis?.scrollTo(forward ? self.end : self.start, { immediate: true, force: true });
+    tl.timeScale(forward ? 1 : reverseSpeed);
+    tl.eventCallback(forward ? 'onComplete' : 'onReverseComplete', () => {
+      busy = false;
+      lenis?.start();
     });
+    forward ? tl.play() : tl.reverse();
+  };
+  return {
+    onUpdate: (self) => {
+      if (busy || !lenis || performance.now() - inputAt > 400) return;
+      if (self.direction > 0 && self.progress > 0 && tl.progress() < 1) run(self, true);
+      else if (self.direction < 0 && self.progress < 1 && tl.progress() > 0) run(self, false);
+    },
+    onLeave: () => !busy && tl.progress(1),
+    onLeaveBack: () => !busy && tl.progress(0),
   };
 }
 

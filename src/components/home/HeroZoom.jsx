@@ -4,7 +4,7 @@ import { LoopVideo } from '../Media.jsx';
 import { useOpenReel } from '../Reel.jsx';
 import { HERO, MANIFEST } from '../../content/home.js';
 import { DUR, EASE, MQ, STAGGER, ScrollTrigger, gsap, useMediaQuery } from '../../lib/motion.js';
-import { snapThrough } from '../../lib/scroll.js';
+import { playOnScroll } from '../../lib/scroll.js';
 
 const ZOOM = 70; // eindschaal van de kop: ruim genoeg om met één letterstreep het hele scherm te vullen
 const CAP = 0.735; // hoofdletterhoogte van Anton, als deel van de korps
@@ -51,7 +51,7 @@ function findZoomPoint(texts, fs, W, H) {
 /*
  * De kop is de video. Footage speelt vanaf het eerste frame in de letters van de claim.
  * Techniek: een SVG over de video, met een zwart vlak waarin de tekst als gat is uitgespaard (mask).
- * Desktop, gepind; één scroll speelt de zoom helemaal af: de tekst in het mask schaalt op rond de I van het laatste woord. Dat is een
+ * Desktop, gepind; één scroll speelt de zoom op tijd af: de tekst in het mask schaalt op rond de I van het laatste woord. Dat is een
  * SVG-transform, dus vector: geen gigantische rasters zoals bij het schalen van een HTML-laag. We vliegen door
  * de letter heen, de video vult het scherm en het statement licht woord voor woord op.
  * Mobiel en reduced motion: geen pin en geen zoom. Video in de letters (vier regels), daaronder het statement.
@@ -127,34 +127,27 @@ export default function HeroZoom() {
 
       mm.add(MQ.motionDesktop, () => {
         const sWords = gsap.utils.toArray('.hz__sw', el);
-        const tl = gsap.timeline({ defaults: { ease: EASE.linear } });
+        // onUpdate: de knoppen faden nu op tijd, niet op scroll; de nav-check (hero-ctas) hoort het via dit event.
+        const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.linear }, onUpdate: () => window.dispatchEvent(new Event('hero-scene')) });
+        // Exponentieel schalen (ZOOM^p): elke stap even groot voor het oog, dus een constante vlucht door de letter.
         // Puur schalen rond het zoompunt, dat vrijwel op het schermmidden ligt: zo vlieg je recht vooruit.
-        // svgOrigin als functie: na elke refresh opnieuw uit de opmaak (zoomAt) gelezen.
-        tl.fromTo(
-          zoomG,
-          { scale: 1, svgOrigin: () => `${zoomAt.current.x} ${zoomAt.current.y}` },
-          { scale: ZOOM, duration: 1, ease: EASE.move },
-          0,
-        )
-          .fromTo('.hz__vid', { scale: 1.12 }, { scale: 1, duration: 1.1, ease: EASE.reveal }, 0)
-          .to('.hz__meta', { autoAlpha: 0, y: -16, duration: 0.25 }, 0)
+        const fly = { p: 0 };
+        const setScale = () => gsap.set(zoomG, { scale: ZOOM ** fly.p, svgOrigin: `${zoomAt.current.x} ${zoomAt.current.y}` });
+        tl.fromTo(fly, { p: 0 }, { p: 1, duration: 1.3, ease: 'power2.inOut', onUpdate: setScale }, 0)
+          .fromTo('.hz__vid', { scale: 1.12 }, { scale: 1, duration: 1.4, ease: EASE.reveal }, 0)
+          .to('.hz__meta', { autoAlpha: 0, y: -16, duration: 0.3 }, 0)
           // Door de letter heen: het zwarte vlak valt weg, de video is schermvullend.
-          .set(cut, { autoAlpha: 0 }, 1)
-          .to('.hz__shade', { opacity: 1, duration: 0.3 }, 1.05)
-          .set('.hz__statement', { autoAlpha: 1 }, 1.1)
-          .to(sWords, { opacity: 1, duration: 0.12, stagger: 0.08 }, 1.15);
-        const strikeAt = 1.15 + 0.08 * sWords.findIndex((w) => w.classList.contains('hz__struck')) + 0.12;
-        tl.fromTo('.hz__strike', { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: EASE.move }, strikeAt)
-          .to('.hz__struck', { opacity: 0.35, duration: 0.15 }, strikeAt + 0.2)
-          .fromTo('.hz__foot', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.25 }, '>-0.05')
-          .to({}, { duration: 0.3 });
+          .set(cut, { autoAlpha: 0 }, 1.3)
+          .to('.hz__shade', { opacity: 1, duration: 0.4 }, 1.3)
+          .set('.hz__statement', { autoAlpha: 1 }, 1.35)
+          .to(sWords, { opacity: 1, duration: 0.25, stagger: 0.07 }, 1.4);
+        const strikeAt = 1.4 + 0.07 * sWords.findIndex((w) => w.classList.contains('hz__struck')) + 0.25;
+        tl.fromTo('.hz__strike', { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: EASE.move }, strikeAt)
+          .to('.hz__struck', { opacity: 0.35, duration: 0.3 }, strikeAt + 0.3)
+          .fromTo('.hz__foot', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: EASE.reveal }, '>-0.1');
 
-        gsap
-          .timeline({
-            // Eén scroll is genoeg: de zoom speelt vanzelf af tot het statement staat (of terug naar de kop).
-            scrollTrigger: { trigger: stage, start: 'top top', end: '+=120%', pin: true, scrub: true, invalidateOnRefresh: true, onUpdate: snapThrough({ duration: 2.4 }) },
-          })
-          .add(tl);
+        // Eén scroll is genoeg: de scène speelt op tijd af (zie playOnScroll), de pin houdt hem in beeld.
+        ScrollTrigger.create({ trigger: stage, start: 'top top', end: '+=100%', pin: true, ...playOnScroll(tl) });
       });
 
       // Mobiel: het statement licht op en de streep tekent terwijl je erlangs scrolt.
@@ -200,10 +193,12 @@ export default function HeroZoom() {
     };
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('hero-scene', onScroll);
     ScrollTrigger.addEventListener('scrollEnd', onScrollEnd);
     return () => {
       clearInterval(settle);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('hero-scene', onScroll);
       ScrollTrigger.removeEventListener('scrollEnd', onScrollEnd);
       html.classList.remove('hero-ctas');
     };
